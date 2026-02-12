@@ -782,8 +782,7 @@ async function loadContent() {
         }
         
         function renderVideo(item) {
-            const thumbnail = item.youtubeId ? `https://img.youtube.com/vi/${item.youtubeId}/maxresdefault.jpg` : '';
-            
+const thumbnail = item.youtubeId ? `https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg` : '';            
             return `
                 <article class="content-item py-6" data-type="video">
                     <a href="#" class="card block rounded-2xl overflow-hidden" onclick="openVideoModal(event, '${item.youtubeId}')">
