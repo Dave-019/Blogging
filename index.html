@@ -554,20 +554,27 @@
             setupEventListeners();
         });
         
-        async function loadContent() {
-            try {
-                const response = await fetch(CONTENT_URL);
-                if (response.ok) {
-                    content = await response.json();
-                } else {
-                    content = [];
-                }
-            } catch (error) {
-                console.log('No content file found or error loading:', error);
-                content = [];
-            }
-            renderContent();
+async function loadContent() {
+    // Try localStorage first (same as admin)
+    const saved = localStorage.getItem('site_content');
+    if (saved) {
+        content = JSON.parse(saved);
+        renderContent();
+        return;
+    }
+    
+    // Then try JSON file
+    try {
+        const response = await fetch('data/content.json');
+        if (response.ok) {
+            content = await response.json();
         }
+    } catch (e) {
+        content = [];
+    }
+    
+    renderContent();
+}
         
         // ============ THEME ============
         function initTheme() {
