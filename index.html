@@ -555,24 +555,16 @@
         });
         
 async function loadContent() {
-    // Try localStorage first (same as admin)
-    const saved = localStorage.getItem('site_content');
-    if (saved) {
-        content = JSON.parse(saved);
-        renderContent();
-        return;
-    }
-    
-    // Then try JSON file
     try {
         const response = await fetch('data/content.json');
         if (response.ok) {
             content = await response.json();
+        } else {
+            content = [];
         }
     } catch (e) {
         content = [];
     }
-    
     renderContent();
 }
         
