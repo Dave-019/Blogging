@@ -501,7 +501,7 @@
             <div class="line"></div>
             
             <!-- Stats Bar -->
-            <div class="py-4 flex items-center gap-6 text-sm" style="color: var(--text-muted)">
+            <div class="py-4 flex items-center gap-6 text-sm hidden" style="color: var(--text-muted)">
                 <span id="total-count">0 items</span>
                 <span>·</span>
                 <span id="last-updated">Last updated: --</span>
@@ -510,7 +510,7 @@
             <div class="line"></div>
             
             <!-- Filter + Sort -->
-            <div class="py-5 flex items-center justify-between">
+            <div class="py-5 flex items-center justify-between ">
                 <div class="flex gap-2 text-sm">
                     <button class="filter-btn active px-4 py-1.5 rounded-lg" data-filter="all">All</button>
                     <button class="filter-btn px-4 py-1.5 rounded-lg" data-filter="article" style="color: var(--text-muted)">Articles</button>
@@ -519,7 +519,7 @@
                 </div>
                 
                 <!-- Sort dropdown -->
-                <div class="relative">
+                <div class="relative hidden">
                     <button id="sort-btn" class="flex items-center gap-2 text-sm px-3 py-1.5 rounded-lg" style="color: var(--text-muted)">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                             <path d="M3 7h18M6 12h12M9 17h6" stroke-linecap="round"/>
