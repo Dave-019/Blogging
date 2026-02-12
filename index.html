@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archive</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.paystack.co/v2/inline.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'display': ['Space Grotesk', 'sans-serif'],
+                        'mono': ['IBM Plex Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { font-family: 'Space Grotesk', sans-serif; }
+        .mono { font-family: 'IBM Plex Mono', monospace; }
+        
+        :root {
+            --bg: #f7f7f5;
+            --bg-secondary: #ffffff;
+            --text: #1a1a1a;
+            --text-muted: #6b6b6b;
+            --border: rgba(0,0,0,0.06);
+            --border-strong: rgba(0,0,0,0.1);
+        }
+        
+        .dark {
+            --bg: #161616;
+            --bg-secondary: #1e1e1e;
+            --text: #ebebeb;
+            --text-muted: #8a8a8a;
+            --border: rgba(255,255,255,0.06);
+            --border-strong: rgba(255,255,255,0.1);
+        }
+        
+        body {
+            background: var(--bg);
+            color: var(--text);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        a:hover { opacity: 0.6; }
+        
+        .line { height: 1px; background: var(--border-strong); }
+
+        .video-thumb { position: relative; }
+
+        .play-btn {
+            width: 52px;
+            height: 52px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            backdrop-filter: blur(8px);
+        }
+
+        .play-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--text);
+            margin-left: 3px;
+        }
+        
+        .search-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        
+        .search-box::placeholder { color: var(--text-muted); }
+        .search-box:focus { border-color: var(--border-strong); }
+        
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            transition: border-color 0.2s;
+        }
+        
+        .card:hover { border-color: var(--border-strong); }
+        
+        .img-container {
+            background: var(--border);
+            overflow: hidden;
+        }
+        
+        .img-container img {
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        
+        .img-container img.loaded { opacity: 1; }
+        
+        .duration {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(8px);
+        }
+        
+        .copy-btn {
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+        
+        .link-item:hover .copy-btn { opacity: 1; }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+        }
+        
+        .modal.open { display: flex; }
+        
+        .modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+        }
+        
+        .modal-content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 900px;
+            margin: auto;
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .appreciate-modal-content { max-width: 360px; }
+        
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text);
+            color: var(--bg);
+            padding: 12px 20px;
+            font-size: 14px;
+            border-radius: 10px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 200;
+        }
+        
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        
+        .scroll-top {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 44px;
+            height: 44px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .scroll-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .scroll-top:hover { border-color: var(--border-strong); }
+        
+        .filter-btn { transition: all 0.15s; }
+        
+        .filter-btn.active {
+            background: var(--text);
+            color: var(--bg);
+        }
+        
+        .btn-primary {
+            background: var(--text);
+            color: var(--bg);
+            transition: opacity 0.15s;
+        }
+        
+        .btn-primary:hover { opacity: 0.8; }
+        
+        .btn-secondary {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text);
+            transition: border-color 0.15s;
+        }
+        
+        .btn-secondary:hover { border-color: var(--border-strong); }
+        
+        .amount-option {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            transition: all 0.15s;
+            cursor: pointer;
+        }
+        
+        .amount-option:hover { border-color: var(--border-strong); }
+        
+        .amount-option.selected {
+            background: var(--text);
+            color: var(--bg);
+            border-color: var(--text);
+        }
+        
+        .custom-amount {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            outline: none;
+        }
+        
+        .custom-amount:focus { border-color: var(--border-strong); }
+        .custom-amount::placeholder { color: var(--text-muted); }
+        
+        /* Article content styles */
+        .article-content {
+            line-height: 1.8;
+        }
+        
+        .article-content h1 {
+            font-size: 2em;
+            font-weight: 600;
+            margin: 1em 0 0.5em;
+        }
+        
+        .article-content h2 {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin: 1.5em 0 0.5em;
+        }
+        
+        .article-content h3 {
+            font-size: 1.25em;
+            font-weight: 600;
+            margin: 1.25em 0 0.5em;
+        }
+        
+        .article-content p {
+            margin-bottom: 1em;
+        }
+        
+        .article-content ul, .article-content ol {
+            margin: 1em 0;
+            padding-left: 1.5em;
+        }
+        
+        .article-content li {
+            margin-bottom: 0.5em;
+        }
+        
+        .article-content blockquote {
+            border-left: 3px solid var(--border-strong);
+            padding-left: 1em;
+            margin: 1.5em 0;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        
+        .article-content pre {
+            background: var(--bg);
+            padding: 1em;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1.5em 0;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.9em;
+        }
+        
+        .article-content code {
+            background: var(--bg);
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.9em;
+        }
+        
+        .article-content a {
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+        
+        .article-content img {
+            max-width: 100%;
+            border-radius: 12px;
+            margin: 1.5em 0;
+        }
+        
+        /* Loading state */
+        .loading {
+            display: flex;
+            justify-content: center;
+            padding: 4rem 0;
+        }
+        
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border);
+            border-top-color: var(--text);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+    
+    <div class="max-w-2xl mx-auto px-5">
+        
+        <!-- Header -->
+        <header class="pt-12 pb-10">
+            <div class="flex items-center justify-between">
+                <a href="#" onclick="showHome(); return false;" class="block">
+                    <h1 class="text-lg font-semibold">Rectifier00x</h1>
+                    <p class="text-sm mt-1" style="color: var(--text-muted)">Collecting things on the internet</p>
+                </a>
+                <div class="flex items-center gap-5">
+                    <nav class="flex gap-5 text-sm">
+                        <a href="#" style="color: var(--text-muted)">About</a>
+                    </nav>
+                    
+                    <button id="theme-toggle" class="w-9 h-9 flex items-center justify-center rounded-lg btn-secondary">
+                        <svg class="sun w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="4"/>
+                            <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+                        </svg>
+                        <svg class="moon w-4 h-4 hidden" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mt-8 relative" id="search-container">
+                <input 
+                    type="text" 
+                    id="search-input"
+                    placeholder="Search..." 
+                    class="search-box w-full px-4 py-3 text-sm rounded-xl"
+                >
+                <kbd class="absolute right-3 top-1/2 -translate-y-1/2 mono text-xs hidden sm:inline" style="color: var(--text-muted)">/</kbd>
+            </div>
+        </header>
+        
+        <!-- HOME VIEW -->
+        <div id="home-view">
+            <div class="line"></div>
+            
+            <!-- Filter -->
+            <div class="py-5 flex items-center justify-between">
+                <div class="flex gap-2 text-sm">
+                    <button class="filter-btn active px-4 py-1.5 rounded-lg" data-filter="all">All</button>
+                    <button class="filter-btn px-4 py-1.5 rounded-lg" data-filter="article" style="color: var(--text-muted)">Articles</button>
+                    <button class="filter-btn px-4 py-1.5 rounded-lg" data-filter="link" style="color: var(--text-muted)">Links</button>
+                    <button class="filter-btn px-4 py-1.5 rounded-lg" data-filter="video" style="color: var(--text-muted)">Videos</button>
+                </div>
+                <span class="mono text-xs" style="color: var(--text-muted)"><span id="item-count">0</span> items</span>
+            </div>
+            
+            <div class="line"></div>
+            
+            <!-- Content List -->
+            <main id="content-list" class="py-4">
+                <div class="loading">
+                    <div class="spinner"></div>
+                </div>
+            </main>
+            
+            <!-- Empty state -->
+            <div id="empty-state" class="hidden py-20 text-center">
+                <p style="color: var(--text-muted)">No content yet</p>
+            </div>
+            
+            <div class="line"></div>
+            
+            <!-- Appreciate Section -->
+            <div class="py-12">
+                <div class="card rounded-2xl p-6">
+                    <h3 class="font-medium mb-2">Support my work</h3>
+                    <p class="text-sm mb-5" style="color: var(--text-muted)">If you find this valuable, consider buying me a coffee.</p>
+                    <button id="appreciate-btn" class="btn-primary px-5 py-2.5 text-sm font-medium rounded-xl">
+                        Send a tip
+                    </button>
+                </div>
+            </div>
+            
+            <div class="line"></div>
+            
+            <!-- Footer -->
+            <footer class="py-12">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 text-sm" style="color: var(--text-muted)">
+                    <span class="mono text-xs">© 2024</span>
+                    <div class="flex gap-6">
+                        <a href="#">Twitter</a>
+                        <a href="#">GitHub</a>
+                        <a href="#">RSS</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        
+        <!-- ARTICLE VIEW -->
+        <div id="article-view" class="hidden">
+            <div class="py-6">
+                <button onclick="showHome()" class="flex items-center gap-2 text-sm mb-8" style="color: var(--text-muted)">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M19 12H5m0 0l7 7m-7-7l7-7" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Back
+                </button>
+                
+                <article id="article-content"></article>
+            </div>
+            
+            <div class="line"></div>
+            
+            <footer class="py-12">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 text-sm" style="color: var(--text-muted)">
+                    <span class="mono text-xs">© 2024</span>
+                    <div class="flex gap-6">
+                        <a href="#">Twitter</a>
+                        <a href="#">GitHub</a>
+                        <a href="#">RSS</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        
+    </div>
+    
+    <!-- Video Modal -->
+    <div id="video-modal" class="modal items-center justify-center p-5">
+        <div class="modal-backdrop" onclick="closeVideoModal()"></div>
+        <div class="modal-content">
+            <div class="flex justify-end p-4">
+                <button onclick="closeVideoModal()" style="color: var(--text-muted)">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="px-4 pb-4">
+                <div class="aspect-video bg-black rounded-xl overflow-hidden">
+                    <iframe id="video-iframe" class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Appreciate Modal -->
+    <div id="appreciate-modal" class="modal items-center justify-center p-5">
+        <div class="modal-backdrop" onclick="closeAppreciateModal()"></div>
+        <div class="modal-content appreciate-modal-content p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="font-medium">Send a tip</h3>
+                <button onclick="closeAppreciateModal()" style="color: var(--text-muted)">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-2 mb-4">
+                <button class="amount-option py-3 rounded-xl text-sm font-medium" data-amount="100">KES 100</button>
+                <button class="amount-option py-3 rounded-xl text-sm font-medium" data-amount="250">KES 250</button>
+                <button class="amount-option py-3 rounded-xl text-sm font-medium selected" data-amount="500">KES 500</button>
+                <button class="amount-option py-3 rounded-xl text-sm font-medium" data-amount="1000">KES 1,000</button>
+                <button class="amount-option py-3 rounded-xl text-sm font-medium" data-amount="2500">KES 2,500</button>
+                <button class="amount-option py-3 rounded-xl text-sm font-medium" data-amount="5000">KES 5,000</button>
+            </div>
+            
+            <div class="relative mb-6">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm" style="color: var(--text-muted)">KES</span>
+                <input 
+                    type="number" 
+                    id="custom-amount" 
+                    placeholder="Custom amount" 
+                    class="custom-amount w-full pl-12 pr-4 py-3 text-sm rounded-xl"
+                    min="10"
+                >
+            </div>
+            
+            <button id="pay-btn" class="btn-primary w-full py-3 text-sm font-medium rounded-xl">
+                Pay <span id="pay-amount">KES 500</span>
+            </button>
+            
+            <p class="text-xs text-center mt-4" style="color: var(--text-muted)">Secured by Paystack</p>
+        </div>
+    </div>
+    
+    <!-- Toast -->
+    <div id="toast" class="toast mono"></div>
+    
+    <!-- Scroll to top -->
+    <button id="scroll-top" class="scroll-top">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M5 15l7-7 7 7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+
+    <script>
+        // ============ CONFIG ============
+        const PAYSTACK_PUBLIC_KEY = 'pk_test_07c7fb770a6920ed1d8150507b64b0b62df100fc';
+        const RECIPIENT_EMAIL = 'aprectiate@user.com';
+        const CONTENT_URL = 'data/content.json'; 
+        
+        // ============ STATE ============
+        let content = [];
+        let currentFilter = 'all';
+        
+        // ============ INIT ============
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            loadContent();
+            setupEventListeners();
+        });
+        
+        async function loadContent() {
+            try {
+                const response = await fetch(CONTENT_URL);
+                if (response.ok) {
+                    content = await response.json();
+                } else {
+                    content = [];
+                }
+            } catch (error) {
+                console.log('No content file found or error loading:', error);
+                content = [];
+            }
+            renderContent();
+        }
+        
+        // ============ THEME ============
+        function initTheme() {
+            const saved = localStorage.getItem('theme');
+            const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (saved === 'dark' || (!saved && systemDark)) {
+                document.documentElement.classList.add('dark');
+                document.querySelector('.sun').classList.add('hidden');
+                document.querySelector('.moon').classList.remove('hidden');
+            }
+        }
+        
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            document.querySelector('.sun').classList.toggle('hidden');
+            document.querySelector('.moon').classList.toggle('hidden');
+            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        });
+        
+        // ============ EVENT LISTENERS ============
+        function setupEventListeners() {
+            // Search
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('input', renderContent);
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === '/' && document.activeElement !== searchInput) {
+                    e.preventDefault();
+                    searchInput.focus();
+                }
+                if (e.key === 'Escape') {
+                    searchInput.blur();
+                    closeVideoModal();
+                    closeAppreciateModal();
+                }
+            });
+            
+            // Filters
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(b => {
+                        b.classList.remove('active');
+                        b.style.color = 'var(--text-muted)';
+                    });
+                    btn.classList.add('active');
+                    btn.style.color = '';
+                    currentFilter = btn.dataset.filter;
+                    renderContent();
+                });
+            });
+            
+            // Appreciate
+            document.getElementById('appreciate-btn').addEventListener('click', () => {
+                document.getElementById('appreciate-modal').classList.add('open');
+            });
+            
+            // Amount options
+            document.querySelectorAll('.amount-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('.amount-option').forEach(o => o.classList.remove('selected'));
+                    option.classList.add('selected');
+                    selectedAmount = parseInt(option.dataset.amount);
+                    document.getElementById('custom-amount').value = '';
+                    updatePayButton();
+                });
+            });
+            
+            document.getElementById('custom-amount').addEventListener('input', (e) => {
+                const value = parseInt(e.target.value);
+                if (value && value >= 10) {
+                    document.querySelectorAll('.amount-option').forEach(o => o.classList.remove('selected'));
+                    selectedAmount = value;
+                    updatePayButton();
+                }
+            });
+            
+            document.getElementById('pay-btn').addEventListener('click', processPayment);
+            
+            // Scroll to top
+            window.addEventListener('scroll', () => {
+                document.getElementById('scroll-top').classList.toggle('visible', window.scrollY > 500);
+            });
+            
+            document.getElementById('scroll-top').addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+        
+        // ============ RENDER ============
+        function renderContent() {
+            const searchQuery = document.getElementById('search-input').value.toLowerCase();
+            
+            let filtered = content.filter(item => {
+                const matchesFilter = currentFilter === 'all' || item.type === currentFilter;
+                const matchesSearch = item.title.toLowerCase().includes(searchQuery) || 
+                                     (item.description && item.description.toLowerCase().includes(searchQuery));
+                return matchesFilter && matchesSearch;
+            });
+            
+            // Sort by date
+            filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            const list = document.getElementById('content-list');
+            const empty = document.getElementById('empty-state');
+            
+            document.getElementById('item-count').textContent = filtered.length;
+            
+            if (content.length === 0) {
+                list.innerHTML = '';
+                empty.classList.remove('hidden');
+            } else if (filtered.length === 0) {
+                list.innerHTML = '<div class="py-16 text-center"><p style="color: var(--text-muted)">No results found</p></div>';
+                empty.classList.add('hidden');
+            } else {
+                empty.classList.add('hidden');
+                list.innerHTML = filtered.map(item => renderItem(item)).join('');
+            }
+        }
+        
+        function renderItem(item) {
+            if (item.type === 'article') return renderArticle(item);
+            if (item.type === 'link') return renderLink(item);
+            if (item.type === 'video') return renderVideo(item);
+            return '';
+        }
+        
+        function renderArticle(item) {
+            const hasImage = item.image && item.image.trim() !== '';
+            
+            if (hasImage) {
+                return `
+                    <article class="content-item py-6" data-type="article">
+                        <a href="#" onclick="showArticle('${item.id}'); return false;" class="card block rounded-2xl overflow-hidden">
+                            <div class="img-container">
+                                <img src="${item.image}" alt="" class="w-full aspect-[2/1] object-cover" onload="this.classList.add('loaded')" onerror="this.parentElement.style.display='none'">
+                            </div>
+                            <div class="p-5">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="mono text-xs" style="color: var(--text-muted)">Article</span>
+                                    <span class="mono text-xs" style="color: var(--text-muted)">${formatDate(item.date)}</span>
+                                </div>
+                                <h2 class="text-base font-medium leading-snug">${item.title}</h2>
+                                <p class="text-sm mt-2 leading-relaxed" style="color: var(--text-muted)">${item.description || ''}</p>
+                            </div>
+                        </a>
+                    </article>
+                `;
+            }
+            
+            return `
+                <article class="content-item py-6" data-type="article">
+                    <a href="#" onclick="showArticle('${item.id}'); return false;" class="card block rounded-2xl p-5">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="mono text-xs" style="color: var(--text-muted)">Article</span>
+                            <span class="mono text-xs" style="color: var(--text-muted)">${formatDate(item.date)}</span>
+                        </div>
+                        <h2 class="text-base font-medium leading-snug">${item.title}</h2>
+                        <p class="text-sm mt-2 leading-relaxed" style="color: var(--text-muted)">${item.description || ''}</p>
+                    </a>
+                </article>
+            `;
+        }
+        
+        function renderLink(item) {
+            const hasImage = item.image && item.image.trim() !== '';
+            const domain = item.url ? new URL(item.url).hostname.replace('www.', '') : '';
+            
+            if (hasImage) {
+                return `
+                    <article class="content-item link-item py-6" data-type="link">
+                        <div class="card rounded-2xl p-5">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="mono text-xs" style="color: var(--text-muted)">Link</span>
+                                <div class="flex items-center gap-3">
+                                    <button class="copy-btn mono text-xs" style="color: var(--text-muted)" onclick="event.stopPropagation(); copyLink('${item.url}')">Copy</button>
+                                    <span class="mono text-xs" style="color: var(--text-muted)">${formatDate(item.date)}</span>
+                                </div>
+                            </div>
+                            <a href="${item.url}" target="_blank" rel="noopener" class="flex gap-5">
+                                <div class="img-container w-20 h-20 rounded-xl flex-shrink-0">
+                                    <img src="${item.image}" alt="" class="w-full h-full object-cover" onload="this.classList.add('loaded')" onerror="this.parentElement.style.display='none'">
+                                </div>
+                                <div class="flex-1">
+                                    <h2 class="text-base font-medium leading-snug">${item.title}</h2>
+                                    <p class="text-sm mt-2 leading-relaxed" style="color: var(--text-muted)">${item.description || ''}</p>
+                                    <span class="mono text-xs mt-2 inline-block" style="color: var(--text-muted)">${domain}</span>
+                                </div>
+                            </a>
+                        </div>
+                    </article>
+                `;
+            }
+            
+            return `
+                <article class="content-item link-item py-6" data-type="link">
+                    <div class="card rounded-2xl p-5">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="mono text-xs" style="color: var(--text-muted)">Link</span>
+                            <div class="flex items-center gap-3">
+                                <button class="copy-btn mono text-xs" style="color: var(--text-muted)" onclick="event.stopPropagation(); copyLink('${item.url}')">Copy</button>
+                                <span class="mono text-xs" style="color: var(--text-muted)">${formatDate(item.date)}</span>
+                            </div>
+                        </div>
+                        <a href="${item.url}" target="_blank" rel="noopener" class="block">
+                            <h2 class="text-base font-medium leading-snug">${item.title}</h2>
+                            <p class="text-sm mt-2 leading-relaxed" style="color: var(--text-muted)">${item.description || ''}</p>
+                            <span class="mono text-xs mt-3 inline-block" style="color: var(--text-muted)">${domain}</span>
+                        </a>
+                    </div>
+                </article>
+            `;
+        }
+        
+        function renderVideo(item) {
+            const thumbnail = item.youtubeId ? `https://img.youtube.com/vi/${item.youtubeId}/maxresdefault.jpg` : '';
+            
+            return `
+                <article class="content-item py-6" data-type="video">
+                    <a href="#" class="card block rounded-2xl overflow-hidden" onclick="openVideoModal(event, '${item.youtubeId}')">
+                        <div class="img-container video-thumb">
+                            <img src="${thumbnail}" alt="" class="w-full aspect-video object-cover" onload="this.classList.add('loaded')">
+                            <div class="play-btn">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                            ${item.duration ? `<span class="duration mono text-xs absolute bottom-3 right-3 px-2 py-1 rounded-md">${item.duration}</span>` : ''}
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="mono text-xs" style="color: var(--text-muted)">Video</span>
+                                <span class="mono text-xs" style="color: var(--text-muted)">${formatDate(item.date)}</span>
+                            </div>
+                            <h2 class="text-base font-medium leading-snug">${item.title}</h2>
+                            <p class="text-sm mt-2 leading-relaxed" style="color: var(--text-muted)">${item.description || ''}</p>
+                        </div>
+                    </a>
+                </article>
+            `;
+        }
+        
+        // ============ ARTICLE VIEW ============
+        function showArticle(id) {
+            const item = content.find(i => i.id === id);
+            if (!item) return;
+            
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('article-view').classList.remove('hidden');
+            document.getElementById('search-container').classList.add('hidden');
+            
+            document.getElementById('article-content').innerHTML = `
+                <div class="mb-6">
+                    <span class="mono text-xs" style="color: var(--text-muted)">${formatDate(item.date)}</span>
+                </div>
+                
+                ${item.image ? `
+                    <div class="img-container rounded-2xl overflow-hidden mb-8">
+                        <img src="${item.image}" alt="" class="w-full aspect-[2/1] object-cover" onload="this.classList.add('loaded')">
+                    </div>
+                ` : ''}
+                
+                <h1 class="text-2xl sm:text-3xl font-semibold leading-tight mb-4">${item.title}</h1>
+                
+                ${item.description ? `<p class="text-lg mb-8" style="color: var(--text-muted)">${item.description}</p>` : ''}
+                
+                <div class="line mb-8"></div>
+                
+                <div class="article-content">
+                    ${item.content || ''}
+                </div>
+            `;
+            
+            window.scrollTo({ top: 0 });
+        }
+        
+        function showHome() {
+            document.getElementById('home-view').classList.remove('hidden');
+            document.getElementById('article-view').classList.add('hidden');
+            document.getElementById('search-container').classList.remove('hidden');
+        }
+        
+        // ============ VIDEO MODAL ============
+        function openVideoModal(e, youtubeId) {
+            e.preventDefault();
+            document.getElementById('video-iframe').src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1`;
+            document.getElementById('video-modal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeVideoModal() {
+            document.getElementById('video-modal').classList.remove('open');
+            document.getElementById('video-iframe').src = '';
+            document.body.style.overflow = '';
+        }
+        
+        // ============ PAYSTACK ============
+        let selectedAmount = 500;
+        
+        function updatePayButton() {
+            document.getElementById('pay-amount').textContent = `KES ${selectedAmount.toLocaleString()}`;
+        }
+        
+        function closeAppreciateModal() {
+            document.getElementById('appreciate-modal').classList.remove('open');
+        }
+        
+        function processPayment() {
+            const payBtn = document.getElementById('pay-btn');
+            payBtn.disabled = true;
+            payBtn.textContent = 'Processing...';
+            
+            const popup = new PaystackPop();
+            popup.newTransaction({
+                key: PAYSTACK_PUBLIC_KEY,
+                email: RECIPIENT_EMAIL,
+                amount: selectedAmount * 100,
+                currency: 'KES',
+                channels: ['mobile_money', 'card'],
+                onSuccess: () => {
+                    closeAppreciateModal();
+                    showToast('Thank you!');
+                    resetPayButton();
+                },
+                onCancel: () => {
+                    showToast('Cancelled');
+                    resetPayButton();
+                },
+                onError: () => {
+                    showToast('Failed. Try again.');
+                    resetPayButton();
+                },
+                onLoad: () => resetPayButton()
+            });
+        }
+        
+        function resetPayButton() {
+            const payBtn = document.getElementById('pay-btn');
+            payBtn.disabled = false;
+            payBtn.innerHTML = `Pay <span id="pay-amount">KES ${selectedAmount.toLocaleString()}</span>`;
+        }
+        
+        // ============ HELPERS ============
+        function copyLink(url) {
+            navigator.clipboard.writeText(url);
+            showToast('Copied');
+        }
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+        
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+    </script>
+
+</body>
+</html>
