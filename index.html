@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Archive</title>
     
+    <!-- Prevent caching -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <!-- SEO -->
+    <meta name="description" content="A collection of articles, links, and videos">
+    <meta name="author" content="Your Name">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Archive">
+    <meta property="og:description" content="A collection of articles, links, and videos">
+    <meta property="og:type" content="website">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://js.paystack.co/v2/inline.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
@@ -50,7 +64,7 @@
             transition: background 0.3s, color 0.3s;
         }
 
-        a:hover { opacity: 0.6; }
+        a:hover { opacity: 0.7; }
         
         .line { height: 1px; background: var(--border-strong); }
 
@@ -70,6 +84,16 @@
             left: 50%;
             transform: translate(-50%, -50%);
             backdrop-filter: blur(8px);
+            transition: transform 0.2s, background 0.2s;
+        }
+        
+        .video-thumb:hover .play-btn {
+            transform: translate(-50%, -50%) scale(1.1);
+            background: var(--text);
+        }
+        
+        .video-thumb:hover .play-btn svg {
+            fill: var(--bg);
         }
 
         .play-btn svg {
@@ -77,6 +101,7 @@
             height: 18px;
             fill: var(--text);
             margin-left: 3px;
+            transition: fill 0.2s;
         }
         
         .search-box {
@@ -93,10 +118,13 @@
         .card {
             background: var(--bg-secondary);
             border: 1px solid var(--border);
-            transition: border-color 0.2s;
+            transition: border-color 0.2s, transform 0.2s;
         }
         
-        .card:hover { border-color: var(--border-strong); }
+        .card:hover { 
+            border-color: var(--border-strong);
+            transform: translateY(-2px);
+        }
         
         .img-container {
             background: var(--border);
@@ -105,10 +133,14 @@
         
         .img-container img {
             opacity: 0;
-            transition: opacity 0.4s;
+            transition: opacity 0.4s, transform 0.3s;
         }
         
         .img-container img.loaded { opacity: 1; }
+        
+        .card:hover .img-container img.loaded {
+            transform: scale(1.02);
+        }
         
         .duration {
             background: var(--bg-secondary);
@@ -195,7 +227,10 @@
             pointer-events: auto;
         }
         
-        .scroll-top:hover { border-color: var(--border-strong); }
+        .scroll-top:hover { 
+            border-color: var(--border-strong);
+            transform: translateY(-2px);
+        }
         
         .filter-btn { transition: all 0.15s; }
         
@@ -207,10 +242,13 @@
         .btn-primary {
             background: var(--text);
             color: var(--bg);
-            transition: opacity 0.15s;
+            transition: opacity 0.15s, transform 0.15s;
         }
         
-        .btn-primary:hover { opacity: 0.8; }
+        .btn-primary:hover { 
+            opacity: 0.8;
+            transform: translateY(-1px);
+        }
         
         .btn-secondary {
             background: var(--bg-secondary);
@@ -247,7 +285,7 @@
         .custom-amount:focus { border-color: var(--border-strong); }
         .custom-amount::placeholder { color: var(--text-muted); }
         
-        /* Article content styles */
+        /* Article content */
         .article-content {
             line-height: 1.8;
         }
@@ -320,7 +358,7 @@
             margin: 1.5em 0;
         }
         
-        /* Loading state */
+        /* Loading */
         .loading {
             display: flex;
             justify-content: center;
@@ -339,10 +377,87 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+        
+        /* Reading progress bar */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--text);
+            z-index: 1000;
+            transition: width 0.1s;
+        }
+        
+        /* Share buttons */
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            transition: all 0.15s;
+        }
+        
+        .share-btn:hover {
+            border-color: var(--border-strong);
+            color: var(--text);
+        }
+        
+        /* Reading time */
+        .reading-time {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        /* Fade in animation */
+        .fade-in {
+            animation: fadeIn 0.4s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Stagger children */
+        .stagger-in > * {
+            opacity: 0;
+            animation: fadeIn 0.4s ease forwards;
+        }
+        
+        .stagger-in > *:nth-child(1) { animation-delay: 0.05s; }
+        .stagger-in > *:nth-child(2) { animation-delay: 0.1s; }
+        .stagger-in > *:nth-child(3) { animation-delay: 0.15s; }
+        .stagger-in > *:nth-child(4) { animation-delay: 0.2s; }
+        .stagger-in > *:nth-child(5) { animation-delay: 0.25s; }
+        .stagger-in > *:nth-child(6) { animation-delay: 0.3s; }
+        .stagger-in > *:nth-child(7) { animation-delay: 0.35s; }
+        .stagger-in > *:nth-child(8) { animation-delay: 0.4s; }
+        .stagger-in > *:nth-child(9) { animation-delay: 0.45s; }
+        .stagger-in > *:nth-child(10) { animation-delay: 0.5s; }
+        
+        /* Keyboard shortcut hint */
+        kbd {
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+        }
     </style>
 </head>
 
 <body class="min-h-screen">
+    
+    <!-- Reading Progress Bar -->
+    <div id="reading-progress" class="reading-progress" style="width: 0%"></div>
     
     <div class="max-w-2xl mx-auto px-5">
         
@@ -350,15 +465,15 @@
         <header class="pt-12 pb-10">
             <div class="flex items-center justify-between">
                 <a href="#" onclick="showHome(); return false;" class="block">
-                    <h1 class="text-lg font-semibold">Rectifier00x</h1>
+                    <h1 class="text-lg font-semibold">Your Name</h1>
                     <p class="text-sm mt-1" style="color: var(--text-muted)">Collecting things on the internet</p>
                 </a>
-                <div class="flex items-center gap-5">
+                <div class="flex items-center gap-4">
                     <nav class="flex gap-5 text-sm">
                         <a href="#" style="color: var(--text-muted)">About</a>
                     </nav>
                     
-                    <button id="theme-toggle" class="w-9 h-9 flex items-center justify-center rounded-lg btn-secondary">
+                    <button id="theme-toggle" class="w-9 h-9 flex items-center justify-center rounded-lg btn-secondary" title="Toggle theme (T)">
                         <svg class="sun w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                             <circle cx="12" cy="12" r="4"/>
                             <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
@@ -377,7 +492,7 @@
                     placeholder="Search..." 
                     class="search-box w-full px-4 py-3 text-sm rounded-xl"
                 >
-                <kbd class="absolute right-3 top-1/2 -translate-y-1/2 mono text-xs hidden sm:inline" style="color: var(--text-muted)">/</kbd>
+                <kbd class="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline">/</kbd>
             </div>
         </header>
         
@@ -385,7 +500,16 @@
         <div id="home-view">
             <div class="line"></div>
             
-            <!-- Filter -->
+            <!-- Stats Bar -->
+            <div class="py-4 flex items-center gap-6 text-sm" style="color: var(--text-muted)">
+                <span id="total-count">0 items</span>
+                <span>·</span>
+                <span id="last-updated">Last updated: --</span>
+            </div>
+            
+            <div class="line"></div>
+            
+            <!-- Filter + Sort -->
             <div class="py-5 flex items-center justify-between">
                 <div class="flex gap-2 text-sm">
                     <button class="filter-btn active px-4 py-1.5 rounded-lg" data-filter="all">All</button>
@@ -393,13 +517,27 @@
                     <button class="filter-btn px-4 py-1.5 rounded-lg" data-filter="link" style="color: var(--text-muted)">Links</button>
                     <button class="filter-btn px-4 py-1.5 rounded-lg" data-filter="video" style="color: var(--text-muted)">Videos</button>
                 </div>
-                <span class="mono text-xs" style="color: var(--text-muted)"><span id="item-count"></span>
+                
+                <!-- Sort dropdown -->
+                <div class="relative">
+                    <button id="sort-btn" class="flex items-center gap-2 text-sm px-3 py-1.5 rounded-lg" style="color: var(--text-muted)">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                            <path d="M3 7h18M6 12h12M9 17h6" stroke-linecap="round"/>
+                        </svg>
+                        <span id="sort-label">Newest</span>
+                    </button>
+                    <div id="sort-menu" class="hidden absolute right-0 top-full mt-2 py-2 w-32 rounded-xl card z-50">
+                        <button class="sort-option w-full px-4 py-2 text-sm text-left hover:bg-gray-100 dark:hover:bg-gray-800" data-sort="newest">Newest</button>
+                        <button class="sort-option w-full px-4 py-2 text-sm text-left hover:bg-gray-100 dark:hover:bg-gray-800" data-sort="oldest">Oldest</button>
+                        <button class="sort-option w-full px-4 py-2 text-sm text-left hover:bg-gray-100 dark:hover:bg-gray-800" data-sort="title">Title A-Z</button>
+                    </div>
+                </div>
             </div>
             
             <div class="line"></div>
             
             <!-- Content List -->
-            <main id="content-list" class="py-4">
+            <main id="content-list" class="py-4 stagger-in">
                 <div class="loading">
                     <div class="spinner"></div>
                 </div>
@@ -407,7 +545,7 @@
             
             <!-- Empty state -->
             <div id="empty-state" class="hidden py-20 text-center">
-                <p style="color: var(--text-muted)">No content yet</p>
+                <p style="color: var(--text-muted)">No content found</p>
             </div>
             
             <div class="line"></div>
@@ -432,8 +570,18 @@
                     <div class="flex gap-6">
                         <a href="#">Twitter</a>
                         <a href="#">GitHub</a>
-                        <a href="#">RSS</a>
+                        <a href="#" id="rss-link">RSS</a>
                     </div>
+                </div>
+                
+                <!-- Keyboard shortcuts hint -->
+                <div class="mt-8 text-xs" style="color: var(--text-muted)">
+                    <span class="hidden sm:inline">
+                        Shortcuts: 
+                        <kbd>/</kbd> Search
+                        <kbd>T</kbd> Theme
+                        <kbd>Esc</kbd> Close
+                    </span>
                 </div>
             </footer>
         </div>
@@ -449,6 +597,36 @@
                 </button>
                 
                 <article id="article-content"></article>
+                
+                <!-- Share buttons -->
+                <div class="mt-12 pt-8 border-t" style="border-color: var(--border)">
+                    <p class="text-sm mb-4" style="color: var(--text-muted)">Share this article</p>
+                    <div class="flex gap-2">
+                        <button class="share-btn" onclick="shareTwitter()" title="Share on Twitter">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                        </button>
+                        <button class="share-btn" onclick="shareLinkedIn()" title="Share on LinkedIn">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </button>
+                        <button class="share-btn" onclick="copyArticleLink()" title="Copy link">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <path d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="line"></div>
+            
+            <!-- Related posts -->
+            <div class="py-12">
+                <h3 class="font-medium mb-6">More articles</h3>
+                <div id="related-posts" class="space-y-4"></div>
             </div>
             
             <div class="line"></div>
@@ -531,7 +709,7 @@
     <div id="toast" class="toast mono"></div>
     
     <!-- Scroll to top -->
-    <button id="scroll-top" class="scroll-top">
+    <button id="scroll-top" class="scroll-top" title="Back to top">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path d="M5 15l7-7 7 7" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
@@ -540,12 +718,14 @@
     <script>
         // ============ CONFIG ============
         const PAYSTACK_PUBLIC_KEY = 'pk_test_07c7fb770a6920ed1d8150507b64b0b62df100fc';
-        const RECIPIENT_EMAIL = 'aprectiate@user.com';
-        const CONTENT_URL = 'data/content.json'; 
+        const RECIPIENT_EMAIL = 'appreciated@user.com';
+        const SITE_URL = window.location.origin + window.location.pathname.replace('index.html', '');
         
         // ============ STATE ============
         let content = [];
         let currentFilter = 'all';
+        let currentSort = 'newest';
+        let currentArticle = null;
         
         // ============ INIT ============
         document.addEventListener('DOMContentLoaded', () => {
@@ -554,21 +734,33 @@
             setupEventListeners();
         });
         
-async function loadContent() {
-    try {
-        // Add timestamp to bust cache
-        const response = await fetch('data/content.json?v=' + Date.now());
-        if (response.ok) {
-            content = await response.json();
-        } else {
-            content = [];
+        async function loadContent() {
+            try {
+                const response = await fetch('data/content.json?v=' + Date.now());
+                if (response.ok) {
+                    content = await response.json();
+                } else {
+                    content = [];
+                }
+            } catch (e) {
+                console.log('No content found');
+                content = [];
+            }
+            
+            updateStats();
+            renderContent();
         }
-    } catch (e) {
-        console.error('Failed to load content:', e);
-        content = [];
-    }
-    renderContent();
-}
+        
+        // ============ STATS ============
+        function updateStats() {
+            document.getElementById('total-count').textContent = `${content.length} items`;
+            
+            if (content.length > 0) {
+                const sorted = [...content].sort((a, b) => new Date(b.date) - new Date(a.date));
+                const lastDate = new Date(sorted[0].date);
+                document.getElementById('last-updated').textContent = `Last updated: ${formatDateLong(sorted[0].date)}`;
+            }
+        }
         
         // ============ THEME ============
         function initTheme() {
@@ -582,12 +774,14 @@ async function loadContent() {
             }
         }
         
-        document.getElementById('theme-toggle').addEventListener('click', () => {
+        function toggleTheme() {
             document.documentElement.classList.toggle('dark');
             document.querySelector('.sun').classList.toggle('hidden');
             document.querySelector('.moon').classList.toggle('hidden');
             localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-        });
+        }
+        
+        document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
         
         // ============ EVENT LISTENERS ============
         function setupEventListeners() {
@@ -595,15 +789,30 @@ async function loadContent() {
             const searchInput = document.getElementById('search-input');
             searchInput.addEventListener('input', renderContent);
             
+            // Keyboard shortcuts
             document.addEventListener('keydown', (e) => {
-                if (e.key === '/' && document.activeElement !== searchInput) {
-                    e.preventDefault();
-                    searchInput.focus();
+                // Don't trigger if typing in input
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                    if (e.key === 'Escape') {
+                        e.target.blur();
+                    }
+                    return;
                 }
-                if (e.key === 'Escape') {
-                    searchInput.blur();
-                    closeVideoModal();
-                    closeAppreciateModal();
+                
+                switch(e.key) {
+                    case '/':
+                        e.preventDefault();
+                        searchInput.focus();
+                        break;
+                    case 't':
+                    case 'T':
+                        toggleTheme();
+                        break;
+                    case 'Escape':
+                        closeVideoModal();
+                        closeAppreciateModal();
+                        closeSortMenu();
+                        break;
                 }
             });
             
@@ -620,6 +829,23 @@ async function loadContent() {
                     renderContent();
                 });
             });
+            
+            // Sort
+            document.getElementById('sort-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                document.getElementById('sort-menu').classList.toggle('hidden');
+            });
+            
+            document.querySelectorAll('.sort-option').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentSort = btn.dataset.sort;
+                    document.getElementById('sort-label').textContent = btn.textContent;
+                    closeSortMenu();
+                    renderContent();
+                });
+            });
+            
+            document.addEventListener('click', closeSortMenu);
             
             // Appreciate
             document.getElementById('appreciate-btn').addEventListener('click', () => {
@@ -651,11 +877,32 @@ async function loadContent() {
             // Scroll to top
             window.addEventListener('scroll', () => {
                 document.getElementById('scroll-top').classList.toggle('visible', window.scrollY > 500);
+                updateReadingProgress();
             });
             
             document.getElementById('scroll-top').addEventListener('click', () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
+        }
+        
+        function closeSortMenu() {
+            document.getElementById('sort-menu').classList.add('hidden');
+        }
+        
+        // ============ READING PROGRESS ============
+        function updateReadingProgress() {
+            if (document.getElementById('article-view').classList.contains('hidden')) {
+                document.getElementById('reading-progress').style.width = '0%';
+                return;
+            }
+            
+            const article = document.getElementById('article-content');
+            const rect = article.getBoundingClientRect();
+            const scrolled = -rect.top;
+            const total = rect.height - window.innerHeight;
+            const progress = Math.min(Math.max(scrolled / total * 100, 0), 100);
+            
+            document.getElementById('reading-progress').style.width = progress + '%';
         }
         
         // ============ RENDER ============
@@ -669,13 +916,30 @@ async function loadContent() {
                 return matchesFilter && matchesSearch;
             });
             
-            // Sort by date
-            filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+            // Sort
+// Sort - using timestamp for accurate ordering
+switch(currentSort) {
+    case 'newest':
+        filtered.sort((a, b) => {
+            const timeA = a.timestamp || new Date(a.date).getTime();
+            const timeB = b.timestamp || new Date(b.date).getTime();
+            return timeB - timeA;
+        });
+        break;
+    case 'oldest':
+        filtered.sort((a, b) => {
+            const timeA = a.timestamp || new Date(a.date).getTime();
+            const timeB = b.timestamp || new Date(b.date).getTime();
+            return timeA - timeB;
+        });
+        break;
+    case 'title':
+        filtered.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+}
             
             const list = document.getElementById('content-list');
             const empty = document.getElementById('empty-state');
-            
-          
             
             if (content.length === 0) {
                 list.innerHTML = '';
@@ -698,10 +962,11 @@ async function loadContent() {
         
         function renderArticle(item) {
             const hasImage = item.image && item.image.trim() !== '';
+            const readingTime = calculateReadingTime(item.content || '');
             
             if (hasImage) {
                 return `
-                    <article class="content-item py-6" data-type="article">
+                    <article class="content-item py-6 fade-in" data-type="article">
                         <a href="#" onclick="showArticle('${item.id}'); return false;" class="card block rounded-2xl overflow-hidden">
                             <div class="img-container">
                                 <img src="${item.image}" alt="" class="w-full aspect-[2/1] object-cover" onload="this.classList.add('loaded')" onerror="this.parentElement.style.display='none'">
@@ -709,7 +974,16 @@ async function loadContent() {
                             <div class="p-5">
                                 <div class="flex items-center justify-between mb-3">
                                     <span class="mono text-xs" style="color: var(--text-muted)">Article</span>
-                                    <span class="mono text-xs" style="color: var(--text-muted)">${formatDate(item.date)}</span>
+                                    <div class="flex items-center gap-3">
+                                        <span class="reading-time text-xs" style="color: var(--text-muted)">
+                                            <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <circle cx="12" cy="12" r="10"/>
+                                                <path d="M12 6v6l4 2"/>
+                                            </svg>
+                                            ${readingTime} min
+                                        </span>
+                                        <span class="mono text-xs" style="color: var(--text-muted)">${formatDate(item.date)}</span>
+                                    </div>
                                 </div>
                                 <h2 class="text-base font-medium leading-snug">${item.title}</h2>
                                 <p class="text-sm mt-2 leading-relaxed" style="color: var(--text-muted)">${item.description || ''}</p>
@@ -720,11 +994,20 @@ async function loadContent() {
             }
             
             return `
-                <article class="content-item py-6" data-type="article">
+                <article class="content-item py-6 fade-in" data-type="article">
                     <a href="#" onclick="showArticle('${item.id}'); return false;" class="card block rounded-2xl p-5">
                         <div class="flex items-center justify-between mb-3">
                             <span class="mono text-xs" style="color: var(--text-muted)">Article</span>
-                            <span class="mono text-xs" style="color: var(--text-muted)">${formatDate(item.date)}</span>
+                            <div class="flex items-center gap-3">
+                                <span class="reading-time text-xs" style="color: var(--text-muted)">
+                                    <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <path d="M12 6v6l4 2"/>
+                                    </svg>
+                                    ${readingTime} min
+                                </span>
+                                <span class="mono text-xs" style="color: var(--text-muted)">${formatDate(item.date)}</span>
+                            </div>
                         </div>
                         <h2 class="text-base font-medium leading-snug">${item.title}</h2>
                         <p class="text-sm mt-2 leading-relaxed" style="color: var(--text-muted)">${item.description || ''}</p>
@@ -739,7 +1022,7 @@ async function loadContent() {
             
             if (hasImage) {
                 return `
-                    <article class="content-item link-item py-6" data-type="link">
+                    <article class="content-item link-item py-6 fade-in" data-type="link">
                         <div class="card rounded-2xl p-5">
                             <div class="flex items-center justify-between mb-4">
                                 <span class="mono text-xs" style="color: var(--text-muted)">Link</span>
@@ -764,7 +1047,7 @@ async function loadContent() {
             }
             
             return `
-                <article class="content-item link-item py-6" data-type="link">
+                <article class="content-item link-item py-6 fade-in" data-type="link">
                     <div class="card rounded-2xl p-5">
                         <div class="flex items-center justify-between mb-3">
                             <span class="mono text-xs" style="color: var(--text-muted)">Link</span>
@@ -783,51 +1066,62 @@ async function loadContent() {
             `;
         }
         
-function renderVideo(item) {
-    // Use hqdefault (always exists) instead of maxresdefault (sometimes 404)
-    const thumbnail = item.youtubeId ? `https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg` : '';
-    
-    return `
-        <article class="content-item py-6" data-type="video">
-            <a href="#" class="card block rounded-2xl overflow-hidden" onclick="openVideoModal(event, '${item.youtubeId}')">
-                <div class="img-container video-thumb">
-                    <img 
-                        src="${thumbnail}" 
-                        alt="" 
-                        class="w-full aspect-video object-cover"
-                        onload="this.classList.add('loaded')"
-                        onerror="this.src='https://img.youtube.com/vi/${item.youtubeId}/default.jpg'"
-                    >
-                    <div class="play-btn">
-                        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                    </div>
-                    ${item.duration ? `<span class="duration mono text-xs absolute bottom-3 right-3 px-2 py-1 rounded-md">${item.duration}</span>` : ''}
-                </div>
-                <div class="p-5">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="mono text-xs" style="color: var(--text-muted)">Video</span>
-                        <span class="mono text-xs" style="color: var(--text-muted)">${formatDate(item.date)}</span>
-                    </div>
-                    <h2 class="text-base font-medium leading-snug">${item.title}</h2>
-                    <p class="text-sm mt-2 leading-relaxed" style="color: var(--text-muted)">${item.description || ''}</p>
-                </div>
-            </a>
-        </article>
-    `;
-}
+        function renderVideo(item) {
+            const thumbnail = item.youtubeId ? `https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg` : '';
+            
+            return `
+                <article class="content-item py-6 fade-in" data-type="video">
+                    <a href="#" class="card block rounded-2xl overflow-hidden" onclick="openVideoModal(event, '${item.youtubeId}')">
+                        <div class="img-container video-thumb">
+                            <img 
+                                src="${thumbnail}" 
+                                alt="" 
+                                class="w-full aspect-video object-cover" 
+                                onload="this.classList.add('loaded')"
+                                onerror="this.src='https://img.youtube.com/vi/${item.youtubeId}/default.jpg'"
+                            >
+                            <div class="play-btn">
+                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                            ${item.duration ? `<span class="duration mono text-xs absolute bottom-3 right-3 px-2 py-1 rounded-md">${item.duration}</span>` : ''}
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="mono text-xs" style="color: var(--text-muted)">Video</span>
+                                <span class="mono text-xs" style="color: var(--text-muted)">${formatDate(item.date)}</span>
+                            </div>
+                            <h2 class="text-base font-medium leading-snug">${item.title}</h2>
+                            <p class="text-sm mt-2 leading-relaxed" style="color: var(--text-muted)">${item.description || ''}</p>
+                        </div>
+                    </a>
+                </article>
+            `;
+        }
         
         // ============ ARTICLE VIEW ============
         function showArticle(id) {
             const item = content.find(i => i.id === id);
             if (!item) return;
             
+            currentArticle = item;
+            
             document.getElementById('home-view').classList.add('hidden');
             document.getElementById('article-view').classList.remove('hidden');
             document.getElementById('search-container').classList.add('hidden');
             
+            const readingTime = calculateReadingTime(item.content || '');
+            
             document.getElementById('article-content').innerHTML = `
-                <div class="mb-6">
-                    <span class="mono text-xs" style="color: var(--text-muted)">${formatDate(item.date)}</span>
+                <div class="mb-6 flex items-center gap-3 text-sm" style="color: var(--text-muted)">
+                    <span>${formatDateLong(item.date)}</span>
+                    <span>·</span>
+                    <span class="reading-time">
+                        <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 6v6l4 2"/>
+                        </svg>
+                        ${readingTime} min read
+                    </span>
                 </div>
                 
                 ${item.image ? `
@@ -847,13 +1141,85 @@ function renderVideo(item) {
                 </div>
             `;
             
+            // Show related posts
+            renderRelatedPosts(id);
+            
             window.scrollTo({ top: 0 });
+            
+            // Update URL without reload
+            history.pushState({ articleId: id }, '', `?article=${id}`);
+        }
+        
+        function renderRelatedPosts(currentId) {
+            const related = content
+                .filter(i => i.type === 'article' && i.id !== currentId)
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .slice(0, 3);
+            
+            const container = document.getElementById('related-posts');
+            
+            if (related.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted)">No other articles yet</p>';
+                return;
+            }
+            
+            container.innerHTML = related.map(item => `
+                <a href="#" onclick="showArticle('${item.id}'); return false;" class="card block rounded-xl p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="mono text-xs" style="color: var(--text-muted)">${formatDate(item.date)}</span>
+                    </div>
+                    <h4 class="font-medium">${item.title}</h4>
+                </a>
+            `).join('');
         }
         
         function showHome() {
             document.getElementById('home-view').classList.remove('hidden');
             document.getElementById('article-view').classList.add('hidden');
             document.getElementById('search-container').classList.remove('hidden');
+            document.getElementById('reading-progress').style.width = '0%';
+            currentArticle = null;
+            
+            history.pushState({}, '', window.location.pathname);
+        }
+        
+        // Handle back/forward buttons
+        window.addEventListener('popstate', (e) => {
+            if (e.state && e.state.articleId) {
+                showArticle(e.state.articleId);
+            } else {
+                showHome();
+            }
+        });
+        
+        // Check URL on load
+        window.addEventListener('load', () => {
+            const params = new URLSearchParams(window.location.search);
+            const articleId = params.get('article');
+            if (articleId) {
+                setTimeout(() => showArticle(articleId), 100);
+            }
+        });
+        
+        // ============ SHARE ============
+        function shareTwitter() {
+            if (!currentArticle) return;
+            const url = `${SITE_URL}?article=${currentArticle.id}`;
+            const text = currentArticle.title;
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+        }
+        
+        function shareLinkedIn() {
+            if (!currentArticle) return;
+            const url = `${SITE_URL}?article=${currentArticle.id}`;
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
+        }
+        
+        function copyArticleLink() {
+            if (!currentArticle) return;
+            const url = `${SITE_URL}?article=${currentArticle.id}`;
+            navigator.clipboard.writeText(url);
+            showToast('Link copied');
         }
         
         // ============ VIDEO MODAL ============
@@ -930,8 +1296,18 @@ function renderVideo(item) {
         }
         
         function formatDate(dateStr) {
-            const date = new Date(dateStr);
-            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+        
+        function formatDateLong(dateStr) {
+            return new Date(dateStr).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        }
+        
+        function calculateReadingTime(content) {
+            const text = content.replace(/<[^>]*>/g, '');
+            const words = text.split(/\s+/).length;
+            const minutes = Math.ceil(words / 200);
+            return Math.max(1, minutes);
         }
     </script>
 
