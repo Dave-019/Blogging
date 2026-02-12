@@ -556,13 +556,15 @@
         
 async function loadContent() {
     try {
-        const response = await fetch('data/content.json');
+        // Add timestamp to bust cache
+        const response = await fetch('data/content.json?v=' + Date.now());
         if (response.ok) {
             content = await response.json();
         } else {
             content = [];
         }
     } catch (e) {
+        console.error('Failed to load content:', e);
         content = [];
     }
     renderContent();
