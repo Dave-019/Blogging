@@ -781,30 +781,38 @@ async function loadContent() {
             `;
         }
         
-        function renderVideo(item) {
-const thumbnail = item.youtubeId ? `https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg` : '';            
-            return `
-                <article class="content-item py-6" data-type="video">
-                    <a href="#" class="card block rounded-2xl overflow-hidden" onclick="openVideoModal(event, '${item.youtubeId}')">
-                        <div class="img-container video-thumb">
-                            <img src="${thumbnail}" alt="" class="w-full aspect-video object-cover" onload="this.classList.add('loaded')">
-                            <div class="play-btn">
-                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            </div>
-                            ${item.duration ? `<span class="duration mono text-xs absolute bottom-3 right-3 px-2 py-1 rounded-md">${item.duration}</span>` : ''}
-                        </div>
-                        <div class="p-5">
-                            <div class="flex items-center justify-between mb-3">
-                                <span class="mono text-xs" style="color: var(--text-muted)">Video</span>
-                                <span class="mono text-xs" style="color: var(--text-muted)">${formatDate(item.date)}</span>
-                            </div>
-                            <h2 class="text-base font-medium leading-snug">${item.title}</h2>
-                            <p class="text-sm mt-2 leading-relaxed" style="color: var(--text-muted)">${item.description || ''}</p>
-                        </div>
-                    </a>
-                </article>
-            `;
-        }
+function renderVideo(item) {
+    // Use hqdefault (always exists) instead of maxresdefault (sometimes 404)
+    const thumbnail = item.youtubeId ? `https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg` : '';
+    
+    return `
+        <article class="content-item py-6" data-type="video">
+            <a href="#" class="card block rounded-2xl overflow-hidden" onclick="openVideoModal(event, '${item.youtubeId}')">
+                <div class="img-container video-thumb">
+                    <img 
+                        src="${thumbnail}" 
+                        alt="" 
+                        class="w-full aspect-video object-cover"
+                        onload="this.classList.add('loaded')"
+                        onerror="this.src='https://img.youtube.com/vi/${item.youtubeId}/default.jpg'"
+                    >
+                    <div class="play-btn">
+                        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    ${item.duration ? `<span class="duration mono text-xs absolute bottom-3 right-3 px-2 py-1 rounded-md">${item.duration}</span>` : ''}
+                </div>
+                <div class="p-5">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="mono text-xs" style="color: var(--text-muted)">Video</span>
+                        <span class="mono text-xs" style="color: var(--text-muted)">${formatDate(item.date)}</span>
+                    </div>
+                    <h2 class="text-base font-medium leading-snug">${item.title}</h2>
+                    <p class="text-sm mt-2 leading-relaxed" style="color: var(--text-muted)">${item.description || ''}</p>
+                </div>
+            </a>
+        </article>
+    `;
+}
         
         // ============ ARTICLE VIEW ============
         function showArticle(id) {
