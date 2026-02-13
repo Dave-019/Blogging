@@ -641,11 +641,11 @@
             
             <footer class="py-12">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 text-sm" style="color: var(--text-muted)">
-                    <span class="mono text-xs">© 2024</span>
+                    <span class="mono text-xs">© 2026</span>
                     <div class="flex gap-6">
-                        <a href="#">Twitter</a>
-                        <a href="#">GitHub</a>
-                        <a href="#">RSS</a>
+                        <a href="https://x.com/rectifier00x">Twitter</a>
+                        <a href="https://github.com/dave-019">GitHub</a>
+                     
                     </div>
                 </div>
             </footer>
@@ -742,8 +742,9 @@
             setupEventListeners();
         });
         
-        async function loadContent() {
+async function loadContent() {
             try {
+                // 1. Fetch the data
                 const response = await fetch('data/content.json?v=' + Date.now());
                 if (response.ok) {
                     content = await response.json();
@@ -755,8 +756,25 @@
                 content = [];
             }
             
+            // 2. Render the home list (so it's ready in the background)
             updateStats();
             renderContent();
+
+            // 3. Check if the user came via a direct link (e.g., ?article=xyz)
+            // We do this HERE to ensure 'content' is fully loaded first.
+            const params = new URLSearchParams(window.location.search);
+            const articleId = params.get('article');
+            
+            if (articleId) {
+                // Check if the article actually exists in the data we just loaded
+                const exists = content.some(item => item.id === articleId);
+                if (exists) {
+                    showArticle(articleId);
+                } else {
+                    // ID in URL is invalid/old, clear URL back to home
+                    history.replaceState(null, '', window.location.pathname);
+                }
+            }
         }
         
         // ============ STATS ============
@@ -1200,21 +1218,14 @@ switch(currentSort) {
             }
         });
         
-        // Check URL on load
-        window.addEventListener('load', () => {
-            const params = new URLSearchParams(window.location.search);
-            const articleId = params.get('article');
-            if (articleId) {
-                setTimeout(() => showArticle(articleId), 100);
-            }
-        });
+
         
         // ============ SHARE ============
         function shareTwitter() {
             if (!currentArticle) return;
             const url = `${SITE_URL}?article=${currentArticle.id}`;
             const text = currentArticle.title;
-            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+            window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
         }
         
         function shareLinkedIn() {
