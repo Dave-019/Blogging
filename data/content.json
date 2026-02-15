@@ -16,7 +16,7 @@
     "description": "that copy paste thing you do everyday? yeah it can be used against you.",
     "date": "2026-02-14",
     "timestamp": 1771079166980,
-    "image": "https://i.pinimg.com/1200x/5a/61/f3/5a61f3dbe15469f54ffdbfc39a8e5d2b.jpg",
+    "image": "assets/paste.jpeg",
     "content": "<h2><strong>article 2 </strong></h2><p>you know that  thing you do a hundred times a day ? copy. paste. copy. paste.</p><p>you trust it right? what you copy is what you paste. Simple.</p><p>except when it's not.</p><p>i found out  something called pastejacking. also called clipboard poisoning. whatever you want to call it.</p><p>basically? A website can change what's in your clipboard. Without you knowing </p><p>let that sink in</p><p>do demonstrate it . </p><p><a href=\"https://dave-019.github.io/Blogging/examples/pastejacking.html\" rel=\"noopener noreferrer\" target=\"_blank\"> click here</a> </p><p>copy any text on the page. paste it on the text area  </p><p>see what happens</p><p>the code .</p><p>here 's how it works</p><pre class=\"ql-syntax\" spellcheck=\"false\">&nbsp; &nbsp; &nbsp; &nbsp; document.addEventListener('copy', function(e) {\n          e.preventDefault();\n              e.clipboardData.setData('text/plain', 'You have been hacked\\n');\n              });\n  \n</pre><p><br></p><p>that's it. five lines</p><p>it listens for the copy event. blocks the default action. Then it puts whatever it wants into your clipboard instead .you never see it happen.</p><p>why does it even matter?</p><p>this is for people who copy paste command from internet directly to the terminal.</p><p>moral of the day </p><p>never paste directly to the terminal </p><p>that's it for  today.</p><p><br></p><p>r00x ░▒▓</p><p><br></p>"
   },
   {
@@ -27,7 +27,7 @@
     "date": "2026-02-14",
     "timestamp": 1771098126850,
     "url": "https://music.youtube.com/playlist?list=PL1uxZ7bYIAedE6WbV3Ka9yRssvxwap1s_",
-    "image": "https://i.ytimg.com/pl_c/PL1uxZ7bYIAedE6WbV3Ka9yRssvxwap1s_/studio_square_thumbnail.jpg?sqp=CNPOx8wG-oaymwEKCKAEEKAEIABIWqLzl_8DBgjWn8PMBg&rs=AMzJL3lLl2EOAVIyRgvBY1og34hTjWNMIg"
+    "image": "assets/kenyan.jpeg"
   },
   {
     "id": "mlnxk3mouyog4hftmth",
@@ -36,7 +36,7 @@
     "description": "notes to myself (and maybe you).",
     "date": "2026-02-15",
     "timestamp": 1771171126368,
-    "image": "https://i.pinimg.com/1200x/b1/54/10/b1541053917d0713f56f93bf6b28b9e7.jpg",
+    "image": "assets/Liam Gallagher (1995).jfif",
     "content": "<p>i'm 20. turning 21 in a few months.</p><p>i don't have life figured out. not even close. but i've learned some things along the way. mostly by messing up.</p><p>so here's some advice. from me. a random guy on the internet. take what's useful. ignore what's not.</p><h3><strong><em>there's no finish line.</em></strong></h3><p>no moment where life clicks and you're done growing. no age where you finally have it all figured out.</p><p>it's just days. choices. showing up.</p><h3><strong><em>social skills open doors.</em></strong></h3><p>i'm not naturally good with people. i'd rather be alone honestly.</p><p>but i've seen how it works. the ones who socialize with others get chances. opportunities just show up for them.</p><p>just learn to have a conversation. make people feel heard. it's a skill.(i'm working on it ,hope future me you are proud)</p><h3><strong><em>friendships change.</em></strong></h3><p>friends you thought would be there forever? some won't be.(in my case)</p><p>i think it's  nothing's wrong. people change. paths split. it doesn't mean the friendship was fake. it just ran its course.</p><h3><em>shut up more.</em></h3><p>you don't need an opinion on everything. you don't need to prove you're smart.(we already know)</p><p>speak when it matters. the rest is noise.</p><h3><strong><em>stop waiting to be ready.</em></strong></h3><p>you won't be. ever.</p><p>that confident feeling you're waiting for before you start? it comes after. not before.</p><p>start the thing. learn as you go.(i have already started this blogs)   :)</p><p>\t<u>waiting is just fear with a nice excuse.</u></p><h3><strong><em>move at your pace</em></strong></h3><p>\"by 25 you should have this.\"</p><p>says who? </p><p>some people figure it out at 20. some at 40. some never do but still live good lives.</p><p>run your own race. your only competition is the old you.</p><p><br></p><p>i don't know much. but this is what i got so far.</p><p>maybe i'll read this at 25 and cringe. who cares?</p><p>r00x ░▒▓</p>"
   }
 ]
