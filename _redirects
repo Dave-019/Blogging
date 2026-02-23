@@ -1,1 +1,5 @@
-/*    /index.html   200
+# Redirect old URLs to new ones (examples)
+# /old-page    /new-page    301
+
+# Handle 404s with your custom page
+/*    /index.html    200!
