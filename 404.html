@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Rectifier00x</title>
+    <meta name="robots" content="noindex">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #f7f7f5;
+            --bg-secondary: #ffffff;
+            --text: #1a1a1a;
+            --text-muted: #6b6b6b;
+            --border: rgba(0,0,0,0.06);
+            --border-strong: rgba(0,0,0,0.1);
+        }
+
+        .dark {
+            --bg: #161616;
+            --bg-secondary: #1e1e1e;
+            --text: #ebebeb;
+            --text-muted: #8a8a8a;
+            --border: rgba(255,255,255,0.06);
+            --border-strong: rgba(255,255,255,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .mono { font-family: 'IBM Plex Mono', monospace; }
+
+        /* Header */
+        header {
+            max-width: 40rem;
+            margin: 0 auto;
+            width: 100%;
+            padding: 3rem 1.25rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        header a:hover { opacity: 0.7; }
+
+        .site-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .site-sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        .theme-btn {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border);
+            background: var(--bg-secondary);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: border-color 0.15s;
+        }
+
+        .theme-btn:hover { border-color: var(--border-strong); }
+
+        /* Main */
+        main {
+            flex: 1;
+            max-width: 40rem;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 1.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: calc(100vh - 200px);
+        }
+
+        /* 404 glitch number */
+        .error-code {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: clamp(5rem, 20vw, 9rem);
+            font-weight: 500;
+            line-height: 1;
+            letter-spacing: -0.04em;
+            color: var(--text);
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2.5rem;
+            animation: flicker 6s infinite;
+            user-select: none;
+        }
+
+        .error-code::before,
+        .error-code::after {
+            content: '404';
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+        }
+
+        .error-code::before {
+            color: #ff4444;
+            animation: glitch-1 6s infinite;
+            clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+        }
+
+        .error-code::after {
+            color: #4488ff;
+            animation: glitch-2 6s infinite;
+            clip-path: polygon(0 55%, 100% 55%, 100% 75%, 0 75%);
+        }
+
+        @keyframes flicker {
+            0%, 95%, 100% { opacity: 1; }
+            96% { opacity: 0.85; }
+            97% { opacity: 1; }
+            98% { opacity: 0.9; }
+        }
+
+        @keyframes glitch-1 {
+            0%, 89%, 100% { opacity: 0; transform: translateX(0); }
+            90% { opacity: 0.7; transform: translateX(-3px); }
+            91% { opacity: 0; }
+            92% { opacity: 0.5; transform: translateX(2px); }
+            93% { opacity: 0; }
+        }
+
+        @keyframes glitch-2 {
+            0%, 89%, 100% { opacity: 0; transform: translateX(0); }
+            90% { opacity: 0; }
+            91% { opacity: 0.6; transform: translateX(3px); }
+            92% { opacity: 0; transform: translateX(-2px); }
+            93% { opacity: 0.4; }
+            94% { opacity: 0; }
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--border-strong);
+            margin-bottom: 2rem;
+        }
+
+        .message {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            animation: fadeUp 0.6s ease 0.1s both;
+        }
+
+        .sub-message {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            animation: fadeUp 0.6s ease 0.2s both;
+        }
+
+        /* Path display */
+        .path-display {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 0.6rem 0.9rem;
+            margin-bottom: 2.5rem;
+            word-break: break-all;
+            animation: fadeUp 0.6s ease 0.25s both;
+        }
+
+        /* Actions */
+        .actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            animation: fadeUp 0.6s ease 0.3s both;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--text);
+            color: var(--bg);
+            border: none;
+            border-radius: 0.75rem;
+            padding: 0.65rem 1.25rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: opacity 0.15s, transform 0.15s;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.8;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--bg-secondary);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 0.65rem 1.25rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: border-color 0.15s, transform 0.15s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--border-strong);
+            transform: translateY(-1px);
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Footer */
+        footer {
+            max-width: 40rem;
+            margin: 0 auto;
+            width: 100%;
+            padding: 2rem 1.25rem 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid var(--border);
+        }
+
+        footer span {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        footer nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        footer a {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: opacity 0.15s;
+        }
+
+        footer a:hover { opacity: 0.6; }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="/">
+            <div class="site-title">Rectifier00x</div>
+            <div class="site-sub">Collecting things on the internet</div>
+        </a>
+        <button class="theme-btn" id="theme-toggle" title="Toggle theme">
+            <svg class="sun" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="4"/>
+                <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+            </svg>
+            <svg class="moon hidden" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+            </svg>
+        </button>
+    </header>
+
+    <main>
+        <div class="error-code">404</div>
+
+        <div class="divider"></div>
+
+        <p class="message">Page not found</p>
+        <p class="sub-message">
+            This page doesn't exist or may have been moved.<br>
+            Check the URL or head back home.
+        </p>
+
+        <div class="path-display" id="path-display"></div>
+
+        <div class="actions">
+            <a href="/" class="btn-primary">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M3 12l9-9 9 9M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Go home
+            </a>
+            <button onclick="history.back()" class="btn-secondary">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M19 12H5m0 0l7 7m-7-7l7-7" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Go back
+            </button>
+        </div>
+    </main>
+
+    <footer>
+        <span>© 2026</span>
+        <nav>
+            <a href="https://x.com/rectifier00x">Twitter</a>
+            <a href="https://github.com/dave-019">GitHub</a>
+        </nav>
+    </footer>
+
+    <script>
+        // Show current path
+        document.getElementById('path-display').textContent = window.location.pathname;
+
+        // Theme
+        function initTheme() {
+            const saved = localStorage.getItem('theme');
+            const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (saved === 'dark' || (!saved && systemDark)) {
+                document.documentElement.classList.add('dark');
+                document.querySelector('.sun').classList.add('hidden');
+                document.querySelector('.moon').classList.remove('hidden');
+            }
+        }
+
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            document.querySelector('.sun').classList.toggle('hidden');
+            document.querySelector('.moon').classList.toggle('hidden');
+            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        }
+
+        document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+        initTheme();
+    </script>
+
+</body>
+</html>

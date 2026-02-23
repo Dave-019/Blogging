@@ -5,28 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rectifier00x</title>
     
-    <!-- Prevent caching -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    
-    <!-- SEO -->
-    <meta name="description" content="A collection of articles, links, and videos">
-    <meta name="author" content="Rectifier00x">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <!-- Open Graph -->
-    <meta property="og:title" content="Rectifier00x">
-    <meta property="og:description" content="A collection of articles, links, and videos">
-    <meta property="og:type" content="website">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+ <!-- ============ SEO META ============ -->
+  <meta name="description" content="Rectifier00x — A curated collection of articles, links, and videos about technology, culture, and the internet. Based in Kenya.">
+  <meta name="author" content="Rectifier00x">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://roma.co.ke/">
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://js.paystack.co/v2/inline.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
-    
+  <!-- ============ OPEN GRAPH ============ -->
+  <meta property="og:site_name" content="Rectifier00x">
+  <meta property="og:title" content="Rectifier00x — Articles, Links & Videos">
+  <meta property="og:description" content="A curated collection of articles, links, and videos about technology, culture, and the internet.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rectifie.co.ke/">
+  <meta property="og:image" content="https://roma.co.ke/assets/og-image.jfif">
+  <meta property="og:locale" content="en_US">
+
+  <!-- ============ TWITTER CARD ============ -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@rectifier00x">
+  <meta name="twitter:title" content="Rectifier00x — Articles, Links & Videos">
+  <meta name="twitter:description" content="A curated collection of articles, links, and videos.">
+  <meta name="twitter:image" content="https://roma.co.ke/assets/og-image.jfif">
+
+  <!-- ============ STRUCTURED DATA (JSON-LD) ============ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Rectifier00x",
+    "url": "https://roma.co.ke",
+    "description": "A curated collection of articles, links, and videos",
+    "author": {
+      "@type": "Person",
+      "name": "Rectifier00x",
+      "url": "https://x.com/rectifier00x"
+    }
+  }
+  </script>
+
+  <!-- Favicons (keep yours) -->
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- Fonts, Tailwind, Paystack (keep yours) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://js.paystack.co/v2/inline.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -460,6 +487,25 @@
 </head>
 
 <body class="min-h-screen">
+
+      <noscript>
+    <div style="max-width: 672px; margin: 0 auto; padding: 48px 20px; font-family: sans-serif;">
+      <h1>Rectifier00x</h1>
+      <p>A curated collection of articles, links, and videos about technology, culture, and the internet. Based in Kenya.</p>
+      <p>This site requires JavaScript to display content. Please enable JavaScript or visit with a modern browser.</p>
+      <nav>
+        <h2>Content</h2>
+        <ul>
+          <li>Articles about technology, internet culture, and more</li>
+          <li>Curated links from around the web</li>
+          <li>Featured YouTube videos</li>
+        </ul>
+      </nav>
+      <footer>
+        <p>Follow on <a href="https://x.com/rectifier00x">Twitter</a> | <a href="https://github.com/dave-019">GitHub</a></p>
+      </footer>
+    </div>
+  </noscript>
     
     <!-- Reading Progress Bar -->
     <div id="reading-progress" class="reading-progress" style="width: 0%"></div>
@@ -1123,56 +1169,137 @@ switch(currentSort) {
         
         // ============ ARTICLE VIEW ============
         function showArticle(id) {
-            const item = content.find(i => i.id === id);
-            if (!item) return;
-            
-            currentArticle = item;
-            
-            document.getElementById('home-view').classList.add('hidden');
-            document.getElementById('article-view').classList.remove('hidden');
-            document.getElementById('search-container').classList.add('hidden');
-            
-            const readingTime = calculateReadingTime(item.content || '');
-            
-            document.getElementById('article-content').innerHTML = `
-                <div class="mb-6 flex items-center gap-3 text-sm" style="color: var(--text-muted)">
-                    <span>${formatDateLong(item.date)}</span>
-                    <span>·</span>
-                    <span class="reading-time">
-                        <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="10"/>
-                            <path d="M12 6v6l4 2"/>
-                        </svg>
-                        ${readingTime} min read
-                    </span>
-                </div>
-                
-                ${item.image ? `
-                    <div class="img-container rounded-2xl overflow-hidden mb-8">
-                        <img src="${item.image}" alt="" class="w-full aspect-[2/1] object-cover" onload="this.classList.add('loaded')">
-                    </div>
-                ` : ''}
-                
-                <h1 class="text-2xl sm:text-3xl font-semibold leading-tight mb-4">${item.title}</h1>
-                
-                ${item.description ? `<p class="text-lg mb-8" style="color: var(--text-muted)">${item.description}</p>` : ''}
-                
-                <div class="line mb-8"></div>
-                
-                <div class="article-content">
-                    ${item.content || ''}
-                </div>
-            `;
-            
-            // Show related posts
-            renderRelatedPosts(id);
-            
-            window.scrollTo({ top: 0 });
-            
-            // Update URL without reload
-            history.pushState({ articleId: id }, '', `?article=${id}`);
-        }
-        
+        const item = content.find(i => i.id === id);
+        if (!item) return;
+
+        currentArticle = item;
+
+        // ============ DYNAMIC SEO META TAGS ============
+        const articleUrl = `${SITE_URL}?article=${item.id}`;
+        const readingTime = calculateReadingTime(item.content || '');
+
+        // Update page title
+        document.title = `${item.title} — Rectifier00x`;
+
+        // Update meta description
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) metaDesc.setAttribute('content', item.description || item.title);
+
+        // Update meta robots
+        const metaRobots = document.querySelector('meta[name="robots"]');
+        if (metaRobots) metaRobots.setAttribute('content', 'index, follow');
+
+        // Update canonical URL
+        const canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) canonical.setAttribute('href', articleUrl);
+
+        // Update Open Graph tags
+        const ogTitle = document.querySelector('meta[property="og:title"]');
+        if (ogTitle) ogTitle.setAttribute('content', item.title);
+
+        const ogDesc = document.querySelector('meta[property="og:description"]');
+        if (ogDesc) ogDesc.setAttribute('content', item.description || '');
+
+        const ogUrl = document.querySelector('meta[property="og:url"]');
+        if (ogUrl) ogUrl.setAttribute('content', articleUrl);
+
+        const ogType = document.querySelector('meta[property="og:type"]');
+        if (ogType) ogType.setAttribute('content', 'article');
+
+        const ogImage = document.querySelector('meta[property="og:image"]');
+        if (ogImage && item.image) ogImage.setAttribute('content', item.image);
+
+        // Update Twitter Card tags
+        const twTitle = document.querySelector('meta[name="twitter:title"]');
+        if (twTitle) twTitle.setAttribute('content', item.title);
+
+        const twDesc = document.querySelector('meta[name="twitter:description"]');
+        if (twDesc) twDesc.setAttribute('content', item.description || '');
+
+        const twImage = document.querySelector('meta[name="twitter:image"]');
+        if (twImage && item.image) twImage.setAttribute('content', item.image);
+
+        // Remove any existing article JSON-LD
+        const existingLD = document.getElementById('article-jsonld');
+        if (existingLD) existingLD.remove();
+
+        // Inject Article structured data (JSON-LD)
+        const ldScript = document.createElement('script');
+        ldScript.type = 'application/ld+json';
+        ldScript.id = 'article-jsonld';
+        ldScript.textContent = JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": articleUrl
+            },
+            "headline": item.title,
+            "description": item.description || '',
+            "datePublished": item.date,
+            "dateModified": item.date,
+            "author": {
+            "@type": "Person",
+            "name": "Rectifier00x",
+            "url": "https://x.com/rectifier00x"
+            },
+            "publisher": {
+            "@type": "Person",
+            "name": "Rectifier00x",
+            "url": "https://x.com/rectifier00x"
+            },
+            "image": item.image || '',
+            "url": articleUrl,
+            "wordCount": (item.content || '').replace(/<[^>]*>/g, '').split(/\s+/).length,
+            "timeRequired": `PT${readingTime}M`
+        });
+        document.head.appendChild(ldScript);
+        // ============ END DYNAMIC SEO META TAGS ============
+
+        // ============ SHOW ARTICLE VIEW ============
+        document.getElementById('home-view').classList.add('hidden');
+        document.getElementById('article-view').classList.remove('hidden');
+        document.getElementById('search-container').classList.add('hidden');
+
+        document.getElementById('article-content').innerHTML = `
+            <div class="mb-6 flex items-center gap-3 text-sm" style="color: var(--text-muted)">
+            <span>${formatDateLong(item.date)}</span>
+            <span>·</span>
+            <span class="reading-time">
+                <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+                </svg>
+                ${readingTime} min read
+            </span>
+            </div>
+
+            ${item.image ? `
+            <div class="img-container rounded-2xl overflow-hidden mb-8">
+                <img src="${item.image}" alt="${item.title}" class="w-full aspect-[2/1] object-cover" onload="this.classList.add('loaded')">
+            </div>
+            ` : ''}
+
+            <h1 class="text-2xl sm:text-3xl font-semibold leading-tight mb-4">${item.title}</h1>
+
+            ${item.description ? `<p class="text-lg mb-8" style="color: var(--text-muted)">${item.description}</p>` : ''}
+
+            <div class="line mb-8"></div>
+
+            <div class="article-content">
+            ${item.content || ''}
+            </div>
+        `;
+
+        // Show related posts
+        renderRelatedPosts(id);
+
+        // Scroll to top
+        window.scrollTo({ top: 0 });
+
+        // Update URL without reload
+        history.pushState({ articleId: id }, '', `?article=${id}`);
+        }  
         function renderRelatedPosts(currentId) {
             const related = content
                 .filter(i => i.type === 'article' && i.id !== currentId)
@@ -1196,15 +1323,66 @@ switch(currentSort) {
             `).join('');
         }
         
-        function showHome() {
+            function showHome() {
+            // ============ RESET SEO META TAGS TO DEFAULTS ============
+
+            // Reset page title
+            document.title = 'Rectifier00x — Articles, Links & Videos';
+
+            // Reset meta description
+            const metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc) metaDesc.setAttribute('content', 'Rectifier00x — A curated collection of articles, links, and videos about technology, culture, and the internet. Based in Kenya.');
+
+            // Reset meta robots
+            const metaRobots = document.querySelector('meta[name="robots"]');
+            if (metaRobots) metaRobots.setAttribute('content', 'index, follow');
+
+            // Reset canonical URL
+            const canonical = document.querySelector('link[rel="canonical"]');
+            if (canonical) canonical.setAttribute('href', SITE_URL);
+
+            // Reset Open Graph tags
+            const ogTitle = document.querySelector('meta[property="og:title"]');
+            if (ogTitle) ogTitle.setAttribute('content', 'Rectifier00x — Articles, Links & Videos');
+
+            const ogDesc = document.querySelector('meta[property="og:description"]');
+            if (ogDesc) ogDesc.setAttribute('content', 'A curated collection of articles, links, and videos about technology, culture, and the internet.');
+
+            const ogUrl = document.querySelector('meta[property="og:url"]');
+            if (ogUrl) ogUrl.setAttribute('content', SITE_URL);
+
+            const ogType = document.querySelector('meta[property="og:type"]');
+            if (ogType) ogType.setAttribute('content', 'website');
+
+            const ogImage = document.querySelector('meta[property="og:image"]');
+            if (ogImage) ogImage.setAttribute('content', `${SITE_URL}assets/og-image.png`);
+
+            // Reset Twitter Card tags
+            const twTitle = document.querySelector('meta[name="twitter:title"]');
+            if (twTitle) twTitle.setAttribute('content', 'Rectifier00x — Articles, Links & Videos');
+
+            const twDesc = document.querySelector('meta[name="twitter:description"]');
+            if (twDesc) twDesc.setAttribute('content', 'A curated collection of articles, links, and videos.');
+
+            const twImage = document.querySelector('meta[name="twitter:image"]');
+            if (twImage) twImage.setAttribute('content', `${SITE_URL}assets/og-image.png`);
+
+            // Remove article-specific JSON-LD structured data
+            const existingLD = document.getElementById('article-jsonld');
+            if (existingLD) existingLD.remove();
+
+            // ============ END RESET SEO META TAGS ============
+
+            // ============ SHOW HOME VIEW ============
             document.getElementById('home-view').classList.remove('hidden');
             document.getElementById('article-view').classList.add('hidden');
             document.getElementById('search-container').classList.remove('hidden');
             document.getElementById('reading-progress').style.width = '0%';
             currentArticle = null;
-            
+
+            // Update URL
             history.pushState({}, '', window.location.pathname);
-        }
+            }
         
         // Handle back/forward buttons
         window.addEventListener('popstate', (e) => {
