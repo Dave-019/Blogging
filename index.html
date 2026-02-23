@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rectifier00x</title>
-    
+    <title>Rectifier00x – Collecting things on the internet</title>    
  <!-- ============ SEO META ============ -->
   <meta name="description" content="Rectifier00x — A curated collection of articles, links, and videos about technology, culture, and the internet. Based in Kenya.">
   <meta name="author" content="Rectifier00x">
@@ -16,8 +15,8 @@
   <meta property="og:title" content="Rectifier00x — Articles, Links & Videos">
   <meta property="og:description" content="A curated collection of articles, links, and videos about technology, culture, and the internet.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://rectifie.co.ke/">
-  <meta property="og:image" content="https://roma.co.ke/assets/og-image.jfif">
+  <meta property="og:url" content="https://roma.co.ke/">
+<meta property="og:image" content="https://roma.co.ke/assets/og-image.jfif">
   <meta property="og:locale" content="en_US">
 
   <!-- ============ TWITTER CARD ============ -->
@@ -521,7 +520,6 @@
                 </a>
                 <div class="flex items-center gap-4">
                     <nav class="flex gap-5 text-sm">
-                        <a href="#" style="color: var(--text-muted)"></a>
                     </nav>
                     
                     <button id="theme-toggle" class="w-9 h-9 flex items-center justify-center rounded-lg btn-secondary" title="Toggle theme (T)">
@@ -625,9 +623,8 @@
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 text-sm" style="color: var(--text-muted)">
                     <span class="mono text-xs">© 2026</span>
                     <div class="flex gap-6">
-                        <a href="#">Twitter</a>
-                        <a href="#">GitHub</a>
-                        <a href="#" id="rss-link">RSS</a>
+                        <a href="https://x.com/rectifier00x">Twitter</a>
+                        <a href="https://github.com/dave-019">GitHub</a>
                     </div>
                 </div>
                 
@@ -1038,9 +1035,7 @@ switch(currentSort) {
                     <article class="content-item py-6 fade-in" data-type="article">
                         <a href="#" onclick="showArticle('${item.id}'); return false;" class="card block rounded-2xl overflow-hidden">
                             <div class="img-container">
-                                <img src="${item.image}" alt="" class="w-full aspect-[2/1] object-cover" onload="this.classList.add('loaded')" onerror="this.parentElement.style.display='none'">
-                            </div>
-                            <div class="p-5">
+                                    <img src="${item.image}" alt="${item.title}${item.description ? ' - ' + item.description : ''}" class="w-full aspect-[2/1] object-cover" onload="this.classList.add('loaded')" onerror="this.parentElement.style.display='none'">                            <div class="p-5">
                                 <div class="flex items-center justify-between mb-3">
                                     <span class="mono text-xs" style="color: var(--text-muted)">Article</span>
                                     <div class="flex items-center gap-3">
@@ -1102,9 +1097,7 @@ switch(currentSort) {
                             </div>
                             <a href="${item.url}" target="_blank" rel="noopener" class="flex gap-5">
                                 <div class="img-container w-20 h-20 rounded-xl flex-shrink-0">
-                                    <img src="${item.image}" alt="" class="w-full h-full object-cover" onload="this.classList.add('loaded')" onerror="this.parentElement.style.display='none'">
-                                </div>
-                                <div class="flex-1">
+                                    <img src="${item.image}" alt="${item.title}${item.description ? ' - ' + item.description : ''}" class="w-full h-full object-cover" onload="this.classList.add('loaded')" onerror="this.parentElement.style.display='none'">                                <div class="flex-1">
                                     <h2 class="text-base font-medium leading-snug">${item.title}</h2>
                                     <p class="text-sm mt-2 leading-relaxed" style="color: var(--text-muted)">${item.description || ''}</p>
                                     <span class="mono text-xs mt-2 inline-block" style="color: var(--text-muted)">${domain}</span>
