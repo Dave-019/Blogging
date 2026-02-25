@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://roma.co.ke/sitemap.xml
+
