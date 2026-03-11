@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comedy Radio</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0c0c0e;
+  --bg2: #131316;
+  --bg3: #1a1a1f;
+  --bg4: #222228;
+  --text: #e8e6e3;
+  --text2: #a09b93;
+  --text3: #5a5650;
+  --border: #2a2a30;
+  --border2: #3a3a42;
+  --accent: #c5a55a;
+  --accent2: #a88c3a;
+  --accent-dim: rgba(197,165,90,0.1);
+  --accent-glow: rgba(197,165,90,0.25);
+  --red: #c44040;
+  --red-dim: rgba(196,64,64,0.15);
+  --warm: #e8c88a;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 1020px;
+  margin: 0 auto;
+  padding: 48px 32px 80px;
+  display: grid;
+  grid-template-columns: 310px 1fr;
+  gap: 56px;
+  align-items: start;
+}
+
+/* ── LEFT ── */
+.left {
+  position: sticky;
+  top: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.radio-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 310px;
+  user-select: none;
+}
+
+#radioSvg {
+  width: 100%;
+  display: block;
+  filter: drop-shadow(0 20px 50px rgba(0,0,0,0.5));
+  transition: filter 0.6s ease;
+}
+
+#radioSvg.on {
+  filter: drop-shadow(0 20px 50px rgba(0,0,0,0.5)) drop-shadow(0 0 30px rgba(197,165,90,0.2));
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+
+#dialGroup { cursor: grab; }
+#dialGroup:active { cursor: grabbing; }
+#playHitArea, #stopHitArea { cursor: pointer; }
+
+/* ── STATUS PANEL ── */
+.status-panel {
+  width: 100%;
+  margin-top: 20px;
+  background: var(--bg2);
+  border-radius: 12px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border: 1px solid var(--border);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+}
+
+.status-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.status-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text3);
+  transition: color 0.3s;
+}
+
+.status-label.active { color: var(--accent2); }
+
+.status-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: all 0.3s;
+}
+
+.status-dot.on {
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent), 0 0 14px var(--accent-glow);
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+.status-dot.loading {
+  background: var(--warm);
+  box-shadow: 0 0 6px var(--warm);
+  animation: pulse 0.6s ease-in-out infinite;
+}
+
+.status-dot.error {
+  background: var(--red);
+  box-shadow: 0 0 6px var(--red);
+}
+
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+
+.station-display {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 20px;
+  transition: color 0.3s;
+}
+
+.station-display.off { color: var(--text3); }
+.station-display.loading { color: var(--warm); }
+
+.timer-display {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.1em;
+  min-height: 14px;
+  transition: color 0.3s;
+}
+
+.timer-display.on { color: var(--text2); }
+
+/* EQ bars */
+.eq-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 24px;
+  padding: 2px 0;
+}
+
+.eq-b {
+  flex: 1;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 1px;
+  opacity: 0.1;
+  transition: height 0.08s ease, opacity 0.3s;
+}
+
+.eq-row.on .eq-b { opacity: 1; }
+.eq-row.on .eq-b:nth-child(1) { animation: eq .8s ease-in-out infinite; }
+.eq-row.on .eq-b:nth-child(2) { animation: eq .65s ease-in-out .1s infinite; }
+.eq-row.on .eq-b:nth-child(3) { animation: eq 1s ease-in-out .05s infinite; }
+.eq-row.on .eq-b:nth-child(4) { animation: eq .75s ease-in-out .2s infinite; }
+.eq-row.on .eq-b:nth-child(5) { animation: eq .9s ease-in-out .12s infinite; }
+.eq-row.on .eq-b:nth-child(6) { animation: eq .7s ease-in-out .07s infinite; }
+.eq-row.on .eq-b:nth-child(7) { animation: eq .85s ease-in-out .15s infinite; }
+.eq-row.on .eq-b:nth-child(8) { animation: eq .6s ease-in-out .22s infinite; }
+.eq-row.on .eq-b:nth-child(9) { animation: eq .78s ease-in-out .18s infinite; }
+.eq-row.on .eq-b:nth-child(10) { animation: eq .68s ease-in-out .08s infinite; }
+.eq-row.on .eq-b:nth-child(11) { animation: eq .92s ease-in-out .14s infinite; }
+.eq-row.on .eq-b:nth-child(12) { animation: eq .72s ease-in-out .25s infinite; }
+
+@keyframes eq { 0%,100%{height:2px} 50%{height:20px} }
+
+/* Controls */
+.controls-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+  flex-wrap: wrap;
+}
+
+.ctrl-btn {
+  width: 34px; height: 30px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  color: var(--text3);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.12s;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.ctrl-btn:hover { border-color: var(--border2); color: var(--text2); background: var(--bg4); }
+.ctrl-btn:active { transform: scale(0.93); }
+.ctrl-btn.active { border-color: var(--accent2); color: var(--accent); background: var(--accent-dim); }
+.ctrl-btn.stop-btn:hover { border-color: var(--red); color: var(--red); background: var(--red-dim); }
+
+.ctrl-btn svg { width: 12px; height: 12px; fill: currentColor; }
+
+.vol-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 6px;
+  min-width: 100px;
+}
+
+.vol-icon { color: var(--text3); display: flex; align-items: center; flex-shrink: 0; }
+.vol-icon svg { width: 12px; height: 12px; fill: currentColor; }
+
+input[type=range] {
+  -webkit-appearance: none;
+  flex: 1;
+  height: 2px;
+  background: var(--border);
+  border-radius: 1px;
+  outline: none;
+  cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--text2);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+
+input[type=range]::-webkit-slider-thumb:hover { background: var(--accent); transform: scale(1.2); }
+
+input[type=range]::-moz-range-thumb {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--text2);
+  border: none;
+  cursor: pointer;
+}
+
+.vol-pct {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  color: var(--text3);
+  width: 28px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.hint-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 14px;
+}
+
+.hint {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  color: var(--text3);
+  letter-spacing: 0.08em;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+  text-align: center;
+}
+
+.left:hover .hint { opacity: 0.8; }
+
+.hint-keys { display: inline; }
+
+/* ── RIGHT ── */
+.right { min-width: 0; }
+
+.list-header {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text3);
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.list-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--text3);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 12px;
+  cursor: pointer;
+  transition: all 0.12s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.filter-btn:hover { border-color: var(--text2); color: var(--text2); }
+.filter-btn.active { border-color: var(--accent2); color: var(--accent); background: var(--accent-dim); }
+
+.search-wrap {
+  position: relative;
+  margin: 14px 0 6px;
+}
+
+.search-wrap input {
+  width: 100%;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  padding: 10px 14px 10px 34px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg2);
+  color: var(--text);
+  outline: none;
+  transition: all 0.2s;
+}
+
+.search-wrap input:focus { border-color: var(--accent2); box-shadow: 0 0 0 3px var(--accent-dim); }
+.search-wrap input::placeholder { color: var(--text3); }
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text3);
+  pointer-events: none;
+}
+
+.search-icon svg { width: 13px; height: 13px; fill: currentColor; }
+
+/* Station rows */
+.s-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 10px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.12s;
+  border-radius: 6px;
+  margin: 0 -10px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.s-row:hover {
+  background: rgba(197,165,90,0.03);
+  padding-left: 14px;
+}
+
+.s-row.active {
+  background: var(--accent-dim);
+  padding-left: 14px;
+  border-color: transparent;
+}
+
+.s-row.active + .s-row { border-top-color: transparent; }
+.s-row.active .s-name { color: var(--accent); font-weight: 600; }
+.s-row.disabled { opacity: .2; pointer-events: none; }
+.s-row.selected:not(.active) { box-shadow: inset 0 0 0 1px var(--accent2); }
+.s-row.hidden { display: none; }
+
+.s-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text3);
+  width: 20px;
+  text-align: right;
+  flex-shrink: 0;
+  transition: color 0.12s;
+}
+
+.s-row.active .s-num { color: var(--accent2); }
+
+.s-logo {
+  width: 38px; height: 38px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  flex-shrink: 0;
+  transition: all 0.12s;
+}
+
+.s-row:hover .s-logo { border-color: var(--border2); }
+.s-row.active .s-logo { border-color: var(--accent2); box-shadow: 0 0 0 2px var(--accent-dim); }
+
+.s-info { flex: 1; min-width: 0; }
+
+.s-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.12s;
+}
+
+.s-row:hover .s-name { color: var(--text); }
+
+.s-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 3px;
+  flex-wrap: wrap;
+}
+
+.s-kbps {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  color: var(--text3);
+}
+
+.s-quality {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.s-quality.hq { background: var(--accent-dim); color: var(--accent2); }
+.s-quality.lq { background: rgba(255,255,255,0.03); color: var(--text3); }
+
+.s-live {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  color: var(--accent2);
+  flex-shrink: 0;
+  display: flex; align-items: center; gap: 5px;
+  letter-spacing: 0.06em;
+}
+
+.s-live::before {
+  content: '';
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.s-fav {
+  flex-shrink: 0;
+  width: 24px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--border2);
+  transition: all 0.12s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.s-fav:hover { color: var(--accent); transform: scale(1.2); }
+.s-fav.favorited { color: var(--accent); }
+.s-fav svg { width: 12px; height: 12px; fill: currentColor; }
+
+.s-btn {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--text3);
+  flex-shrink: 0;
+  transition: all .12s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.s-btn:hover { border-color: var(--accent2); color: var(--accent); }
+.s-row.active .s-btn { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+
+.spin {
+  width: 11px; height: 11px;
+  border: 1.5px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: sp .6s linear infinite;
+}
+@keyframes sp { to{transform:rotate(360deg)} }
+
+.no-results {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--text3);
+  text-align: center;
+  padding: 40px 0;
+  display: none;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(60px);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  background: var(--bg3);
+  color: var(--text);
+  padding: 10px 22px;
+  border-radius: 8px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  opacity: 0;
+  transition: all 0.25s ease;
+  z-index: 100;
+  pointer-events: none;
+  border: 1px solid var(--border);
+  max-width: calc(100vw - 32px);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.error { border-color: rgba(196,64,64,0.3); color: #e88; }
+
+/* ── MOBILE PLAYER BAR ── */
+.mobile-player {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 10px 16px;
+  padding-bottom: max(10px, env(safe-area-inset-bottom));
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.mobile-player-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.mp-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.mp-name {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mp-name.off { color: var(--text3); }
+
+.mp-status {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  color: var(--text3);
+  margin-top: 2px;
+}
+
+.mp-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--border);
+  flex-shrink: 0;
+  transition: all 0.3s;
+}
+
+.mp-dot.on { background: var(--accent); box-shadow: 0 0 6px var(--accent); animation: pulse 2.5s ease-in-out infinite; }
+
+.mp-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  color: var(--text2);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: all 0.12s;
+}
+
+.mp-btn:active { transform: scale(0.9); }
+.mp-btn.active { border-color: var(--accent2); color: var(--accent); background: var(--accent-dim); }
+.mp-btn svg { width: 14px; height: 14px; fill: currentColor; }
+
+/* ────────────────────────────────────────
+   RESPONSIVE BREAKPOINTS
+   ──────────────────────────────────────── */
+
+/* Tablet */
+@media (max-width: 900px) {
+  .page {
+    grid-template-columns: 260px 1fr;
+    gap: 36px;
+    padding: 36px 24px 80px;
+  }
+
+  .radio-wrap { max-width: 260px; }
+  .status-panel { padding: 14px 16px; gap: 10px; }
+  .station-display { font-size: 12px; }
+  .s-logo { width: 34px; height: 34px; }
+}
+
+/* Small tablet / large phone */
+@media (max-width: 700px) {
+  .page {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 20px 16px 100px;
+  }
+
+  .left {
+    position: static;
+    width: 100%;
+  }
+
+  .radio-wrap {
+    max-width: 240px;
+    margin: 0 auto;
+  }
+
+  .hint-keys { display: none; }
+
+  .status-panel {
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hint-row { margin-top: 10px; }
+
+  .mobile-player { display: block; }
+
+  .list-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .list-header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .s-row {
+    gap: 10px;
+    padding: 12px 8px;
+    margin: 0 -8px;
+  }
+
+  .s-row:hover { padding-left: 8px; }
+  .s-row.active { padding-left: 8px; }
+
+  .s-live { display: none; }
+}
+
+/* Phone */
+@media (max-width: 480px) {
+  .page { padding: 16px 12px 100px; }
+
+  .radio-wrap { max-width: 200px; }
+
+  .status-panel { padding: 12px 14px; gap: 8px; border-radius: 10px; }
+  .station-display { font-size: 11px; }
+  .timer-display { font-size: 9px; }
+  .eq-row { height: 18px; }
+  @keyframes eq { 0%,100%{height:2px} 50%{height:14px} }
+
+  .controls-row { gap: 3px; }
+  .ctrl-btn { width: 30px; height: 28px; border-radius: 5px; }
+  .vol-wrap { min-width: 80px; margin-left: 4px; }
+
+  .search-wrap input { font-size: 11px; padding: 8px 12px 8px 30px; }
+
+  .s-row { gap: 8px; padding: 10px 6px; margin: 0 -6px; }
+  .s-logo { width: 32px; height: 32px; border-radius: 6px; }
+  .s-name { font-size: 12px; }
+  .s-kbps { font-size: 8px; }
+  .s-num { width: 16px; font-size: 9px; }
+  .s-btn { width: 28px; height: 28px; }
+  .s-fav { width: 20px; height: 20px; }
+  .s-fav svg { width: 10px; height: 10px; }
+
+  .filter-btn { padding: 3px 8px; font-size: 8px; }
+  .list-header { font-size: 9px; }
+
+  .hint { font-size: 8px; }
+  .toast { font-size: 10px; padding: 8px 16px; bottom: 70px; }
+}
+
+/* Very small */
+@media (max-width: 360px) {
+  .page { padding: 12px 8px 100px; }
+  .radio-wrap { max-width: 180px; }
+  .s-num { display: none; }
+  .s-quality { display: none; }
+  .s-fav { width: 18px; height: 18px; }
+  .controls-row { justify-content: center; }
+  .vol-wrap { min-width: 70px; }
+}
+
+/* Landscape phone */
+@media (max-height: 500px) and (orientation: landscape) {
+  .page {
+    grid-template-columns: 200px 1fr;
+    gap: 20px;
+    padding: 12px 16px 16px;
+  }
+
+  .left { position: static; }
+  .radio-wrap { max-width: 180px; }
+  .hint-row { display: none; }
+  .status-panel { padding: 10px 12px; gap: 6px; }
+  .station-display { font-size: 11px; }
+  .eq-row { height: 16px; }
+  .controls-row { gap: 2px; }
+  .ctrl-btn { width: 28px; height: 24px; }
+  .mobile-player { display: none; }
+}
+
+/* Prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- LEFT -->
+  <div class="left">
+    <div class="radio-wrap">
+      <svg id="radioSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 250" fill="none">
+        <path d="M 17.86,247.98 L 19.61,248.01 C 20.49,248.02 21.72,248.21 22.45,247.96 C 23.07,247.74 22.88,246.16 22.88,246.16 L 18.16,246.12 L 17.86,247.98 Z" fill="#1A171B"/>
+        <path d="M 220.56,247.98 L 222.31,248.01 C 223.19,248.02 224.42,248.21 225.15,247.96 C 225.77,247.74 225.58,246.16 225.58,246.16 L 220.86,246.12 L 220.56,247.98 Z" fill="#1A171B"/>
+        <path d="M 210.06,50.01 L 27.88,51.36 C 21.62,51.36 17.77,57.62 17.77,62.02 L 18.22,101.91 L 217.48,99.16 V 60.02 C 217.48,55.02 213.88,50.01 210.06,50.01 Z M 210.88,70.02 H 28.88 C 26.02,70.02 24.22,72.96 24.22,75.02 L 24.47,100.01 L 211.88,98.16 V 74.02 C 211.88,72.02 210.88,70.02 210.88,70.02 Z" fill="url(#p0)" stroke="#111" stroke-width="0.4"/>
+        <path d="M 205.88,50.01 L 205.62,64.51 L 31.62,63.76 V 51.36 L 205.88,50.01 Z" fill="url(#p1)"/>
+        <path d="M 205.62,64.01 V 65.01 L 31.38,65.51 V 64.51 L 205.62,64.01 Z" fill="url(#p2)"/>
+        <path d="M 215.88,73.52 C 215.88,69.02 212.88,67.02 209.88,67.02 H 29.88 C 25.88,67.02 22.22,68.52 22.22,73.52 L 22.47,100.16 L 24.72,100.14 L 24.47,74.52 C 24.47,72.02 26.38,70.02 28.88,70.02 L 207.38,69.52 C 210.38,69.52 211.88,71.02 211.88,74.02 V 98.66 L 215.88,98.62 V 73.52 Z" fill="url(#p3)"/>
+        <path d="M 127.01,48.82 L 90.48,13.41 L 89.71,12.71 L 88.88,13.51 L 81.88,5.91 L 82.11,5.26 L 77.71,2 L 75.41,4.71 L 78.41,8.11 L 79.11,7.71 L 86.21,15.21 L 85.81,16.21 L 87.91,18.31 L 120.41,48.91 L 127.01,48.82 Z" fill="url(#p4)" stroke="#111" stroke-width="0.5" stroke-linejoin="round"/>
+        <path d="M 80.71,5.11 L 79.11,6.71 L 76.51,4.31 L 78.01,2.41 L 80.71,5.11 Z" fill="url(#p5)" stroke="#111" stroke-width="0.5"/>
+        <path d="M 139.98,70.61 L 146.78,70.51 L 177.98,98.91 L 177.38,99.31 H 174.78 L 139.98,70.61 Z" fill="url(#p6)"/>
+        <path d="M 144.88,70.51 L 176.88,100.01 L 177.88,99.01 L 148.88,70.51 H 144.88 Z" fill="url(#p7)"/>
+        <path d="M 245.71,142.02 C 245.11,136.82 244.61,133.12 242.61,133.02 L 235.21,132.62 L 233.61,133.12 V 166.12 L 241.81,166.62 C 245.21,166.62 245.61,162.02 246.11,154.62 C 246.31,151.12 246.11,146.02 245.71,142.02 Z" fill="url(#p8)" stroke="#111" stroke-width="0.6"/>
+        <path d="M 245.71,142.02 L 233.61,143.02 V 145.02 L 246.01,144.62 Z" fill="url(#p9)"/>
+        <path d="M 246.11,150.02 L 233.61,150.62 V 152.62 L 245.91,152.82 Z" fill="url(#p10)"/>
+        <path d="M 245.41,157.02 L 233.61,157.62 V 159.62 L 244.91,159.42 Z" fill="url(#p11)"/>
+        <path d="M 226.88,98.71 L 12.38,100.71 C 7.62,100.71 4.38,105.91 4.38,108.41 V 239.91 C 4.38,244.91 7.62,247.66 12.62,247.66 L 226.62,246.16 C 232.12,246.16 234.38,241.91 234.38,238.66 V 106.16 C 234.38,102.16 231.38,98.71 226.88,98.71 Z M 228.38,134.12 C 228.38,136.02 227.21,137.62 224.88,137.62 L 12.88,138.62 C 10.88,138.62 10.38,137.12 10.38,135.62 V 109.62 C 10.38,107.62 11.62,106.12 13.88,106.12 L 224.88,105.12 C 227.12,105.12 228.38,106.12 228.38,108.12 V 134.12 Z" fill="url(#p12)" stroke="#111" stroke-width="0.75" stroke-linejoin="round"/>
+        <path d="M 117.12,142.71 H 15.12 C 11.88,142.71 10.12,145.46 10.12,148.21 V 236.71 C 10.12,239.96 12.38,241.91 15.12,241.91 H 117.12 C 120.12,241.91 121.88,239.41 121.88,236.41 V 147.91 C 121.88,144.91 119.88,142.71 117.12,142.71 Z M 119.38,236.16 C 119.38,238.66 117.88,239.91 115.38,239.91 H 16.12 C 13.62,239.91 12.38,238.16 12.38,235.91 V 149.16 C 12.38,146.66 13.88,145.16 16.38,145.16 H 115.88 C 118.38,145.16 119.38,146.66 119.38,148.91 V 236.16 Z" fill="url(#p13)" stroke="#111" stroke-width="0.75" stroke-linejoin="round"/>
+        <path id="svgScreen" d="M 115.88,146.16 H 16.12 C 14.12,146.16 13.38,147.41 13.38,149.16 V 235.91 C 13.38,237.66 14.38,238.91 16.12,238.91 H 115.88 C 117.88,238.91 118.38,237.66 118.38,236.16 V 148.66 C 118.38,147.16 117.62,146.16 115.88,146.16 Z" fill="#080806" stroke="#111" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.75 1.5"/>
+        <path d="M 117.88,147.16 L 13.12,237.91" stroke="#0f0f0d" stroke-width="0.75" stroke-linecap="round" stroke-dasharray="0.75 1.5"/><path d="M 117.88,153.16 L 16.12,240.91" stroke="#0f0f0d" stroke-width="0.75" stroke-linecap="round" stroke-dasharray="0.75 1.5"/><path d="M 117.88,159.16 L 22.12,240.91" stroke="#0f0f0d" stroke-width="0.75" stroke-linecap="round" stroke-dasharray="0.75 1.5"/><path d="M 117.88,165.16 L 27.62,240.91" stroke="#0f0f0d" stroke-width="0.75" stroke-linecap="round" stroke-dasharray="0.75 1.5"/><path d="M 117.88,171.16 L 33.62,240.91" stroke="#0f0f0d" stroke-width="0.75" stroke-linecap="round" stroke-dasharray="0.75 1.5"/><path d="M 117.88,177.16 L 39.62,240.91" stroke="#0f0f0d" stroke-width="0.75" stroke-linecap="round" stroke-dasharray="0.75 1.5"/><path d="M 117.88,183.16 L 45.62,240.91" stroke="#0f0f0d" stroke-width="0.75" stroke-linecap="round" stroke-dasharray="0.75 1.5"/><path d="M 117.88,189.16 L 51.62,240.91" stroke="#0f0f0d" stroke-width="0.75" stroke-linecap="round" stroke-dasharray="0.75 1.5"/><path d="M 117.88,195.16 L 57.62,240.91" stroke="#0f0f0d" stroke-width="0.75" stroke-linecap="round" stroke-dasharray="0.75 1.5"/><path d="M 117.88,201.16 L 63.62,240.91" stroke="#0f0f0d" stroke-width="0.75" stroke-linecap="round" stroke-dasharray="0.75 1.5"/><path d="M 117.88,207.16 L 69.62,240.91" stroke="#0f0f0d" stroke-width="0.75" stroke-linecap="round" stroke-dasharray="0.75 1.5"/><path d="M 117.88,213.16 L 75.62,240.91" stroke="#0f0f0d" stroke-width="0.75" stroke-linecap="round" stroke-dasharray="0.75 1.5"/><path d="M 117.88,219.16 L 81.62,240.91" stroke="#0f0f0d" stroke-width="0.75" stroke-linecap="round" stroke-dasharray="0.75 1.5"/><path d="M 117.88,225.16 L 87.62,240.91" stroke="#0f0f0d" stroke-width="0.75" stroke-linecap="round" stroke-dasharray="0.75 1.5"/><path d="M 117.88,231.16 L 93.62,240.91" stroke="#0f0f0d" stroke-width="0.75" stroke-linecap="round" stroke-dasharray="0.75 1.5"/>
+        <rect id="screenGlow" x="13.38" y="146.16" width="105" height="92.75" rx="2" fill="url(#glowGrad)" opacity="0"/>
+        <text id="screenLine1" x="65" y="168" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="6" fill="#2a2418" letter-spacing="1">COMEDY RADIO</text>
+        <text id="screenLine2" x="65" y="181" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="5.5" fill="#2a2418">OFF AIR</text>
+        <text id="screenLine3" x="65" y="192" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="4" fill="#2a2418" opacity="0.5"></text>
+        <g id="screenEq" transform="translate(22, 200)">
+          <rect class="seq" x="0" y="10" width="4.5" height="2" rx="0.5" fill="#2a2418"/><rect class="seq" x="6" y="10" width="4.5" height="2" rx="0.5" fill="#2a2418"/><rect class="seq" x="12" y="10" width="4.5" height="2" rx="0.5" fill="#2a2418"/><rect class="seq" x="18" y="10" width="4.5" height="2" rx="0.5" fill="#2a2418"/><rect class="seq" x="24" y="10" width="4.5" height="2" rx="0.5" fill="#2a2418"/><rect class="seq" x="30" y="10" width="4.5" height="2" rx="0.5" fill="#2a2418"/><rect class="seq" x="36" y="10" width="4.5" height="2" rx="0.5" fill="#2a2418"/><rect class="seq" x="42" y="10" width="4.5" height="2" rx="0.5" fill="#2a2418"/><rect class="seq" x="48" y="10" width="4.5" height="2" rx="0.5" fill="#2a2418"/><rect class="seq" x="54" y="10" width="4.5" height="2" rx="0.5" fill="#2a2418"/><rect class="seq" x="60" y="10" width="4.5" height="2" rx="0.5" fill="#2a2418"/><rect class="seq" x="66" y="10" width="4.5" height="2" rx="0.5" fill="#2a2418"/>
+        </g>
+        <g id="vuMeter" transform="translate(25, 220)">
+          <text x="0" y="0" font-family="'IBM Plex Mono',monospace" font-size="3" fill="#2a2418" opacity="0.4">VU</text>
+          <rect x="10" y="-4" width="70" height="4" rx="1" fill="#050504" stroke="#2a2418" stroke-width="0.2"/>
+          <rect id="vuBar" x="10.5" y="-3.5" width="0" height="3" rx="0.5" fill="#2a2418"/>
+          <rect id="vuPeak" x="10.5" y="-3.5" width="1" height="3" rx="0.5" fill="#c5a55a" opacity="0"/>
+        </g>
+        <text id="freqDisplay" x="65" y="234" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="4.5" fill="#2a2418" opacity="0.3">88.0 MHz</text>
+        <path d="M 78.26,192.09 C 78.26,198.98 72.68,203.46 67.12,203.46 C 61.24,203.46 55.98,198.69 55.98,192.63 C 55.98,186.27 61.54,181.11 67.12,181.11 C 73.39,181.11 78.26,186.57 78.26,192.09 Z" stroke="#333" stroke-width="0.75" stroke-linecap="round" stroke-dasharray="0.75 1.5"/><path d="M 75.26,192.09 C 75.26,197.16 70.98,200.46 67.12,200.46 C 62.74,200.46 58.98,196.87 58.98,192.33 C 58.98,187.56 63.26,183.61 67.12,183.61 C 71.79,183.61 75.26,187.76 75.26,192.09 Z" stroke="#333" stroke-width="0.75" stroke-linecap="round" stroke-dasharray="0.75 1.5"/><path d="M 72.76,192.09 C 72.76,195.58 69.78,197.96 67.12,197.96 C 63.94,197.96 61.48,195.28 61.48,192.19 C 61.48,188.85 64.46,186.11 67.12,186.11 C 70.38,186.11 72.76,189.05 72.76,192.09 Z" stroke="#333" stroke-width="0.75" stroke-linecap="round" stroke-dasharray="0.75 1.5"/>
+        <path d="M 226.38,142.21 H 180.88 V 153.71 H 226.38 V 142.21 Z" fill="url(#p14)" stroke="#111" stroke-width="0.5"/><path d="M 225.62,151.62 H 204.38 V 163.62 H 225.62 V 151.62 Z" fill="url(#p15)" stroke="#111" stroke-width="0.5"/><path d="M 203.62,151.62 H 181.12 V 163.62 H 203.62 V 151.62 Z" fill="url(#p16)" stroke="#111" stroke-width="0.5"/><path d="M 178.38,143.21 H 134.38 V 163.71 H 178.38 V 143.21 Z" fill="url(#p17)" stroke="#111"/>
+        <g id="playHitArea"><rect x="135" y="144" width="42" height="18" rx="3" fill="transparent"/><polygon id="svgPlayIcon" points="148,149 148,157 156,153" fill="#555"/><text id="playLabel" x="158" y="156" font-family="'IBM Plex Mono',monospace" font-size="5" fill="#555">PLAY</text></g>
+        <g id="stopHitArea"><rect x="182" y="152" width="21" height="10" rx="2" fill="transparent"/><rect x="188" y="155" width="6" height="6" rx="1" fill="#555"/><text x="195" y="160" font-family="'IBM Plex Mono',monospace" font-size="4" fill="#555">STOP</text></g>
+        <path d="M 195.12,167.01 H 193.62 C 190.72,167.01 188.62,167.21 188.62,170.01 C 188.62,172.31 190.72,172.81 193.62,172.81 H 195.12 C 198.02,172.81 200.12,172.31 200.12,170.01 C 200.12,167.21 198.02,167.01 195.12,167.01 Z" fill="#080808" stroke="#333" stroke-width="0.5"/><path d="M 145.88,166.81 H 143.88 C 140.38,166.81 137.88,166.91 137.88,170.01 C 137.88,172.41 140.38,173.01 143.88,173.01 H 145.88 C 149.38,173.01 151.88,172.41 151.88,170.01 C 151.88,166.91 149.38,166.81 145.88,166.81 Z" fill="#080808" stroke="#333" stroke-width="0.5"/>
+        <g id="dialGroup">
+          <path d="M 223.88,204.11 C 223.88,219.85 210.62,233.61 193.88,233.61 C 178.14,233.61 165.38,220.85 165.38,205.11 C 165.38,189.37 177.64,176.11 193.38,176.11 C 208.62,176.11 223.88,187.37 223.88,204.11 Z" fill="#1a1a1c" stroke="#333" stroke-width="1.5"/>
+          <path d="M 193.88,173.61 V 176.61" stroke="#444" stroke-width="0.5"/><path d="M 197.38,173.61 L 196.88,176.11" stroke="#444" stroke-width="0.5"/><path d="M 200.88,174.11 L 199.88,176.61" stroke="#444" stroke-width="0.5"/><path d="M 204.88,175.11 L 203.38,177.61" stroke="#444" stroke-width="0.5"/><path d="M 208.38,176.61 L 206.38,179.61" stroke="#444" stroke-width="0.5"/><path d="M 211.88,178.61 L 209.88,181.61" stroke="#444" stroke-width="0.5"/><path d="M 215.38,181.11 L 212.88,184.11" stroke="#444" stroke-width="0.5"/><path d="M 218.88,184.61 L 215.88,187.11" stroke="#444" stroke-width="0.5"/><path d="M 220.88,188.11 L 217.88,189.61" stroke="#444" stroke-width="0.5"/><path d="M 222.88,192.11 L 219.88,193.11" stroke="#444" stroke-width="0.5"/><path d="M 224.88,197.61 L 221.38,198.11" stroke="#444" stroke-width="0.5"/><path d="M 225.38,202.11 H 222.38" stroke="#444" stroke-width="0.5"/><path d="M 225.38,207.11 L 222.38,206.61" stroke="#444" stroke-width="0.5"/><path d="M 223.88,212.11 L 220.88,210.61" stroke="#444" stroke-width="0.5"/><path d="M 222.38,217.11 L 219.38,215.11" stroke="#444" stroke-width="0.5"/><path d="M 218.88,224.11 L 216.38,221.61" stroke="#444" stroke-width="0.5"/><path d="M 165.88,212.61 L 167.38,213.61" stroke="#444" stroke-width="0.5"/><path d="M 164.38,207.61 L 162.38,208.11" stroke="#444" stroke-width="0.5"/><path d="M 164.38,202.61 H 161.88" stroke="#444" stroke-width="0.5"/><path d="M 164.88,197.61 L 162.38,197.11" stroke="#444" stroke-width="0.5"/><path d="M 166.38,193.11 L 163.88,192.11" stroke="#444" stroke-width="0.5"/><path d="M 168.88,188.61 L 166.38,187.11" stroke="#444" stroke-width="0.5"/><path d="M 172.88,183.61 L 170.38,181.11" stroke="#444" stroke-width="0.5"/><path d="M 175.88,181.11 L 174.38,178.61" stroke="#444" stroke-width="0.5"/><path d="M 180.38,178.11 L 178.88,175.61" stroke="#444" stroke-width="0.5"/><path d="M 184.38,176.61 L 183.38,174.61" stroke="#444" stroke-width="0.5"/><path d="M 188.38,175.61 L 187.88,173.61" stroke="#444" stroke-width="0.5"/>
+          <g id="dialWheel" style="transform-origin: 193.38px 205.11px; transform: rotate(0deg);">
+            <path d="M 215.38,205.11 C 215.38,216.43 205.7,225.61 193.38,225.61 C 182.06,225.61 172.88,216.43 172.88,205.11 C 172.88,193.79 182.06,183.61 193.38,183.61 C 204.2,183.61 215.38,192.79 215.38,205.11 Z" fill="url(#p18)" stroke="#222" stroke-width="2"/>
+            <line x1="193.38" y1="185.61" x2="193.38" y2="192" stroke="#c5a55a" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M 184.62,187.11 L 193.12,205.11 L 203.62,187.61 C 203.62,187.61 199.12,184.61 193.62,185.11 C 188.12,185.61 184.62,187.11 184.62,187.11 Z" fill="url(#p19)"/><path d="M 183.88,213.11 L 192.88,204.61 L 193.38,217.61 L 192.62,223.11 C 192.62,223.11 187.12,222.11 185.12,220.11 C 183.12,218.11 183.88,213.11 183.88,213.11 Z" fill="url(#p20)"/>
+          </g>
+        </g>
+        <path d="M 145.62,201.11 H 144.38 C 140.88,201.11 138.12,201.21 138.12,204.61 C 138.12,207.21 140.88,207.81 144.38,207.81 H 145.62 C 149.12,207.81 151.88,207.21 151.88,204.61 C 151.88,201.21 149.12,201.11 145.62,201.11 Z" fill="#080808" stroke="#333" stroke-width="0.5"/><path d="M 146.62,211.11 H 145.88 C 139.88,211.11 133.62,214.36 133.62,222.11 C 133.62,228.11 138.62,232.61 144.62,232.61 C 151.12,232.61 156.12,227.61 156.12,221.61 C 156.12,215.61 151.62,211.11 146.62,211.11 Z" fill="url(#p21)" stroke="#222" stroke-width="1.25"/><path d="M 145.88,177.11 H 145.62 C 139.12,177.11 133.12,181.36 133.12,188.61 C 133.12,195.11 138.12,200.11 144.12,200.11 C 150.62,200.11 155.88,194.61 155.88,188.11 C 155.88,182.11 151.38,177.11 145.88,177.11 Z" fill="url(#p22)" stroke="#222" stroke-width="1.25"/><path d="M 152.88,188.61 C 152.88,193.86 148.38,197.86 144.38,197.86 C 139.62,197.86 135.88,193.61 135.88,188.86 C 135.88,183.61 140.12,179.36 144.62,179.36 C 149.62,179.36 152.88,184.36 152.88,188.61 Z" stroke="#222" stroke-width="0.75"/><path d="M 153.38,221.86 C 153.38,227.11 149.12,230.61 145.12,230.61 C 140.38,230.61 136.62,226.61 136.62,221.61 C 136.62,216.36 140.88,212.61 145.12,212.61 C 150.12,212.61 153.38,217.11 153.38,221.86 Z" stroke="#222" stroke-width="0.75"/><path d="M 143.38,178.61 C 141.12,178.61 139.62,181.11 139.62,185.11 V 191.11 C 139.62,194.11 141.12,196.61 143.38,196.61 C 145.62,196.61 146.62,194.61 146.62,190.61 V 184.61 C 146.62,181.11 145.62,178.61 143.38,178.61 Z" fill="#0a0a0a"/><path d="M 144.88,210.61 C 142.12,210.61 140.62,213.11 140.62,217.61 L 141.12,224.61 C 141.12,228.11 142.62,230.61 144.88,230.61 C 146.62,230.61 148.12,228.61 147.62,224.11 L 147.12,217.11 C 146.62,213.11 146.62,210.61 144.88,210.61 Z" fill="#0a0a0a"/><path d="M 167.12,222.61 H 164.12 C 162.12,222.61 161.12,222.81 161.12,224.61 C 161.12,226.11 162.12,226.61 164.12,226.61 H 167.12 C 168.62,226.61 170.12,226.11 170.12,224.61 C 170.12,222.81 168.62,222.61 167.12,222.61 Z" fill="#3a3530" stroke="#222" stroke-width="0.5"/>
+        <defs>
+          <linearGradient id="glowGrad" x1="65" y1="146" x2="65" y2="239" gradientUnits="userSpaceOnUse"><stop stop-color="#c5a55a" stop-opacity="0.08"/><stop offset="0.5" stop-color="#e8c88a" stop-opacity="0.05"/><stop offset="1" stop-color="#c5a55a" stop-opacity="0.06"/></linearGradient>
+          <linearGradient id="p0" x1="117" y1="50" x2="117" y2="102" gradientUnits="userSpaceOnUse"><stop stop-color="#3a3632"/><stop offset="1" stop-color="#1a1816"/></linearGradient>
+          <linearGradient id="p1" x1="118" y1="50" x2="118" y2="65" gradientUnits="userSpaceOnUse"><stop stop-color="#3e3a36"/><stop offset="1" stop-color="#2a2622"/></linearGradient>
+          <linearGradient id="p2" x1="118" y1="64" x2="118" y2="66" gradientUnits="userSpaceOnUse"><stop stop-color="#1a1a1a"/><stop offset="1" stop-color="#0a0a0a"/></linearGradient>
+          <linearGradient id="p3" x1="119" y1="67" x2="119" y2="100" gradientUnits="userSpaceOnUse"><stop stop-color="#2a2824"/><stop offset="1" stop-color="#181614"/></linearGradient>
+          <linearGradient id="p4" x1="100" y1="2" x2="127" y2="49" gradientUnits="userSpaceOnUse"><stop stop-color="#3a3630"/><stop offset="1" stop-color="#1a1814"/></linearGradient>
+          <linearGradient id="p5" x1="78" y1="2" x2="80" y2="7" gradientUnits="userSpaceOnUse"><stop stop-color="#2a2824"/><stop offset="1" stop-color="#111"/></linearGradient>
+          <linearGradient id="p6" x1="158" y1="70" x2="178" y2="99" gradientUnits="userSpaceOnUse"><stop stop-color="#302c28"/><stop offset="1" stop-color="#1a1816"/></linearGradient>
+          <linearGradient id="p7" x1="161" y1="70" x2="178" y2="100" gradientUnits="userSpaceOnUse"><stop stop-color="#282420"/><stop offset="1" stop-color="#141210"/></linearGradient>
+          <linearGradient id="p8" x1="239" y1="132" x2="246" y2="167" gradientUnits="userSpaceOnUse"><stop stop-color="#3a3632"/><stop offset="1" stop-color="#1a1816"/></linearGradient>
+          <linearGradient id="p9" x1="239" y1="142" x2="246" y2="145" gradientUnits="userSpaceOnUse"><stop stop-color="#080808"/><stop offset="1" stop-color="#1a1818"/></linearGradient>
+          <linearGradient id="p10" x1="239" y1="150" x2="246" y2="153" gradientUnits="userSpaceOnUse"><stop stop-color="#080808"/><stop offset="1" stop-color="#1a1818"/></linearGradient>
+          <linearGradient id="p11" x1="239" y1="157" x2="245" y2="160" gradientUnits="userSpaceOnUse"><stop stop-color="#080808"/><stop offset="1" stop-color="#1a1818"/></linearGradient>
+          <linearGradient id="p12" x1="119" y1="98" x2="119" y2="248" gradientUnits="userSpaceOnUse"><stop stop-color="#3a3632"/><stop offset="1" stop-color="#1e1c1a"/></linearGradient>
+          <linearGradient id="p13" x1="65" y1="142" x2="65" y2="242" gradientUnits="userSpaceOnUse"><stop stop-color="#2a2824"/><stop offset="1" stop-color="#161412"/></linearGradient>
+          <linearGradient id="p14" x1="203" y1="142" x2="203" y2="154" gradientUnits="userSpaceOnUse"><stop stop-color="#2a2826"/><stop offset="1" stop-color="#141210"/></linearGradient>
+          <linearGradient id="p15" x1="215" y1="151" x2="215" y2="164" gradientUnits="userSpaceOnUse"><stop stop-color="#242220"/><stop offset="1" stop-color="#101010"/></linearGradient>
+          <linearGradient id="p16" x1="192" y1="151" x2="192" y2="164" gradientUnits="userSpaceOnUse"><stop stop-color="#242220"/><stop offset="1" stop-color="#101010"/></linearGradient>
+          <linearGradient id="p17" x1="156" y1="143" x2="156" y2="164" gradientUnits="userSpaceOnUse"><stop stop-color="#2e2c28"/><stop offset="1" stop-color="#161412"/></linearGradient>
+          <linearGradient id="p18" x1="193" y1="183" x2="193" y2="226" gradientUnits="userSpaceOnUse"><stop stop-color="#1a1a1c"/><stop offset="1" stop-color="#080808"/></linearGradient>
+          <linearGradient id="p19" x1="194" y1="184" x2="194" y2="205" gradientUnits="userSpaceOnUse"><stop stop-color="#222"/><stop offset="1" stop-color="#0e0e0e"/></linearGradient>
+          <linearGradient id="p20" x1="188" y1="204" x2="193" y2="223" gradientUnits="userSpaceOnUse"><stop stop-color="#151515"/><stop offset="1" stop-color="#050505"/></linearGradient>
+          <linearGradient id="p21" x1="144" y1="211" x2="144" y2="233" gradientUnits="userSpaceOnUse"><stop stop-color="#1a1a1a"/><stop offset="1" stop-color="#060606"/></linearGradient>
+          <linearGradient id="p22" x1="144" y1="177" x2="144" y2="200" gradientUnits="userSpaceOnUse"><stop stop-color="#1a1a1a"/><stop offset="1" stop-color="#060606"/></linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <div class="hint-row">
+      <span class="hint">DRAG DIAL / CLICK PLAY / STOP</span>
+      <span class="hint hint-keys">SPACE: PLAY &middot; ARROWS: NAV &middot; M: MUTE</span>
+    </div>
+
+    <div class="status-panel">
+      <div class="status-top">
+        <span class="status-label" id="statusLabel">SIGNAL</span>
+        <div class="status-dot" id="statusDot"></div>
+      </div>
+      <div class="station-display off" id="statusName">-- OFF AIR --</div>
+      <div class="timer-display" id="timerDisplay">00:00:00</div>
+      <div class="eq-row" id="eqRow">
+        <div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div>
+      </div>
+      <div class="controls-row">
+        <button class="ctrl-btn" id="prevBtn" title="Previous"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg></button>
+        <button class="ctrl-btn" id="playPauseBtn" title="Play / Pause"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></button>
+        <button class="ctrl-btn stop-btn" id="stopBtn" title="Stop"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12"/></svg></button>
+        <button class="ctrl-btn" id="nextBtn" title="Next"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg></button>
+<div>
+            <div class="vol-wrap">
+          <span class="vol-icon" id="volIcon"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></span>
+          <input type="range" id="vol" min="0" max="1" step="0.02" value="0.8">
+          <span class="vol-pct" id="volPct">80%</span>
+        </div>
+</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right">
+    <div class="list-header">
+      <span>STATIONS</span>
+      <div class="list-header-right">
+        <button class="filter-btn active" id="filterAll">ALL</button>
+        <button class="filter-btn" id="filterFav">SAVED</button>
+        <span id="listLabel">9 available</span>
+      </div>
+    </div>
+    <div class="search-wrap">
+      <span class="search-icon"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></span>
+      <input type="text" id="searchInput" placeholder="Search stations...">
+    </div>
+    <div id="sList"></div>
+    <div class="no-results" id="noResults">No stations found</div>
+  </div>
+</div>
+
+<!-- MOBILE PLAYER BAR -->
+<div class="mobile-player" id="mobilePlayer">
+  <div class="mobile-player-inner">
+    <div class="mp-dot" id="mpDot"></div>
+    <div class="mp-info">
+      <div class="mp-name off" id="mpName">-- OFF AIR --</div>
+      <div class="mp-status" id="mpStatus">Select a station</div>
+    </div>
+    <button class="mp-btn" id="mpPrev"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg></button>
+    <button class="mp-btn" id="mpPlay"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></button>
+    <button class="mp-btn" id="mpNext"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg></button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const stations = [
+    // === COMEDY ===
+  {n:"Old School Comedy Radio",    b:"128", u:"http://198.178.123.8:8454/stream/1/",                                                                                                                                                                                   l:"http://radio.pervii.com/im/0/1555327150.jpg"},
+  {n:"Comedy 977",                 b:"128", u:"https://17573.live.streamtheworld.com/977_COMEDY.mp3",                                                                                                                                                                  l:"http://radio.pervii.com/logo/102409.jpg"},
+
+  // === HIP HOP ===
+  {n:"Best Hip Hop & RnB",         b:"128", u:"http://192.99.8.192:3132/stream/1/",                                                                                                                                                                                    l:"http://radio.pervii.com/im/6/1550196136.jpg"},
+  {n:"Southern Xsposure Hip Hop",  b:"128", u:"http://usa10.fastcast4u.com:8210/stream/1/",                                                                                                                                                                            l:"http://radio.pervii.com/im/4/1537528414.jpg"},
+  {n:"bigFM US Rap & HipHop",      b:"64",  u:"https://audiotainment-sw.streamabc.net/atsw-ushiphop-aacplus-64-3296485?sABC=69o19n09%230%23so0rsorp552rr895nsn5577rsr5273sr%23gjy&aw_0_1st.playerid=twl&amsparams=playerid:twl;skey:1773246985",                      l:"http://radio.pervii.com/logo/94123.jpg"},
+
+  // === RNB ===
+  {n:"RnB Channel HD",             b:"128", u:"http://192.99.8.192:3132/stream/1/",                                                                                                                                                                                    l:"http://radio.pervii.com/im/6/1550196136.jpg"},
+
+  // === SOUL ===
+  {n:"Energy FM Old School Soul",  b:"128", u:"http://162.244.80.106:8024/stream/1/",                                                                                                                                                                                  l:"http://radio.pervii.com/im/1/1550323001.jpg"},
+
+  // === JAZZ ===
+  // Logo: "Jazz and Cinema par Jazz Radio" from SOUL playlist — same pervii jazz logo family
+  {n:"Best Jazz",                  b:"128", u:"http://149.202.22.75:8284/stream/1/",                                                                                                                                                                                   l:"http://radio.pervii.com/im/9/1561136749.jpg"},
+
+  // === COUNTRY ===
+  // Logo: WKIZ Kizz Radio from SOUL playlist — closest available country-adjacent pervii logo
+  {n:"Country Radio",              b:"128", u:"http://45.79.186.124:8416/stream/1/",                                                                                                                                                                                   l:"http://radio.pervii.com/im/7/1551052627.jpg"},
+
+  // === REGGAE ===
+  {n:"La Grosse Radio Reggae",     b:"192", u:"http://hd.lagrosseradio.info:8000/lagrosseradio-reggae-192.mp3",                                                                                                                                                        l:"https://static2.mytuner.mobi/media/tvos_radios/349/la-grosse-radio-reggae.040df364.jpg"},
+
+
+  // === MOTION / CHILL ===
+  {n:"Deep Motion FM",             b:"64",  u:"https://vm.motionfm.com/motiontwo_aacp?=2",                                                                                                                                                                            l:"http://radio.pervii.com/im/4/1561691364.jpg"},
+
+  // === AFRICAN / SWAHILI ===
+  {n:"Bongo Radio – Zilizopendwa", b:"128", u:"http://173.244.208.77:8000/stream/3/",                                                                                                                                                                                  l:"http://radio.pervii.com/im/1/1561114721.jpg"},
+
+// === POP ===
+  {n:"M1 Latest Pop",              b:"128", u:"https://radio.m-1.fm/m1/mp3",                                                                                                                                                                                          l:"https://static2.mytuner.mobi/media/tvos_radios/631/m1fm-hits.e06fc965.jpg"},
+  {n:"M1 Top Songs",               b:"128", u:"https://tuner.m1.fm/charts.mp3",                                                                                                                                                                                        l:"https://static2.mytuner.mobi/media/tvos_radios/631/m1fm-hits.e06fc965.jpg"},
+  {n:"Pocket Radio Pop",           b:"128", u:"https://pocketradio.stream.laut.fm/pocketradio?t302=2026-03-11_16-37-10&uuid=112181bc-c667-4ab2-a24f-9e165cb75f46",                                                                                                     l:"http://radio.pervii.com/logo/1403554005.png"},
+
+];
+
+
+const playable=stations.filter(s=>s.u);
+const PL=`<polygon points="5,3 19,12 5,21"/>`,PA=`<rect x="5" y="4" width="4" height="16"/><rect x="13" y="4" width="4" height="16"/>`;
+const sv=c=>`<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">${c}</svg>`;
+const SE=`<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="none" stroke="currentColor" stroke-width="2"/></svg>`;
+const SF=`<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
+
+let favs=JSON.parse(localStorage.getItem('rf')||'[]');
+const sl=document.getElementById('sList');
+stations.forEach((s,i)=>{const hq=parseInt(s.b)>=128,fv=favs.includes(i),el=document.createElement('div');el.className='s-row'+(s.u?'':' disabled');el.dataset.i=i;el.innerHTML=`<span class="s-num">${String(i+1).padStart(2,'0')}</span><img class="s-logo" src="${s.l}" alt="" loading="lazy" onerror="this.style.opacity=0"><div class="s-info"><div class="s-name">${s.n}</div><div class="s-meta"><span class="s-kbps">${s.b} / ${s.f} MHz</span><span class="s-quality ${hq?'hq':'lq'}">${hq?'HQ':'LQ'}</span></div></div>${s.u?'<span class="s-live">LIVE</span>':''}<span class="s-fav ${fv?'favorited':''}" data-fav="${i}">${fv?SF:SE}</span>${s.u?`<button class="s-btn">${sv(PL)}</button>`:''}`;if(s.u)el.addEventListener('click',e=>{if(e.target.closest('.s-fav'))return;doPlay(i)});sl.appendChild(el)});
+
+document.querySelectorAll('.s-fav').forEach(el=>{el.addEventListener('click',e=>{e.stopPropagation();const idx=parseInt(el.dataset.fav);if(favs.includes(idx)){favs=favs.filter(f=>f!==idx);el.classList.remove('favorited');el.innerHTML=SE}else{favs.push(idx);el.classList.add('favorited');el.innerHTML=SF}localStorage.setItem('rf',JSON.stringify(favs));applyFilters()})});
+
+const searchInput=document.getElementById('searchInput'),noResults=document.getElementById('noResults'),filterAll=document.getElementById('filterAll'),filterFav=document.getElementById('filterFav');
+let fMode='all';
+filterAll.addEventListener('click',()=>{fMode='all';filterAll.classList.add('active');filterFav.classList.remove('active');applyFilters()});
+filterFav.addEventListener('click',()=>{fMode='fav';filterFav.classList.add('active');filterAll.classList.remove('active');applyFilters()});
+searchInput.addEventListener('input',applyFilters);
+
+function applyFilters(){const q=searchInput.value.toLowerCase().trim();let v=0;document.querySelectorAll('.s-row').forEach(r=>{const i=parseInt(r.dataset.i),s=stations[i],ms=!q||s.n.toLowerCase().includes(q),mf=fMode==='all'||favs.includes(i);if(!s.u){r.classList.toggle('hidden',fMode==='fav'||(q&&!ms))}else{const show=ms&&mf;r.classList.toggle('hidden',!show);if(show)v++}});noResults.style.display=v===0?'block':'none'}
+
+let audio=null,cur=null,isOn=false,dialAngle=0,playStart=null,tmr=null;
+const $=id=>document.getElementById(id);
+const radioSvg=$('radioSvg'),dialWheel=$('dialWheel'),svgScreen=$('svgScreen'),screenGlow=$('screenGlow');
+const sL1=$('screenLine1'),sL2=$('screenLine2'),sL3=$('screenLine3'),seqBars=document.querySelectorAll('.seq');
+const svgPI=$('svgPlayIcon'),pLabel=$('playLabel'),sDot=$('statusDot'),sLabel=$('statusLabel');
+const sName=$('statusName'),tDisp=$('timerDisplay'),eqR=$('eqRow'),lLabel=$('listLabel');
+const vol=$('vol'),vPct=$('volPct'),vIcon=$('volIcon'),ppBtn=$('playPauseBtn');
+const stBtn=$('stopBtn'),prBtn=$('prevBtn'),nxBtn=$('nextBtn');
+const vuB=$('vuBar'),vuP=$('vuPeak'),fDisp=$('freqDisplay'),toast=$('toast');
+const mpName=$('mpName'),mpStatus=$('mpStatus'),mpDot=$('mpDot'),mpPlay=$('mpPlay');
+
+let vuAF=null;
+function animVU(){if(!isOn){vuB.setAttribute('width','0');vuP.setAttribute('opacity','0');return}const l=Math.random()*55+8;let pk=parseFloat(vuP.getAttribute('x'))-10.5;if(l>pk)pk=l;else pk=Math.max(0,pk-0.6);vuB.setAttribute('width',String(l));vuB.setAttribute('fill',l>55?'#c44040':l>40?'#c5a55a':'#a88c3a');vuP.setAttribute('opacity','0.7');vuP.setAttribute('x',String(10.5+pk));vuP.setAttribute('fill',pk>55?'#c44040':'#c5a55a');vuAF=requestAnimationFrame(animVU)}
+
+let tTO;function showToast(m,t='info'){clearTimeout(tTO);toast.textContent=m;toast.className='toast'+(t==='error'?' error':'');requestAnimationFrame(()=>toast.classList.add('show'));tTO=setTimeout(()=>toast.classList.remove('show'),2200)}
+
+function startTmr(){playStart=Date.now();clearInterval(tmr);tmr=setInterval(updTmr,1000)}
+function stopTmr(){clearInterval(tmr);playStart=null;tDisp.textContent='00:00:00';tDisp.classList.remove('on')}
+function updTmr(){if(!playStart)return;const e=Math.floor((Date.now()-playStart)/1000);tDisp.textContent=[Math.floor(e/3600),Math.floor((e%3600)/60),e%60].map(v=>String(v).padStart(2,'0')).join(':')}
+
+vol.addEventListener('input',()=>{const v=parseFloat(vol.value);if(audio)audio.volume=v;vPct.textContent=Math.round(v*100)+'%';updVI(v)});
+function updVI(v){const p=v===0?`<path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>`:v<0.5?`<path d="M7 9v6h4l5 5V4l-5 5H7z"/>`:`<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>`;vIcon.innerHTML=`<svg viewBox="0 0 24 24">${p}</svg>`}
+
+// Dial
+const DCX=193.38,DCY=205.11;
+function gPt(e,s){const p=s.createSVGPoint(),t=e.touches?e.touches[0]:e;p.x=t.clientX;p.y=t.clientY;return p.matrixTransform(s.getScreenCTM().inverse())}
+let drg=false,dsa=0,dda=0;
+function aFC(p){return Math.atan2(p.y-DCY,p.x-DCX)*180/Math.PI}
+const dGr=$('dialGroup');
+dGr.addEventListener('mousedown',sD);dGr.addEventListener('touchstart',sD,{passive:false});
+function sD(e){e.preventDefault();drg=true;const p=gPt(e,radioSvg);dsa=aFC(p);dda=dialAngle;document.addEventListener('mousemove',oD);document.addEventListener('touchmove',oD,{passive:false});document.addEventListener('mouseup',eD);document.addEventListener('touchend',eD)}
+function oD(e){if(!drg)return;e.preventDefault();const p=gPt(e,radioSvg),d=aFC(p)-dsa;dialAngle=dda+d;dialWheel.style.transform=`rotate(${dialAngle}deg)`;const step=360/playable.length;let idx=Math.floor(((dialAngle%360)+360)%360/step)%playable.length;const si=stations.indexOf(playable[idx]);selSt(si);const s=stations[si];if(s)fDisp.textContent=`${s.f||'--'} MHz`}
+function eD(){drg=false;document.removeEventListener('mousemove',oD);document.removeEventListener('touchmove',oD);document.removeEventListener('mouseup',eD);document.removeEventListener('touchend',eD)}
+
+$('playHitArea').addEventListener('click',e=>{e.stopPropagation();if(cur===null&&selected!==null){doPlay(selected);return}if(cur===null)return;isOn?doPause():doResume()});
+$('stopHitArea').addEventListener('click',e=>{e.stopPropagation();stopAll()});
+
+ppBtn.addEventListener('click',()=>{if(cur===null&&selected!==null){doPlay(selected);return}if(cur===null&&playable.length>0){doPlay(stations.indexOf(playable[0]));return}if(cur===null)return;isOn?doPause():doResume()});
+stBtn.addEventListener('click',stopAll);
+prBtn.addEventListener('click',()=>{if(!playable.length)return;const ci=cur!==null?playable.indexOf(stations[cur]):0;doPlay(stations.indexOf(playable[(ci-1+playable.length)%playable.length]))});
+nxBtn.addEventListener('click',()=>{if(!playable.length)return;const ci=cur!==null?playable.indexOf(stations[cur]):-1;doPlay(stations.indexOf(playable[(ci+1)%playable.length]))});
+
+// Mobile player
+mpPlay.addEventListener('click',()=>{if(cur===null&&selected!==null){doPlay(selected);return}if(cur===null&&playable.length>0){doPlay(stations.indexOf(playable[0]));return}if(cur===null)return;isOn?doPause():doResume()});
+$('mpPrev').addEventListener('click',()=>prBtn.click());
+$('mpNext').addEventListener('click',()=>nxBtn.click());
+
+document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;switch(e.key){case' ':e.preventDefault();ppBtn.click();break;case'ArrowRight':e.preventDefault();nxBtn.click();break;case'ArrowLeft':e.preventDefault();prBtn.click();break;case'ArrowUp':e.preventDefault();vol.value=Math.min(1,parseFloat(vol.value)+0.05);vol.dispatchEvent(new Event('input'));break;case'ArrowDown':e.preventDefault();vol.value=Math.max(0,parseFloat(vol.value)-0.05);vol.dispatchEvent(new Event('input'));break;case's':case'S':stopAll();break;case'm':case'M':if(audio){audio.muted=!audio.muted;showToast(audio.muted?'Muted':'Unmuted')}break}const n=parseInt(e.key);if(n>=1&&n<=9&&n<=stations.length){const s=stations[n-1];if(s.u)doPlay(n-1)}});
+
+const row=i=>sl.querySelector(`[data-i="${i}"]`);
+function mA(i,on){const el=row(i);if(!el)return;el.classList.toggle('active',on);const b=el.querySelector('.s-btn');if(!b)return;b.innerHTML=sv(on?PA:PL)}
+function mL(i,on){const b=row(i)?.querySelector('.s-btn');if(!b)return;b.innerHTML=on?`<div class="spin"></div>`:sv(PL)}
+function uPP(s){ppBtn.innerHTML=`<svg viewBox="0 0 24 24">${s==='playing'?PA:PL}</svg>`;ppBtn.classList.toggle('active',s==='playing');mpPlay.innerHTML=`<svg viewBox="0 0 24 24">${s==='playing'?PA:PL}</svg>`;mpPlay.classList.toggle('active',s==='playing')}
+
+const SC={off:'#080806',loading:'#0a0908',on:'#0c0b08',paused:'#090908'},TC={off:'#2a2418',loading:'#5a4a2a',on:'#c5a55a',paused:'#5a4a30'};
+
+function setSS(state,name){
+  svgScreen.setAttribute('fill',SC[state]||'#080806');
+  [sL1,sL2,sL3].forEach(t=>t.setAttribute('fill',TC[state]||'#2a2418'));
+
+  // Mobile player sync
+  if(state==='off'){mpName.textContent='-- OFF AIR --';mpName.className='mp-name off';mpStatus.textContent='Select a station';mpDot.classList.remove('on')}
+  else if(state==='loading'){mpName.textContent=name||'...';mpName.className='mp-name';mpStatus.textContent='Connecting...';mpDot.classList.remove('on')}
+  else if(state==='on'){mpName.textContent=name||'On Air';mpName.className='mp-name';mpStatus.textContent='Live';mpDot.classList.add('on')}
+  else if(state==='paused'){mpName.textContent=name||'Paused';mpName.className='mp-name';mpStatus.textContent='Paused';mpDot.classList.remove('on')}
+  else if(state==='error'){mpName.textContent='No Signal';mpName.className='mp-name';mpStatus.textContent='Connection failed';mpDot.classList.remove('on')}
+
+  if(state==='off'){
+    sL1.textContent='COMEDY RADIO';sL2.textContent='OFF AIR';sL3.textContent='';
+    screenGlow.setAttribute('opacity','0');seqBars.forEach(b=>{b.setAttribute('height','2');b.setAttribute('y','10');b.setAttribute('fill','#2a2418')});
+    radioSvg.classList.remove('on');sDot.classList.remove('on','loading','error');sLabel.classList.remove('active');sLabel.textContent='SIGNAL';
+    sName.textContent='-- OFF AIR --';sName.className='station-display off';eqR.classList.remove('on');lLabel.textContent=`${playable.length} available`;
+    svgPI.setAttribute('fill','#555');pLabel.textContent='PLAY';pLabel.setAttribute('fill','#555');fDisp.textContent='88.0 MHz';fDisp.setAttribute('opacity','0.3');fDisp.setAttribute('fill','#2a2418');
+    uPP('stopped');cancelAnimationFrame(vuAF);vuB.setAttribute('width','0');vuP.setAttribute('opacity','0');stopTmr()
+  }else if(state==='loading'){
+    sL1.textContent='TUNING';sL2.textContent=name?name.substring(0,18).toUpperCase():'...';sL3.textContent='CONNECTING';
+    screenGlow.setAttribute('opacity','0.2');radioSvg.classList.remove('on');sDot.classList.remove('on','error');sDot.classList.add('loading');
+    sLabel.classList.add('active');sLabel.textContent='TUNING';sName.textContent=name||'...';sName.className='station-display loading';
+    eqR.classList.remove('on');pLabel.textContent='WAIT';uPP('stopped')
+  }else if(state==='on'){
+    sL1.textContent='ON AIR';sL2.textContent=name?name.substring(0,18).toUpperCase():'ON AIR';
+    const s=cur!==null?stations[cur]:null;sL3.textContent=s?`${s.f} MHz / ${s.b}`:'';
+    screenGlow.setAttribute('opacity','0.5');radioSvg.classList.add('on');sDot.classList.remove('loading','error');sDot.classList.add('on');
+    sLabel.classList.add('active');sLabel.textContent='LIVE';sName.textContent=name||'On Air';sName.className='station-display';
+    eqR.classList.add('on');lLabel.textContent=name||'';svgPI.setAttribute('fill','#c5a55a');pLabel.textContent='LIVE';pLabel.setAttribute('fill','#c5a55a');
+    fDisp.textContent=s?`${s.f} MHz`:'-- MHz';fDisp.setAttribute('fill','#c5a55a');fDisp.setAttribute('opacity','0.7');
+    uPP('playing');animSEQ();animVU();startTmr();tDisp.classList.add('on')
+  }else if(state==='paused'){
+    sL1.textContent='PAUSED';sL2.textContent=name?name.substring(0,18).toUpperCase():'PAUSED';sL3.textContent='';
+    screenGlow.setAttribute('opacity','0.1');radioSvg.classList.remove('on');sDot.classList.remove('on','loading','error');
+    sLabel.classList.add('active');sLabel.textContent='PAUSED';sName.textContent=name||'Paused';sName.className='station-display';
+    eqR.classList.remove('on');svgPI.setAttribute('fill','#555');pLabel.textContent='PLAY';pLabel.setAttribute('fill','#555');
+    uPP('stopped');cancelAnimationFrame(vuAF);vuB.setAttribute('width','0');vuP.setAttribute('opacity','0');clearInterval(tmr)
+  }else if(state==='error'){
+    sL1.textContent='ERROR';sL2.textContent='NO SIGNAL';sL3.textContent=name?name.substring(0,18).toUpperCase():'';
+    sL1.setAttribute('fill','#c44040');sL2.setAttribute('fill','#c44040');screenGlow.setAttribute('opacity','0');
+    sDot.classList.remove('on','loading');sDot.classList.add('error');sLabel.textContent='ERROR';uPP('stopped')
+  }
+}
+
+let eqTmr=null;
+function animSEQ(){clearInterval(eqTmr);eqTmr=setInterval(()=>{if(!isOn){clearInterval(eqTmr);return}seqBars.forEach(b=>{const h=Math.random()*10+1,y=12-h;b.setAttribute('height',h.toFixed(1));b.setAttribute('y',y.toFixed(1));b.setAttribute('fill',h>8?'#c5a55a':'#a88c3a')})},100)}
+
+let selected=null;
+function selSt(i){if(selected===i)return;selected=i;document.querySelectorAll('.s-row').forEach(r=>r.classList.remove('selected'));const el=row(i);if(el){el.classList.add('selected');el.scrollIntoView({block:'nearest',behavior:'smooth'});const s=stations[i];if(s&&s.u&&!isOn){sL2.textContent=s.n.substring(0,18).toUpperCase();fDisp.textContent=`${s.f||'--'} MHz`}}}
+
+function animDial(ta){const s=dialAngle;let d=ta-(s%360);if(d>180)d-=360;if(d<-180)d+=360;const t=s+d,dur=500,st=performance.now();function a(tm){const p=Math.min((tm-st)/dur,1),e=1-Math.pow(1-p,3);dialAngle=s+(t-s)*e;dialWheel.style.transform=`rotate(${dialAngle}deg)`;if(p<1)requestAnimationFrame(a)}requestAnimationFrame(a)}
+
+function stopAll(){if(audio){audio.pause();audio.src='';audio=null}if(cur!==null)mA(cur,false);cur=null;isOn=false;clearInterval(eqTmr);cancelAnimationFrame(vuAF);setSS('off');showToast('Stopped')}
+
+function doPlay(i){if(cur===i){isOn?doPause():doResume();return}if(audio){audio.pause();audio.src='';audio=null}if(cur!==null)mA(cur,false);cur=i;isOn=false;const s=stations[i];if(!s.u)return;audio=new Audio(s.u);audio.volume=parseFloat(vol.value);setSS('loading',s.n);mL(i,true);showToast(`Tuning to ${s.n}`);const pI=playable.indexOf(s);if(pI>=0)animDial((pI/playable.length)*360);audio.addEventListener('canplay',()=>{mL(i,false);mA(i,true);isOn=true;setSS('on',s.n);showToast(`Now playing: ${s.n}`)},{once:true});audio.addEventListener('error',()=>{mL(i,false);setSS('error',s.n);showToast(`Connection failed: ${s.n}`,'error');setTimeout(()=>{if(cur===i&&!isOn)setSS('off')},3000)});audio.play().catch(()=>{})}
+
+function doPause(){audio?.pause();isOn=false;clearInterval(eqTmr);cancelAnimationFrame(vuAF);const s=cur!==null?stations[cur]:null;setSS('paused',s?.n);if(cur!==null)mA(cur,false);showToast('Paused')}
+
+function doResume(){audio?.play().catch(()=>{});isOn=true;const s=cur!==null?stations[cur]:null;if(cur!==null)mA(cur,true);setSS('on',s?.n);animSEQ();animVU();if(playStart){clearInterval(tmr);tmr=setInterval(updTmr,1000);tDisp.classList.add('on')}showToast('Resumed')}
+
+vPct.textContent=Math.round(parseFloat(vol.value)*100)+'%';updVI(parseFloat(vol.value));
+setTimeout(()=>{sL1.textContent='COMEDY RADIO';sL2.textContent='SELECT STATION';sL3.textContent=`${playable.length} CHANNELS`},600);
+setTimeout(()=>{sL3.textContent='';sL2.textContent='OFF AIR'},3200);
+</script>
+</body>
+</html>
