@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rectifier00x – Collecting things on the internet</title>    
- <!-- ============ SEO META ============ -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rectifier00x – Collecting things on the internet</title>
+
+  <!-- SEO -->
   <meta name="description" content="Rectifier00x — A curated collection of articles, links, and videos about technology, culture, and the internet. Based in Kenya.">
   <meta name="author" content="Rectifier00x">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://roma.co.ke/">
-<meta name="yandex-verification" content="ecd3bc5a4da14172" />
+  <meta name="yandex-verification" content="ecd3bc5a4da14172" />
 
-  <!-- ============ OPEN GRAPH ============ -->
+  <!-- Open Graph -->
   <meta property="og:site_name" content="Rectifier00x">
   <meta property="og:title" content="Rectifier00x — Articles, Links & Videos">
-  <meta property="og:description" content="A curated collection of articles, links, and videos about technology, culture, and the internet.">
+  <meta property="og:description" content="A curated collection of articles, links, and videos.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://roma.co.ke/">
-<meta property="og:image" content="https://roma.co.ke/assets/og-image.jfif">
-  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://roma.co.ke/assets/og-image.jfif">
 
-  <!-- ============ TWITTER CARD ============ -->
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@rectifier00x">
   <meta name="twitter:title" content="Rectifier00x — Articles, Links & Videos">
   <meta name="twitter:description" content="A curated collection of articles, links, and videos.">
   <meta name="twitter:image" content="https://roma.co.ke/assets/og-image.jfif">
 
-  <!-- ============ STRUCTURED DATA (JSON-LD) ============ -->
+  <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -43,1462 +43,813 @@
   }
   </script>
 
-  <!-- Favicons (keep yours) -->
+  <!-- Favicons -->
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
   <link rel="manifest" href="/site.webmanifest">
 
-  <!-- Fonts, Tailwind, Paystack (keep yours) -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Fonts -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Paystack -->
   <script src="https://js.paystack.co/v2/inline.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'display': ['Space Grotesk', 'sans-serif'],
-                        'mono': ['IBM Plex Mono', 'monospace'],
-                    }
-                }
-            }
-        }
-    </script>
-    
-    <style>
-        body { font-family: 'Space Grotesk', sans-serif; }
-        .mono { font-family: 'IBM Plex Mono', monospace; }
-        
-        :root {
-            --bg: #f7f7f5;
-            --bg-secondary: #ffffff;
-            --text: #1a1a1a;
-            --text-muted: #6b6b6b;
-            --border: rgba(0,0,0,0.06);
-            --border-strong: rgba(0,0,0,0.1);
-        }
-        
-        .dark {
-            --bg: #161616;
-            --bg-secondary: #1e1e1e;
-            --text: #ebebeb;
-            --text-muted: #8a8a8a;
-            --border: rgba(255,255,255,0.06);
-            --border-strong: rgba(255,255,255,0.1);
-        }
-        
-        body {
-            background: var(--bg);
-            color: var(--text);
-            transition: background 0.3s, color 0.3s;
-        }
-
-        a:hover { opacity: 0.7; }
-        
-        .line { height: 1px; background: var(--border-strong); }
-
-        .video-thumb { position: relative; }
-
-        .play-btn {
-            width: 52px;
-            height: 52px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            backdrop-filter: blur(8px);
-            transition: transform 0.2s, background 0.2s;
-        }
-        
-        .video-thumb:hover .play-btn {
-            transform: translate(-50%, -50%) scale(1.1);
-            background: var(--text);
-        }
-        
-        .video-thumb:hover .play-btn svg {
-            fill: var(--bg);
-        }
-
-        .play-btn svg {
-            width: 18px;
-            height: 18px;
-            fill: var(--text);
-            margin-left: 3px;
-            transition: fill 0.2s;
-        }
-        
-        .search-box {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            color: var(--text);
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        
-        .search-box::placeholder { color: var(--text-muted); }
-        .search-box:focus { border-color: var(--border-strong); }
-        
-        .card {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            transition: border-color 0.2s, transform 0.2s;
-        }
-        
-        .card:hover { 
-            border-color: var(--border-strong);
-            transform: translateY(-2px);
-        }
-        
-        .img-container {
-            background: var(--border);
-            overflow: hidden;
-        }
-        
-        .img-container img {
-            opacity: 0;
-            transition: opacity 0.4s, transform 0.3s;
-        }
-        
-        .img-container img.loaded { opacity: 1; }
-        
-        .card:hover .img-container img.loaded {
-            transform: scale(1.02);
-        }
-        
-        .duration {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            backdrop-filter: blur(8px);
-        }
-        
-        .copy-btn {
-            opacity: 0;
-            transition: opacity 0.15s;
-        }
-        
-        .link-item:hover .copy-btn { opacity: 1; }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 100;
-        }
-        
-        .modal.open { display: flex; }
-        
-        .modal-backdrop {
-            position: absolute;
-            inset: 0;
-            background: rgba(0,0,0,0.8);
-        }
-        
-        .modal-content {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 900px;
-            margin: auto;
-            background: var(--bg-secondary);
-            border-radius: 16px;
-            overflow: hidden;
-        }
-        
-        .appreciate-modal-content { max-width: 360px; }
-        
-        .toast {
-            position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--text);
-            color: var(--bg);
-            padding: 12px 20px;
-            font-size: 14px;
-            border-radius: 10px;
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 200;
-        }
-        
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-        
-        .scroll-top {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            width: 44px;
-            height: 44px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            color: var(--text);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-        
-        .scroll-top.visible {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        
-        .scroll-top:hover { 
-            border-color: var(--border-strong);
-            transform: translateY(-2px);
-        }
-        
-        .filter-btn { transition: all 0.15s; }
-        
-        .filter-btn.active {
-            background: var(--text);
-            color: var(--bg);
-        }
-        
-        .btn-primary {
-            background: var(--text);
-            color: var(--bg);
-            transition: opacity 0.15s, transform 0.15s;
-        }
-        
-        .btn-primary:hover { 
-            opacity: 0.8;
-            transform: translateY(-1px);
-        }
-        
-        .btn-secondary {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            color: var(--text);
-            transition: border-color 0.15s;
-        }
-        
-        .btn-secondary:hover { border-color: var(--border-strong); }
-        
-        .amount-option {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            color: var(--text);
-            transition: all 0.15s;
-            cursor: pointer;
-        }
-        
-        .amount-option:hover { border-color: var(--border-strong); }
-        
-        .amount-option.selected {
-            background: var(--text);
-            color: var(--bg);
-            border-color: var(--text);
-        }
-        
-        .custom-amount {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            color: var(--text);
-            outline: none;
-        }
-        
-        .custom-amount:focus { border-color: var(--border-strong); }
-        .custom-amount::placeholder { color: var(--text-muted); }
-        
-        /* Article content */
-        .article-content {
-            line-height: 1.8;
-        }
-        
-        .article-content h1 {
-            font-size: 2em;
-            font-weight: 600;
-            margin: 1em 0 0.5em;
-        }
-        
-        .article-content h2 {
-            font-size: 1.5em;
-            font-weight: 600;
-            margin: 1.5em 0 0.5em;
-        }
-        
-        .article-content h3 {
-            font-size: 1.25em;
-            font-weight: 600;
-            margin: 1.25em 0 0.5em;
-        }
-        
-        .article-content p {
-            margin-bottom: 1em;
-        }
-        
-        .article-content ul, .article-content ol {
-            margin: 1em 0;
-            padding-left: 1.5em;
-        }
-        
-        .article-content li {
-            margin-bottom: 0.5em;
-        }
-        
-        .article-content blockquote {
-            border-left: 3px solid var(--border-strong);
-            padding-left: 1em;
-            margin: 1.5em 0;
-            color: var(--text-muted);
-            font-style: italic;
-        }
-        
-        .article-content pre {
-            background: var(--bg);
-            padding: 1em;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 1.5em 0;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.9em;
-        }
-        
-        .article-content code {
-            background: var(--bg);
-            padding: 0.2em 0.4em;
-            border-radius: 4px;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.9em;
-        }
-        
-        .article-content a {
-            text-decoration: underline;
-            text-underline-offset: 2px;
-        }
-        
-        .article-content img {
-            max-width: 100%;
-            border-radius: 12px;
-            margin: 1.5em 0;
-        }
-        
-        /* Loading */
-        .loading {
-            display: flex;
-            justify-content: center;
-            padding: 4rem 0;
-        }
-        
-        .spinner {
-            width: 24px;
-            height: 24px;
-            border: 2px solid var(--border);
-            border-top-color: var(--text);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Reading progress bar */
-        .reading-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 3px;
-            background: var(--text);
-            z-index: 1000;
-            transition: width 0.1s;
-        }
-        
-        /* Share buttons */
-        .share-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            color: var(--text-muted);
-            transition: all 0.15s;
-        }
-        
-        .share-btn:hover {
-            border-color: var(--border-strong);
-            color: var(--text);
-        }
-        
-        /* Reading time */
-        .reading-time {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-        
-        /* Fade in animation */
-        .fade-in {
-            animation: fadeIn 0.4s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Stagger children */
-        .stagger-in > * {
-            opacity: 0;
-            animation: fadeIn 0.4s ease forwards;
-        }
-        
-        .stagger-in > *:nth-child(1) { animation-delay: 0.05s; }
-        .stagger-in > *:nth-child(2) { animation-delay: 0.1s; }
-        .stagger-in > *:nth-child(3) { animation-delay: 0.15s; }
-        .stagger-in > *:nth-child(4) { animation-delay: 0.2s; }
-        .stagger-in > *:nth-child(5) { animation-delay: 0.25s; }
-        .stagger-in > *:nth-child(6) { animation-delay: 0.3s; }
-        .stagger-in > *:nth-child(7) { animation-delay: 0.35s; }
-        .stagger-in > *:nth-child(8) { animation-delay: 0.4s; }
-        .stagger-in > *:nth-child(9) { animation-delay: 0.45s; }
-        .stagger-in > *:nth-child(10) { animation-delay: 0.5s; }
-        
-        /* Keyboard shortcut hint */
-        kbd {
-            padding: 2px 6px;
-            border-radius: 4px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 11px;
-        }
-        
-    </style>
 </head>
 
-<body class="min-h-screen">
+<body>
 
-      <noscript>
-    <div style="max-width: 672px; margin: 0 auto; padding: 48px 20px; font-family: sans-serif;">
+  <noscript>
+    <div style="max-width:672px;margin:0 auto;padding:48px 20px;">
       <h1>Rectifier00x</h1>
-      <p>A curated collection of articles, links, and videos about technology, culture, and the internet. Based in Kenya.</p>
-      <p>This site requires JavaScript to display content. Please enable JavaScript or visit with a modern browser.</p>
-      <nav>
-        <h2>Content</h2>
-        <ul>
-          <li>Articles about technology, internet culture, and more</li>
-          <li>Curated links from around the web</li>
-          <li>Featured YouTube videos</li>
-        </ul>
-      </nav>
-      <footer>
-        <p>Follow on <a href="https://x.com/rectifier00x">Twitter</a> | <a href="https://github.com/dave-019">GitHub</a></p>
-      </footer>
+      <p>A curated collection of articles, links, and videos. Based in Kenya.</p>
+      <p>Please enable JavaScript to view this site.</p>
     </div>
   </noscript>
-    
-    <!-- Reading Progress Bar -->
-    <div id="reading-progress" class="reading-progress" style="width: 0%"></div>
-    
-    <div class="max-w-2xl mx-auto px-5">
-        
-        <!-- Header -->
-        <header class="pt-12 pb-10">
-            <div class="flex items-center justify-between">
-                <a href="#" onclick="showHome(); return false;" class="block">
-                    <h1 class="text-lg font-semibold">Rectifier00x</h1>
-                    <p class="text-sm mt-1" style="color: var(--text-muted)">Collecting things on the internet</p>
-                </a>
-                <div class="flex items-center gap-4">
-                    <nav class="flex gap-5 text-sm">
-                    </nav>
-                    
-                    <button id="theme-toggle" class="w-9 h-9 flex items-center justify-center rounded-lg btn-secondary" title="Toggle theme (T)">
-                        <svg class="sun w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="4"/>
-                            <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-                        </svg>
-                        <svg class="moon w-4 h-4 hidden" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            
-            <div class="mt-8 relative" id="search-container">
-                <input 
-                    type="text" 
-                    id="search-input"
-                    placeholder="Search..." 
-                    class="search-box w-full px-4 py-3 text-sm rounded-xl"
-                >
-                <kbd class="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline">/</kbd>
-            </div>
-        </header>
-        
-        <!-- HOME VIEW -->
-        <div id="home-view">
-            <div class="line"></div>
-            
-            <!-- Stats Bar -->
-            <div class="py-4 flex items-center gap-6 text-sm hidden" style="color: var(--text-muted)">
-                <span id="total-count">0 items</span>
-                <span>·</span>
-                <span id="last-updated">Last updated: --</span>
-            </div>
-            
-            <div class="line"></div>
-            
-            <!-- Filter + Sort -->
-<div class="py-5 space-y-4 sm:space-y-0 sm:flex sm:items-center sm:justify-between">
-    
-    <!-- Filters - full width on mobile -->
-    <div class="flex gap-2 text-sm">
-        <button class="filter-btn active px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm flex-1 sm:flex-none" data-filter="all">All</button>
-        <button class="filter-btn px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm flex-1 sm:flex-none" data-filter="article" style="color: var(--text-muted)">Articles</button>
-        <button class="filter-btn px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm flex-1 sm:flex-none" data-filter="link" style="color: var(--text-muted)">Links</button>
-        <button class="filter-btn px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm flex-1 sm:flex-none" data-filter="video" style="color: var(--text-muted)">Videos</button>
+
+  <!-- Reading progress -->
+  <div id="reading-progress"></div>
+
+  <div class="site-wrapper">
+
+    <!-- Header -->
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="#" onclick="showHome(); return false;" class="brand">
+          <h1>Rectifier00x</h1>
+          <p class="tagline">Collecting things on the internet</p>
+        </a>
+        <div class="header-actions">
+          <button id="theme-toggle" title="Toggle theme (T)" class="icon-btn">
+            <svg class="sun" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="4"/>
+              <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+            </svg>
+            <svg class="moon hidden" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="search-wrap" id="search-container">
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Search..."
+          class="search-box"
+        >
+        <kbd>/</kbd>
+      </div>
+    </header>
+
+    <!-- HOME VIEW -->
+    <div id="home-view">
+
+      <div class="line"></div>
+
+      <div class="stats-bar" id="stats-bar">
+        <span id="total-count">0 items</span>
+        <span class="dot"></span>
+        <span id="last-updated">Last updated: --</span>
+      </div>
+
+      <div class="line"></div>
+
+      <!-- Filters + Sort -->
+      <div class="toolbar">
+        <div class="filters">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="article">Articles</button>
+          <button class="filter-btn" data-filter="link">Links</button>
+          <button class="filter-btn" data-filter="video">Videos</button>
+        </div>
+        <div class="sort-wrap">
+          <button id="sort-btn" class="sort-trigger">
+            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path d="M3 7h18M6 12h12M9 17h6" stroke-linecap="round"/>
+            </svg>
+            <span id="sort-label">Newest</span>
+          </button>
+          <div id="sort-menu" class="sort-menu hidden">
+            <button class="sort-option" data-sort="newest">Newest</button>
+            <button class="sort-option" data-sort="oldest">Oldest</button>
+            <button class="sort-option" data-sort="title">Title A–Z</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="line"></div>
+
+      <!-- Content -->
+      <main id="content-list" class="content-list">
+        <div class="loading">
+          <div class="spinner"></div>
+        </div>
+      </main>
+
+      <div id="empty-state" class="empty-state hidden">
+        <p>No content found</p>
+      </div>
+
+      <div class="line"></div>
+
+      <!-- Support -->
+      <section class="support-section">
+        <h3>Support my work</h3>
+        <p>If you find this valuable, consider buying me a coffee.</p>
+        <button id="appreciate-btn" class="btn-primary">Send a tip</button>
+      </section>
+
+      <div class="line"></div>
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <span class="mono">© 2026</span>
+        <div class="footer-links">
+          <a href="https://x.com/rectifier00x">Twitter</a>
+          <a href="https://github.com/dave-019">GitHub</a>
+        </div>
+        <div class="shortcuts">
+          Shortcuts:
+          <kbd>/</kbd> Search
+          <kbd>T</kbd> Theme
+          <kbd>Esc</kbd> Close
+        </div>
+      </footer>
+
     </div>
-    
-    <!-- Sort + Count -->
-    <div class="flex items-center justify-between sm:justify-end gap-4">
-        <span class="mono text-xs sm:hidden" style="color: var(--text-muted)"></span>
-        
-        <div class="relative">
-            <button id="sort-btn" class="flex items-center gap-2 text-sm px-3 py-1.5 rounded-lg" style="color: var(--text-muted)">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                    <path d="M3 7h18M6 12h12M9 17h6" stroke-linecap="round"/>
-                </svg>
-                <span id="sort-label">Newest</span>
+
+    <!-- ARTICLE VIEW -->
+    <div id="article-view" class="hidden">
+      <div class="article-wrap">
+
+        <button onclick="showHome()" class="back-btn">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M19 12H5m0 0l7 7m-7-7l7-7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Back
+        </button>
+
+        <article id="article-content"></article>
+
+        <!-- Share -->
+        <div class="share-row">
+          <p>Share this article</p>
+          <div class="share-btns">
+            <button class="share-btn" onclick="shareTwitter()" title="Share on Twitter">
+              <svg fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
             </button>
-            <div id="sort-menu" class="hidden absolute right-0 top-full mt-2 py-2 w-32 rounded-xl card z-50">
-                <button class="sort-option w-full px-4 py-2 text-sm text-left" data-sort="newest">Newest</button>
-                <button class="sort-option w-full px-4 py-2 text-sm text-left" data-sort="oldest">Oldest</button>
-                <button class="sort-option w-full px-4 py-2 text-sm text-left" data-sort="title">Title A-Z</button>
-            </div>
-        </div>
-    </div>
-</div>
-            
-            <div class="line"></div>
-            
-            <!-- Content List -->
-            <main id="content-list" class="py-4 stagger-in">
-                <div class="loading">
-                    <div class="spinner"></div>
-                </div>
-            </main>
-            
-            <!-- Empty state -->
-            <div id="empty-state" class="hidden py-20 text-center">
-                <p style="color: var(--text-muted)">No content found</p>
-            </div>
-            
-            <div class="line"></div>
-            
-            <!-- Appreciate Section -->
-            <div class="py-12">
-                <div class="card rounded-2xl p-6">
-                    <h3 class="font-medium mb-2">Support my work</h3>
-                    <p class="text-sm mb-5" style="color: var(--text-muted)">If you find this valuable, consider buying me a coffee.</p>
-                    <button id="appreciate-btn" class="btn-primary px-5 py-2.5 text-sm font-medium rounded-xl">
-                        Send a tip
-                    </button>
-                </div>
-            </div>
-            
-            <div class="line"></div>
-            
-            <!-- Footer -->
-            <footer class="py-12">
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 text-sm" style="color: var(--text-muted)">
-                    <span class="mono text-xs">© 2026</span>
-                    <div class="flex gap-6">
-                        <a href="https://x.com/rectifier00x">Twitter</a>
-                        <a href="https://github.com/dave-019">GitHub</a>
-                    </div>
-                </div>
-                
-                <!-- Keyboard shortcuts hint -->
-                <div class="mt-8 text-xs" style="color: var(--text-muted)">
-                    <span class="hidden sm:inline">
-                        Shortcuts: 
-                        <kbd>/</kbd> Search
-                        <kbd>T</kbd> Theme
-                        <kbd>Esc</kbd> Close
-                    </span>
-                </div>
-            </footer>
-        </div>
-        
-        <!-- ARTICLE VIEW -->
-        <div id="article-view" class="hidden">
-            <div class="py-6">
-                <button onclick="showHome()" class="flex items-center gap-2 text-sm mb-8" style="color: var(--text-muted)">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M19 12H5m0 0l7 7m-7-7l7-7" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    Back
-                </button>
-                
-                <article id="article-content"></article>
-                
-                <!-- Share buttons -->
-                <div class="mt-12 pt-8 border-t" style="border-color: var(--border)">
-                    <p class="text-sm mb-4" style="color: var(--text-muted)">Share this article</p>
-                    <div class="flex gap-2">
-                        <button class="share-btn" onclick="shareTwitter()" title="Share on Twitter">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                            </svg>
-                        </button>
-                        <button class="share-btn" onclick="shareLinkedIn()" title="Share on LinkedIn">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                            </svg>
-                        </button>
-                        <button class="share-btn" onclick="copyArticleLink()" title="Copy link">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                <path d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="line"></div>
-            
-            <!-- Related posts -->
-            <div class="py-12">
-                <h3 class="font-medium mb-6">More articles</h3>
-                <div id="related-posts" class="space-y-4"></div>
-            </div>
-            
-            <div class="line"></div>
-            
-            <footer class="py-12">
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 text-sm" style="color: var(--text-muted)">
-                    <span class="mono text-xs">© 2026</span>
-                    <div class="flex gap-6">
-                        <a href="https://x.com/rectifier00x">Twitter</a>
-                        <a href="https://github.com/dave-019">GitHub</a>
-                     
-                    </div>
-                </div>
-   <div class="hidden">                <script  type='text/javascript' id='mapmyvisitors' src='https://mapmyvisitors.com/map.js?cl=ffffff&w=a&t=n&d=5cRe7qDGb4x76n1X8CAmJgegMf4PYaqDyFGk1Myv9F8&cmn=1aff4a'></script>
-</div>
-            </footer>
-        </div>
-        
-    </div>
-    
-    <!-- Video Modal -->
-    <div id="video-modal" class="modal items-center justify-center p-5">
-        <div class="modal-backdrop" onclick="closeVideoModal()"></div>
-        <div class="modal-content">
-            <div class="flex justify-end p-4">
-                <button onclick="closeVideoModal()" style="color: var(--text-muted)">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                        <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-            </div>
-            <div class="px-4 pb-4">
-                <div class="aspect-video bg-black rounded-xl overflow-hidden">
-                    <iframe id="video-iframe" class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Appreciate Modal -->
-    <div id="appreciate-modal" class="modal items-center justify-center p-5">
-        <div class="modal-backdrop" onclick="closeAppreciateModal()"></div>
-        <div class="modal-content appreciate-modal-content p-6">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="font-medium">Send a tip</h3>
-                <button onclick="closeAppreciateModal()" style="color: var(--text-muted)">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                        <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-            </div>
-            
-            <div class="grid grid-cols-3 gap-2 mb-4">
-                <button class="amount-option py-3 rounded-xl text-sm font-medium" data-amount="100">KES 100</button>
-                <button class="amount-option py-3 rounded-xl text-sm font-medium" data-amount="250">KES 250</button>
-                <button class="amount-option py-3 rounded-xl text-sm font-medium selected" data-amount="500">KES 500</button>
-                <button class="amount-option py-3 rounded-xl text-sm font-medium" data-amount="1000">KES 1,000</button>
-                <button class="amount-option py-3 rounded-xl text-sm font-medium" data-amount="2500">KES 2,500</button>
-                <button class="amount-option py-3 rounded-xl text-sm font-medium" data-amount="5000">KES 5,000</button>
-            </div>
-            
-            <div class="relative mb-6">
-                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm" style="color: var(--text-muted)">KES</span>
-                <input 
-                    type="number" 
-                    id="custom-amount" 
-                    placeholder="Custom amount" 
-                    class="custom-amount w-full pl-12 pr-4 py-3 text-sm rounded-xl"
-                    min="10"
-                >
-            </div>
-            
-            <button id="pay-btn" class="btn-primary w-full py-3 text-sm font-medium rounded-xl">
-                Pay <span id="pay-amount">KES 500</span>
+            <button class="share-btn" onclick="copyArticleLink()" title="Copy link">
+              <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </button>
-            
-            <p class="text-xs text-center mt-4" style="color: var(--text-muted)">Secured by Paystack</p>
+          </div>
         </div>
+
+      </div>
+
+      <div class="line"></div>
+
+      <!-- Related -->
+      <div class="related-wrap">
+        <h3>More articles</h3>
+        <div id="related-posts"></div>
+      </div>
+
+      <div class="line"></div>
+
+      <footer class="site-footer">
+        <span class="mono">© 2026</span>
+        <div class="footer-links">
+          <a href="https://x.com/rectifier00x">Twitter</a>
+          <a href="https://github.com/dave-019">GitHub</a>
+        </div>
+      </footer>
+
     </div>
-    
-    <!-- Toast -->
-    <div id="toast" class="toast mono"></div>
-    
-    <!-- Scroll to top -->
-    <button id="scroll-top" class="scroll-top" title="Back to top">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M5 15l7-7 7 7" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </button>
-<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "7adc2479aa044fd084aa1736615e77ef"}'></script><!-- End Cloudflare Web Analytics -->    <script>
-        // ============ CONFIG ============
-        const PAYSTACK_PUBLIC_KEY = 'pk_live_e40384f50afb3192ed0d3062bdf89ff2040ae6d4';
-        const RECIPIENT_EMAIL = 'appreciated@user.com';
-        const SITE_URL = window.location.origin + window.location.pathname.replace('index.html', '');
-        
-        // ============ STATE ============
-        let content = [];
-        let currentFilter = 'all';
-        let currentSort = 'newest';
-        let currentArticle = null;
-        
-        // ============ INIT ============
-        document.addEventListener('DOMContentLoaded', () => {
-            initTheme();
-            loadContent();
-            setupEventListeners();
+
+  </div>
+
+  <!-- Video Modal -->
+  <div id="video-modal" class="modal">
+    <div class="modal-backdrop" onclick="closeVideoModal()"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button onclick="closeVideoModal()" class="icon-btn">
+          <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="video-wrap">
+          <iframe id="video-iframe" src="" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tip Modal -->
+  <div id="appreciate-modal" class="modal">
+    <div class="modal-backdrop" onclick="closeAppreciateModal()"></div>
+    <div class="modal-content modal-small">
+      <div class="modal-header">
+        <h3>Send a tip</h3>
+        <button onclick="closeAppreciateModal()" class="icon-btn">
+          <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="amount-grid">
+        <button class="amount-btn" data-amount="100">KES 100</button>
+        <button class="amount-btn" data-amount="250">KES 250</button>
+        <button class="amount-btn selected" data-amount="500">KES 500</button>
+        <button class="amount-btn" data-amount="1000">KES 1,000</button>
+        <button class="amount-btn" data-amount="2500">KES 2,500</button>
+        <button class="amount-btn" data-amount="5000">KES 5,000</button>
+      </div>
+      <div class="custom-wrap">
+        <span class="currency-label">KES</span>
+        <input type="number" id="custom-amount" placeholder="Custom amount" min="10" class="custom-input">
+      </div>
+      <button id="pay-btn" class="btn-primary full">
+        Pay <span id="pay-amount">KES 500</span>
+      </button>
+      <p class="secured">Secured by Paystack</p>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Scroll top -->
+  <button id="scroll-top" class="scroll-top" title="Back to top">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path d="M5 15l7-7 7 7" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <!-- Cloudflare Analytics -->
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+    data-cf-beacon='{"token": "7adc2479aa044fd084aa1736615e77ef"}'></script>
+
+  <script>
+    // ── Config ─────────────────────────────────────────────
+    const PAYSTACK_KEY    = 'pk_live_e40384f50afb3192ed0d3062bdf89ff2040ae6d4';
+    const RECIPIENT_EMAIL = 'appreciated@user.com';
+    const SITE_URL        = 'https://roma.co.ke/';
+
+    // ── State ──────────────────────────────────────────────
+    let content        = [];
+    let currentFilter  = 'all';
+    let currentSort    = 'newest';
+    let currentArticle = null;
+    let selectedAmount = 500;
+
+    // ── Init ───────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      loadContent();
+      setupEvents();
+    });
+
+    // ── Load Content ───────────────────────────────────────
+    async function loadContent() {
+      try {
+        const res = await fetch('data/content.json?v=' + Date.now());
+        content   = res.ok ? await res.json() : [];
+      } catch(e) {
+        content = [];
+      }
+      updateStats();
+      renderContent();
+
+      const params    = new URLSearchParams(window.location.search);
+      const articleId = params.get('article');
+      if (articleId && content.some(i => i.id === articleId)) {
+        showArticle(articleId);
+      }
+    }
+
+    // ── Stats ──────────────────────────────────────────────
+    function updateStats() {
+      document.getElementById('total-count').textContent =
+        `${content.length} item${content.length !== 1 ? 's' : ''}`;
+
+      if (content.length > 0) {
+        const latest = [...content].sort(
+          (a,b) => b.timestamp - a.timestamp
+        )[0];
+        document.getElementById('last-updated').textContent =
+          'Last updated: ' + timeAgo(latest.date);
+      }
+
+      document.getElementById('stats-bar').style.display = 'flex';
+    }
+
+    // ── Theme ──────────────────────────────────────────────
+    function initTheme() {
+      const saved      = localStorage.getItem('theme');
+      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && systemDark)) applyDark();
+    }
+
+    function applyDark() {
+      document.documentElement.classList.add('dark');
+      document.querySelector('.sun').classList.add('hidden');
+      document.querySelector('.moon').classList.remove('hidden');
+    }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      document.querySelector('.sun').classList.toggle('hidden', isDark);
+      document.querySelector('.moon').classList.toggle('hidden', !isDark);
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+
+    // ── Events ─────────────────────────────────────────────
+    function setupEvents() {
+      document.getElementById('theme-toggle')
+        .addEventListener('click', toggleTheme);
+
+      const search = document.getElementById('search-input');
+      search.addEventListener('input', renderContent);
+
+      // Keyboard shortcuts
+      document.addEventListener('keydown', e => {
+        if (e.target.tagName === 'INPUT') {
+          if (e.key === 'Escape') e.target.blur();
+          return;
+        }
+        if (e.key === '/')  { e.preventDefault(); search.focus(); }
+        if (e.key === 't' || e.key === 'T') toggleTheme();
+        if (e.key === 'Escape') {
+          closeVideoModal();
+          closeAppreciateModal();
+          closeSortMenu();
+        }
+      });
+
+      // Filters
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.filter-btn')
+            .forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentFilter = btn.dataset.filter;
+          renderContent();
         });
-        
-async function loadContent() {
-            try {
-                const response = await fetch('data/content.json?v=' + Date.now());
-                if (response.ok) {
-                    content = await response.json();
-                } else {
-                    content = [];
-                }
-            } catch (e) {
-                console.log('No content found');
-                content = [];
-            }
-            
-            updateStats();
-            renderContent();
+      });
 
-            const params = new URLSearchParams(window.location.search);
-            const articleId = params.get('article');
-            
-            if (articleId) {
-                const exists = content.some(item => item.id === articleId);
-                if (exists) {
-                    showArticle(articleId);
-                } else {
-                    history.replaceState(null, '', window.location.pathname);
-                }
-            }
-        }
-        
-        // ============ STATS ============
-        function updateStats() {
-            document.getElementById('total-count').textContent = `${content.length} items`;
-            
-            if (content.length > 0) {
-                const sorted = [...content].sort((a, b) => new Date(b.date) - new Date(a.date));
-                const lastDate = new Date(sorted[0].date);
-                document.getElementById('last-updated').textContent = `Last updated: ${formatDateLong(sorted[0].date)}`;
-            }
-        }
-        
-        // ============ THEME ============
-        function initTheme() {
-            const saved = localStorage.getItem('theme');
-            const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            
-            if (saved === 'dark' || (!saved && systemDark)) {
-                document.documentElement.classList.add('dark');
-                document.querySelector('.sun').classList.add('hidden');
-                document.querySelector('.moon').classList.remove('hidden');
-            }
-        }
-        
-        function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-            document.querySelector('.sun').classList.toggle('hidden');
-            document.querySelector('.moon').classList.toggle('hidden');
-            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-        }
-        
-        document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
-        
-        // ============ EVENT LISTENERS ============
-        function setupEventListeners() {
-            // Search
-            const searchInput = document.getElementById('search-input');
-            searchInput.addEventListener('input', renderContent);
-            
-            // Keyboard shortcuts
-            document.addEventListener('keydown', (e) => {
-                // Don't trigger if typing in input
-                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
-                    if (e.key === 'Escape') {
-                        e.target.blur();
-                    }
-                    return;
-                }
-                
-                switch(e.key) {
-                    case '/':
-                        e.preventDefault();
-                        searchInput.focus();
-                        break;
-                    case 't':
-                    case 'T':
-                        toggleTheme();
-                        break;
-                    case 'Escape':
-                        closeVideoModal();
-                        closeAppreciateModal();
-                        closeSortMenu();
-                        break;
-                }
-            });
-            
-            // Filters
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.filter-btn').forEach(b => {
-                        b.classList.remove('active');
-                        b.style.color = 'var(--text-muted)';
-                    });
-                    btn.classList.add('active');
-                    btn.style.color = '';
-                    currentFilter = btn.dataset.filter;
-                    renderContent();
-                });
-            });
-            
-            // Sort
-            document.getElementById('sort-btn').addEventListener('click', (e) => {
-                e.stopPropagation();
-                document.getElementById('sort-menu').classList.toggle('hidden');
-            });
-            
-            document.querySelectorAll('.sort-option').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    currentSort = btn.dataset.sort;
-                    document.getElementById('sort-label').textContent = btn.textContent;
-                    closeSortMenu();
-                    renderContent();
-                });
-            });
-            
-            document.addEventListener('click', closeSortMenu);
-            
-            // Appreciate
-            document.getElementById('appreciate-btn').addEventListener('click', () => {
-                document.getElementById('appreciate-modal').classList.add('open');
-            });
-            
-            // Amount options
-            document.querySelectorAll('.amount-option').forEach(option => {
-                option.addEventListener('click', () => {
-                    document.querySelectorAll('.amount-option').forEach(o => o.classList.remove('selected'));
-                    option.classList.add('selected');
-                    selectedAmount = parseInt(option.dataset.amount);
-                    document.getElementById('custom-amount').value = '';
-                    updatePayButton();
-                });
-            });
-            
-            document.getElementById('custom-amount').addEventListener('input', (e) => {
-                const value = parseInt(e.target.value);
-                if (value && value >= 10) {
-                    document.querySelectorAll('.amount-option').forEach(o => o.classList.remove('selected'));
-                    selectedAmount = value;
-                    updatePayButton();
-                }
-            });
-            
-            document.getElementById('pay-btn').addEventListener('click', processPayment);
-            
-            // Scroll to top
-            window.addEventListener('scroll', () => {
-                document.getElementById('scroll-top').classList.toggle('visible', window.scrollY > 500);
-                updateReadingProgress();
-            });
-            
-            document.getElementById('scroll-top').addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        }
-        
-        function closeSortMenu() {
-            document.getElementById('sort-menu').classList.add('hidden');
-        }
-        
-        // ============ READING PROGRESS ============
-        function updateReadingProgress() {
-            if (document.getElementById('article-view').classList.contains('hidden')) {
-                document.getElementById('reading-progress').style.width = '0%';
-                return;
-            }
-            
-            const article = document.getElementById('article-content');
-            const rect = article.getBoundingClientRect();
-            const scrolled = -rect.top;
-            const total = rect.height - window.innerHeight;
-            const progress = Math.min(Math.max(scrolled / total * 100, 0), 100);
-            
-            document.getElementById('reading-progress').style.width = progress + '%';
-        }
-        
-        // ============ RENDER ============
-        function renderContent() {
-            const searchQuery = document.getElementById('search-input').value.toLowerCase();
-            
-            let filtered = content.filter(item => {
-                const matchesFilter = currentFilter === 'all' || item.type === currentFilter;
-                const matchesSearch = item.title.toLowerCase().includes(searchQuery) || 
-                                     (item.description && item.description.toLowerCase().includes(searchQuery));
-                return matchesFilter && matchesSearch;
-            });
-            
-            // Sort
-// Sort - using timestamp for accurate ordering
-switch(currentSort) {
-    case 'newest':
-        filtered.sort((a, b) => {
-            const timeA = a.timestamp || new Date(a.date).getTime();
-            const timeB = b.timestamp || new Date(b.date).getTime();
-            return timeB - timeA;
+      // Sort
+      document.getElementById('sort-btn').addEventListener('click', e => {
+        e.stopPropagation();
+        document.getElementById('sort-menu').classList.toggle('hidden');
+      });
+
+      document.querySelectorAll('.sort-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentSort = btn.dataset.sort;
+          document.getElementById('sort-label').textContent = btn.textContent;
+          closeSortMenu();
+          renderContent();
         });
-        break;
-    case 'oldest':
-        filtered.sort((a, b) => {
-            const timeA = a.timestamp || new Date(a.date).getTime();
-            const timeB = b.timestamp || new Date(b.date).getTime();
-            return timeA - timeB;
+      });
+
+      document.addEventListener('click', closeSortMenu);
+
+      // Appreciate
+      document.getElementById('appreciate-btn')
+        .addEventListener('click', () => {
+          document.getElementById('appreciate-modal').classList.add('open');
         });
-        break;
-    case 'title':
-        filtered.sort((a, b) => a.title.localeCompare(b.title));
-        break;
-}
-            
-            const list = document.getElementById('content-list');
-            const empty = document.getElementById('empty-state');
-            
-            if (content.length === 0) {
-                list.innerHTML = '';
-                empty.classList.remove('hidden');
-            } else if (filtered.length === 0) {
-                list.innerHTML = '<div class="py-16 text-center"><p style="color: var(--text-muted)">No results found</p></div>';
-                empty.classList.add('hidden');
-            } else {
-                empty.classList.add('hidden');
-                list.innerHTML = filtered.map(item => renderItem(item)).join('');
-            }
-        }
-        
-        function renderItem(item) {
-            if (item.type === 'article') return renderArticle(item);
-            if (item.type === 'link') return renderLink(item);
-            if (item.type === 'video') return renderVideo(item);
-            return '';
-        }
-        
-        function renderArticle(item) {
-            const hasImage = item.image && item.image.trim() !== '';
-            const readingTime = calculateReadingTime(item.content || '');
-            
-            if (hasImage) {
-                return `
-                    <article class="content-item py-6 fade-in" data-type="article">
-                        <a href="#" onclick="showArticle('${item.id}'); return false;" class="card block rounded-2xl overflow-hidden">
-                            <div class="img-container">
-                                    <img src="${item.image}" alt="${item.title}${item.description ? ' - ' + item.description : ''}" class="w-full aspect-[2/1] object-cover" onload="this.classList.add('loaded')" onerror="this.parentElement.style.display='none'">                            <div class="p-5">
-                                <div class="flex items-center justify-between mb-3">
-                                    <span class="mono text-xs" style="color: var(--text-muted)">Article</span>
-                                    <div class="flex items-center gap-3">
-                                        <span class="reading-time text-xs" style="color: var(--text-muted)">
-                                            <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                                <circle cx="12" cy="12" r="10"/>
-                                                <path d="M12 6v6l4 2"/>
-                                            </svg>
-                                            ${readingTime} min
-                                        </span>
-                                        <span class="mono text-xs" style="color: var(--text-muted)">${formatDate(item.date)}</span>
-                                    </div>
-                                </div>
-                                <h2 class="text-base font-medium leading-snug">${item.title}</h2>
-                                <p class="text-sm mt-2 leading-relaxed" style="color: var(--text-muted)">${item.description || ''}</p>
-                            </div>
-                        </a>
-                    </article>
-                `;
-            }
-            
-            return `
-                <article class="content-item py-6 fade-in" data-type="article">
-                    <a href="#" onclick="showArticle('${item.id}'); return false;" class="card block rounded-2xl p-5">
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="mono text-xs" style="color: var(--text-muted)">Article</span>
-                            <div class="flex items-center gap-3">
-                                <span class="reading-time text-xs" style="color: var(--text-muted)">
-                                    <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <circle cx="12" cy="12" r="10"/>
-                                        <path d="M12 6v6l4 2"/>
-                                    </svg>
-                                    ${readingTime} min
-                                </span>
-                                <span class="mono text-xs" style="color: var(--text-muted)">${formatDate(item.date)}</span>
-                            </div>
-                        </div>
-                        <h2 class="text-base font-medium leading-snug">${item.title}</h2>
-                        <p class="text-sm mt-2 leading-relaxed" style="color: var(--text-muted)">${item.description || ''}</p>
-                    </a>
-                </article>
-            `;
-        }
-        
-        function renderLink(item) {
-            const hasImage = item.image && item.image.trim() !== '';
-            const domain = item.url ? new URL(item.url).hostname.replace('www.', '') : '';
-            
-            if (hasImage) {
-                return `
-                    <article class="content-item link-item py-6 fade-in" data-type="link">
-                        <div class="card rounded-2xl p-5">
-                            <div class="flex items-center justify-between mb-4">
-                                <span class="mono text-xs" style="color: var(--text-muted)">Link</span>
-                                <div class="flex items-center gap-3">
-                                    <button class="copy-btn mono text-xs" style="color: var(--text-muted)" onclick="event.stopPropagation(); copyLink('${item.url}')">Copy</button>
-                                    <span class="mono text-xs" style="color: var(--text-muted)">${formatDate(item.date)}</span>
-                                </div>
-                            </div>
-                            <a href="${item.url}" target="_blank" rel="noopener" class="flex gap-5">
-                                <div class="img-container w-20 h-20 rounded-xl flex-shrink-0">
-                                    <img src="${item.image}" alt="${item.title}${item.description ? ' - ' + item.description : ''}" class="w-full h-full object-cover" onload="this.classList.add('loaded')" onerror="this.parentElement.style.display='none'">                                <div class="flex-1">
-                                    <h2 class="text-base font-medium leading-snug">${item.title}</h2>
-                                    <p class="text-sm mt-2 leading-relaxed" style="color: var(--text-muted)">${item.description || ''}</p>
-                                    <span class="mono text-xs mt-2 inline-block" style="color: var(--text-muted)">${domain}</span>
-                                </div>
-                            </a>
-                        </div>
-                    </article>
-                `;
-            }
-            
-            return `
-                <article class="content-item link-item py-6 fade-in" data-type="link">
-                    <div class="card rounded-2xl p-5">
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="mono text-xs" style="color: var(--text-muted)">Link</span>
-                            <div class="flex items-center gap-3">
-                                <button class="copy-btn mono text-xs" style="color: var(--text-muted)" onclick="event.stopPropagation(); copyLink('${item.url}')">Copy</button>
-                                <span class="mono text-xs" style="color: var(--text-muted)">${formatDate(item.date)}</span>
-                            </div>
-                        </div>
-                        <a href="${item.url}" target="_blank" rel="noopener" class="block">
-                            <h2 class="text-base font-medium leading-snug">${item.title}</h2>
-                            <p class="text-sm mt-2 leading-relaxed" style="color: var(--text-muted)">${item.description || ''}</p>
-                            <span class="mono text-xs mt-3 inline-block" style="color: var(--text-muted)">${domain}</span>
-                        </a>
-                    </div>
-                </article>
-            `;
-        }
-        
-        function renderVideo(item) {
-            const thumbnail = item.youtubeId ? `https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg` : '';
-            
-            return `
-                <article class="content-item py-6 fade-in" data-type="video">
-                    <a href="#" class="card block rounded-2xl overflow-hidden" onclick="openVideoModal(event, '${item.youtubeId}')">
-                        <div class="img-container video-thumb">
-                            <img 
-                                src="${thumbnail}" 
-                                alt="" 
-                                class="w-full aspect-video object-cover" 
-                                onload="this.classList.add('loaded')"
-                                onerror="this.src='https://img.youtube.com/vi/${item.youtubeId}/default.jpg'"
-                            >
-                            <div class="play-btn">
-                                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            </div>
-                            ${item.duration ? `<span class="duration mono text-xs absolute bottom-3 right-3 px-2 py-1 rounded-md">${item.duration}</span>` : ''}
-                        </div>
-                        <div class="p-5">
-                            <div class="flex items-center justify-between mb-3">
-                                <span class="mono text-xs" style="color: var(--text-muted)">Video</span>
-                                <span class="mono text-xs" style="color: var(--text-muted)">${formatDate(item.date)}</span>
-                            </div>
-                            <h2 class="text-base font-medium leading-snug">${item.title}</h2>
-                            <p class="text-sm mt-2 leading-relaxed" style="color: var(--text-muted)">${item.description || ''}</p>
-                        </div>
-                    </a>
-                </article>
-            `;
-        }
-        
-        // ============ ARTICLE VIEW ============
-        function showArticle(id) {
-        const item = content.find(i => i.id === id);
-        if (!item) return;
 
-        currentArticle = item;
-
-        // ============ DYNAMIC SEO META TAGS ============
-        const articleUrl = `${SITE_URL}?article=${item.id}`;
-        const readingTime = calculateReadingTime(item.content || '');
-
-        // Update page title
-        document.title = `${item.title} — Rectifier00x`;
-
-        // Update meta description
-        const metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc) metaDesc.setAttribute('content', item.description || item.title);
-
-        // Update meta robots
-        const metaRobots = document.querySelector('meta[name="robots"]');
-        if (metaRobots) metaRobots.setAttribute('content', 'index, follow');
-
-        // Update canonical URL
-        const canonical = document.querySelector('link[rel="canonical"]');
-        if (canonical) canonical.setAttribute('href', articleUrl);
-
-        // Update Open Graph tags
-        const ogTitle = document.querySelector('meta[property="og:title"]');
-        if (ogTitle) ogTitle.setAttribute('content', item.title);
-
-        const ogDesc = document.querySelector('meta[property="og:description"]');
-        if (ogDesc) ogDesc.setAttribute('content', item.description || '');
-
-        const ogUrl = document.querySelector('meta[property="og:url"]');
-        if (ogUrl) ogUrl.setAttribute('content', articleUrl);
-
-        const ogType = document.querySelector('meta[property="og:type"]');
-        if (ogType) ogType.setAttribute('content', 'article');
-
-        const ogImage = document.querySelector('meta[property="og:image"]');
-        if (ogImage && item.image) ogImage.setAttribute('content', item.image);
-
-        // Update Twitter Card tags
-        const twTitle = document.querySelector('meta[name="twitter:title"]');
-        if (twTitle) twTitle.setAttribute('content', item.title);
-
-        const twDesc = document.querySelector('meta[name="twitter:description"]');
-        if (twDesc) twDesc.setAttribute('content', item.description || '');
-
-        const twImage = document.querySelector('meta[name="twitter:image"]');
-        if (twImage && item.image) twImage.setAttribute('content', item.image);
-
-        // Remove any existing article JSON-LD
-        const existingLD = document.getElementById('article-jsonld');
-        if (existingLD) existingLD.remove();
-
-        // Inject Article structured data (JSON-LD)
-        const ldScript = document.createElement('script');
-        ldScript.type = 'application/ld+json';
-        ldScript.id = 'article-jsonld';
-        ldScript.textContent = JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": articleUrl
-            },
-            "headline": item.title,
-            "description": item.description || '',
-            "datePublished": item.date,
-            "dateModified": item.date,
-            "author": {
-            "@type": "Person",
-            "name": "Rectifier00x",
-            "url": "https://x.com/rectifier00x"
-            },
-            "publisher": {
-            "@type": "Person",
-            "name": "Rectifier00x",
-            "url": "https://x.com/rectifier00x"
-            },
-            "image": item.image || '',
-            "url": articleUrl,
-            "wordCount": (item.content || '').replace(/<[^>]*>/g, '').split(/\s+/).length,
-            "timeRequired": `PT${readingTime}M`
+      // Amount buttons
+      document.querySelectorAll('.amount-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.amount-btn')
+            .forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          selectedAmount = parseInt(btn.dataset.amount);
+          document.getElementById('custom-amount').value = '';
+          updatePayBtn();
         });
-        document.head.appendChild(ldScript);
-        // ============ END DYNAMIC SEO META TAGS ============
+      });
 
-        // ============ SHOW ARTICLE VIEW ============
-        document.getElementById('home-view').classList.add('hidden');
-        document.getElementById('article-view').classList.remove('hidden');
-        document.getElementById('search-container').classList.add('hidden');
+      document.getElementById('custom-amount').addEventListener('input', e => {
+        const val = parseInt(e.target.value);
+        if (val >= 10) {
+          document.querySelectorAll('.amount-btn')
+            .forEach(b => b.classList.remove('selected'));
+          selectedAmount = val;
+          updatePayBtn();
+        }
+      });
 
-        document.getElementById('article-content').innerHTML = `
-            <div class="mb-6 flex items-center gap-3 text-sm" style="color: var(--text-muted)">
-            <span>${formatDateLong(item.date)}</span>
-            <span>·</span>
-            <span class="reading-time">
-                <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="M12 6v6l4 2"/>
-                </svg>
-                ${readingTime} min read
-            </span>
-            </div>
+      document.getElementById('pay-btn')
+        .addEventListener('click', processPayment);
 
+      // Scroll
+      window.addEventListener('scroll', () => {
+        document.getElementById('scroll-top')
+          .classList.toggle('visible', window.scrollY > 500);
+        updateProgress();
+      });
+
+      document.getElementById('scroll-top').addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // Popstate
+      window.addEventListener('popstate', e => {
+        if (e.state && e.state.articleId) showArticle(e.state.articleId);
+        else showHome();
+      });
+    }
+
+    // ── Render ─────────────────────────────────────────────
+    function renderContent() {
+      const q = document.getElementById('search-input').value.toLowerCase();
+
+      let items = content.filter(item => {
+        const matchType   = currentFilter === 'all' || item.type === currentFilter;
+        const matchSearch = item.title.toLowerCase().includes(q) ||
+          (item.description && item.description.toLowerCase().includes(q));
+        return matchType && matchSearch;
+      });
+
+      switch(currentSort) {
+        case 'newest':
+          items.sort((a,b) => b.timestamp - a.timestamp); break;
+        case 'oldest':
+          items.sort((a,b) => a.timestamp - b.timestamp); break;
+        case 'title':
+          items.sort((a,b) => a.title.localeCompare(b.title)); break;
+      }
+
+      const list  = document.getElementById('content-list');
+      const empty = document.getElementById('empty-state');
+
+      if (items.length === 0) {
+        list.innerHTML = '';
+        empty.classList.remove('hidden');
+      } else {
+        empty.classList.add('hidden');
+        list.innerHTML = items.map(renderItem).join('');
+
+        // Lazy load images
+        list.querySelectorAll('img[data-src]').forEach(img => {
+          const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                img.src = img.dataset.src;
+                img.removeAttribute('data-src');
+                observer.unobserve(img);
+              }
+            });
+          });
+          observer.observe(img);
+        });
+      }
+    }
+
+    function renderItem(item) {
+      if (item.type === 'article') return renderArticle(item);
+      if (item.type === 'link')    return renderLink(item);
+      if (item.type === 'video')   return renderVideo(item);
+      return '';
+    }
+
+    function renderArticle(item) {
+      const time = calculateReadingTime(item.content || '');
+      return `
+        <article class="content-item" data-type="article">
+          <a href="#" onclick="showArticle('${item.id}'); return false;"
+             class="item-card">
             ${item.image ? `
-            <div class="img-container rounded-2xl overflow-hidden mb-8">
-                <img src="${item.image}" alt="${item.title}" class="w-full aspect-[2/1] object-cover" onload="this.classList.add('loaded')">
+            <div class="item-image">
+              <img data-src="${item.image}" src=""
+                alt="${escHtml(item.title)}"
+                onload="this.classList.add('loaded')"
+                onerror="this.parentElement.style.display='none'">
+            </div>` : ''}
+            <div class="item-body">
+              <div class="item-meta">
+                <span class="type-badge">Article</span>
+                <span class="meta-right">
+                  <span class="read-time">${time} min read</span>
+                  <span class="item-date">${timeAgo(item.date)}</span>
+                </span>
+              </div>
+              <h2 class="item-title">${escHtml(item.title)}</h2>
+              ${item.description
+                ? `<p class="item-desc">${escHtml(item.description)}</p>`
+                : ''}
             </div>
-            ` : ''}
+          </a>
+        </article>`;
+    }
 
-            <h1 class="text-2xl sm:text-3xl font-semibold leading-tight mb-4">${item.title}</h1>
-
-            ${item.description ? `<p class="text-lg mb-8" style="color: var(--text-muted)">${item.description}</p>` : ''}
-
-            <div class="line mb-8"></div>
-
-            <div class="article-content">
-            ${item.content || ''}
+    function renderLink(item) {
+      const domain = item.url
+        ? new URL(item.url).hostname.replace('www.','') : '';
+      return `
+        <article class="content-item" data-type="link">
+          <div class="item-card">
+            <div class="item-body">
+              <div class="item-meta">
+                <span class="type-badge">Link</span>
+                <span class="item-date">${timeAgo(item.date)}</span>
+              </div>
+              <a href="${item.url}" target="_blank" rel="noopener"
+                 class="item-link-title">
+                <h2 class="item-title">${escHtml(item.title)}</h2>
+              </a>
+              ${item.description
+                ? `<p class="item-desc">${escHtml(item.description)}</p>`
+                : ''}
+              <span class="domain">${domain}</span>
             </div>
-        `;
+          </div>
+        </article>`;
+    }
 
-        // Show related posts
-        renderRelatedPosts(id);
+    function renderVideo(item) {
+      const thumb = item.youtubeId
+        ? `https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg`
+        : '';
+      return `
+        <article class="content-item" data-type="video">
+          <a href="#"
+             onclick="openVideoModal(event,'${item.youtubeId}')"
+             class="item-card">
+            ${thumb ? `
+            <div class="item-image video-thumb">
+              <img data-src="${thumb}" src=""
+                alt="${escHtml(item.title)}"
+                onload="this.classList.add('loaded')"
+                onerror="this.src='https://img.youtube.com/vi/${item.youtubeId}/default.jpg'">
+              <div class="play-btn">
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+              ${item.duration
+                ? `<span class="duration">${item.duration}</span>`
+                : ''}
+            </div>` : ''}
+            <div class="item-body">
+              <div class="item-meta">
+                <span class="type-badge">Video</span>
+                <span class="item-date">${timeAgo(item.date)}</span>
+              </div>
+              <h2 class="item-title">${escHtml(item.title)}</h2>
+              ${item.description
+                ? `<p class="item-desc">${escHtml(item.description)}</p>`
+                : ''}
+            </div>
+          </a>
+        </article>`;
+    }
 
-        // Scroll to top
-        window.scrollTo({ top: 0 });
+    // ── Article View ───────────────────────────────────────
+    function showArticle(id) {
+      const item = content.find(i => i.id === id);
+      if (!item) return;
+      currentArticle = item;
 
-        // Update URL without reload
-        history.pushState({ articleId: id }, '', `?article=${id}`);
-        }  
-        function renderRelatedPosts(currentId) {
-            const related = content
-                .filter(i => i.type === 'article' && i.id !== currentId)
-                .sort((a, b) => new Date(b.date) - new Date(a.date))
-                .slice(0, 3);
-            
-            const container = document.getElementById('related-posts');
-            
-            if (related.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted)">No other articles yet</p>';
-                return;
-            }
-            
-            container.innerHTML = related.map(item => `
-                <a href="#" onclick="showArticle('${item.id}'); return false;" class="card block rounded-xl p-4">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="mono text-xs" style="color: var(--text-muted)">${formatDate(item.date)}</span>
-                    </div>
-                    <h4 class="font-medium">${item.title}</h4>
-                </a>
-            `).join('');
-        }
-        
-            function showHome() {
-            // ============ RESET SEO META TAGS TO DEFAULTS ============
+      // Update SEO
+      const articleUrl = `${SITE_URL}?article=${id}`;
+      document.title = `${item.title} — Rectifier00x`;
+      setMeta('description', item.description || item.title);
+      setMeta('og:title', item.title);
+      setMeta('og:description', item.description || '');
+      setMeta('og:url', articleUrl);
+      setMeta('og:type', 'article');
+      setMeta('twitter:title', item.title);
+      setMeta('twitter:description', item.description || '');
+      document.querySelector('link[rel="canonical"]')
+        .setAttribute('href', articleUrl);
 
-            // Reset page title
-            document.title = 'Rectifier00x — Articles, Links & Videos';
+      const time = calculateReadingTime(item.content || '');
 
-            // Reset meta description
-            const metaDesc = document.querySelector('meta[name="description"]');
-            if (metaDesc) metaDesc.setAttribute('content', 'Rectifier00x — A curated collection of articles, links, and videos about technology, culture, and the internet. Based in Kenya.');
+      document.getElementById('article-content').innerHTML = `
+        <div class="article-meta">
+          <span>${formatDateLong(item.date)}</span>
+          <span class="dot">·</span>
+          <span>${time} min read</span>
+        </div>
+        ${item.image ? `
+        <div class="article-image">
+          <img src="${item.image}" alt="${escHtml(item.title)}"
+            onload="this.classList.add('loaded')"
+            loading="lazy">
+        </div>` : ''}
+        <h1 class="article-title">${escHtml(item.title)}</h1>
+        ${item.description
+          ? `<p class="article-desc">${escHtml(item.description)}</p>`
+          : ''}
+        <div class="line"></div>
+        <div class="article-content">${item.content || ''}</div>
+      `;
 
-            // Reset meta robots
-            const metaRobots = document.querySelector('meta[name="robots"]');
-            if (metaRobots) metaRobots.setAttribute('content', 'index, follow');
+      renderRelated(id);
 
-            // Reset canonical URL
-            const canonical = document.querySelector('link[rel="canonical"]');
-            if (canonical) canonical.setAttribute('href', SITE_URL);
+      document.getElementById('home-view').classList.add('hidden');
+      document.getElementById('article-view').classList.remove('hidden');
+      document.getElementById('search-container').classList.add('hidden');
 
-            // Reset Open Graph tags
-            const ogTitle = document.querySelector('meta[property="og:title"]');
-            if (ogTitle) ogTitle.setAttribute('content', 'Rectifier00x — Articles, Links & Videos');
+      window.scrollTo({ top: 0 });
+      history.pushState({ articleId: id }, '', `?article=${id}`);
+    }
 
-            const ogDesc = document.querySelector('meta[property="og:description"]');
-            if (ogDesc) ogDesc.setAttribute('content', 'A curated collection of articles, links, and videos about technology, culture, and the internet.');
+    function renderRelated(currentId) {
+      const related = content
+        .filter(i => i.type === 'article' && i.id !== currentId)
+        .sort((a,b) => b.timestamp - a.timestamp)
+        .slice(0, 3);
 
-            const ogUrl = document.querySelector('meta[property="og:url"]');
-            if (ogUrl) ogUrl.setAttribute('content', SITE_URL);
+      const el = document.getElementById('related-posts');
+      if (!related.length) {
+        el.innerHTML = '<p class="muted">No other articles yet</p>';
+        return;
+      }
+      el.innerHTML = related.map(item => `
+        <a href="#" onclick="showArticle('${item.id}'); return false;"
+           class="related-card">
+          <span class="item-date">${timeAgo(item.date)}</span>
+          <h4>${escHtml(item.title)}</h4>
+        </a>
+      `).join('');
+    }
 
-            const ogType = document.querySelector('meta[property="og:type"]');
-            if (ogType) ogType.setAttribute('content', 'website');
+    function showHome() {
+      document.title = 'Rectifier00x — Articles, Links & Videos';
+      setMeta('description',
+        'Rectifier00x — A curated collection of articles, links, and videos.');
+      setMeta('og:title', 'Rectifier00x — Articles, Links & Videos');
+      setMeta('og:type', 'website');
+      setMeta('og:url', SITE_URL);
+      document.querySelector('link[rel="canonical"]')
+        .setAttribute('href', SITE_URL);
 
-            const ogImage = document.querySelector('meta[property="og:image"]');
-            if (ogImage) ogImage.setAttribute('content', `${SITE_URL}assets/og-image.png`);
+      document.getElementById('home-view').classList.remove('hidden');
+      document.getElementById('article-view').classList.add('hidden');
+      document.getElementById('search-container').classList.remove('hidden');
+      document.getElementById('reading-progress').style.width = '0%';
+      currentArticle = null;
+      history.pushState({}, '', window.location.pathname);
+    }
 
-            // Reset Twitter Card tags
-            const twTitle = document.querySelector('meta[name="twitter:title"]');
-            if (twTitle) twTitle.setAttribute('content', 'Rectifier00x — Articles, Links & Videos');
+    // ── Helpers ────────────────────────────────────────────
+    function setMeta(name, value) {
+      const el = document.querySelector(
+        `meta[name="${name}"], meta[property="${name}"]`
+      );
+      if (el) el.setAttribute('content', value);
+    }
 
-            const twDesc = document.querySelector('meta[name="twitter:description"]');
-            if (twDesc) twDesc.setAttribute('content', 'A curated collection of articles, links, and videos.');
+    function escHtml(str) {
+      if (!str) return '';
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
 
-            const twImage = document.querySelector('meta[name="twitter:image"]');
-            if (twImage) twImage.setAttribute('content', `${SITE_URL}assets/og-image.png`);
+    function timeAgo(isoString) {
+      if (!isoString) return '';
+      const now  = new Date();
+      const then = new Date(isoString);
+      if (isNaN(then)) return '';
+      const diff = Math.floor((now - then) / 1000);
 
-            // Remove article-specific JSON-LD structured data
-            const existingLD = document.getElementById('article-jsonld');
-            if (existingLD) existingLD.remove();
+      if (diff < 60)    return 'just now';
+      const mins = Math.floor(diff / 60);
+      if (mins < 60)    return `${mins}m ago`;
+      const hours = Math.floor(mins / 60);
+      if (hours < 24)   return `${hours}h ago`;
+      const days = Math.floor(hours / 24);
+      if (days === 1)   return 'yesterday';
+      if (days < 7)     return `${days}d ago`;
+      const weeks = Math.floor(days / 7);
+      if (weeks < 4)    return `${weeks}w ago`;
+      return then.toLocaleDateString('en-KE', {
+        day: 'numeric', month: 'short', year: 'numeric'
+      });
+    }
 
-            // ============ END RESET SEO META TAGS ============
+    function formatDateLong(str) {
+      return new Date(str).toLocaleDateString('en-KE', {
+        month: 'long', day: 'numeric', year: 'numeric'
+      });
+    }
 
-            // ============ SHOW HOME VIEW ============
-            document.getElementById('home-view').classList.remove('hidden');
-            document.getElementById('article-view').classList.add('hidden');
-            document.getElementById('search-container').classList.remove('hidden');
-            document.getElementById('reading-progress').style.width = '0%';
-            currentArticle = null;
+    function calculateReadingTime(content) {
+      const words = content.replace(/<[^>]*>/g, '').split(/\s+/).length;
+      return Math.max(1, Math.ceil(words / 200));
+    }
 
-            // Update URL
-            history.pushState({}, '', window.location.pathname);
-            }
-        
-        // Handle back/forward buttons
-        window.addEventListener('popstate', (e) => {
-            if (e.state && e.state.articleId) {
-                showArticle(e.state.articleId);
-            } else {
-                showHome();
-            }
-        });
-        
+    function updateProgress() {
+      if (document.getElementById('article-view').classList.contains('hidden')) return;
+      const article = document.getElementById('article-content');
+      const rect    = article.getBoundingClientRect();
+      const scrolled = -rect.top;
+      const total   = rect.height - window.innerHeight;
+      const pct     = Math.min(Math.max(scrolled / total * 100, 0), 100);
+      document.getElementById('reading-progress').style.width = pct + '%';
+    }
 
-        
-        // ============ SHARE ============
-        function shareTwitter() {
-            if (!currentArticle) return;
-            const url = `${SITE_URL}?article=${currentArticle.id}`;
-            const text = currentArticle.title;
-            window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
-        }
-        
-        function shareLinkedIn() {
-            if (!currentArticle) return;
-            const url = `${SITE_URL}?article=${currentArticle.id}`;
-            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
-        }
-        
-        function copyArticleLink() {
-            if (!currentArticle) return;
-            const url = `${SITE_URL}?article=${currentArticle.id}`;
-            navigator.clipboard.writeText(url);
-            showToast('Link copied');
-        }
-        
-        // ============ VIDEO MODAL ============
-        function openVideoModal(e, youtubeId) {
-            e.preventDefault();
-            document.getElementById('video-iframe').src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1`;
-            document.getElementById('video-modal').classList.add('open');
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeVideoModal() {
-            document.getElementById('video-modal').classList.remove('open');
-            document.getElementById('video-iframe').src = '';
-            document.body.style.overflow = '';
-        }
-        
-        // ============ PAYSTACK ============
-        let selectedAmount = 500;
-        
-        function updatePayButton() {
-            document.getElementById('pay-amount').textContent = `KES ${selectedAmount.toLocaleString()}`;
-        }
-        
-        function closeAppreciateModal() {
-            document.getElementById('appreciate-modal').classList.remove('open');
-        }
-        
-        function processPayment() {
-            const payBtn = document.getElementById('pay-btn');
-            payBtn.disabled = true;
-            payBtn.textContent = 'Processing...';
-            
-            const popup = new PaystackPop();
-            popup.newTransaction({
-                key: PAYSTACK_PUBLIC_KEY,
-                email: RECIPIENT_EMAIL,
-                amount: selectedAmount * 100,
-                currency: 'KES',
-                channels: ['mobile_money', 'card'],
-                onSuccess: () => {
-                    closeAppreciateModal();
-                    showToast('Thank you!');
-                    resetPayButton();
-                },
-                onCancel: () => {
-                    showToast('Cancelled');
-                    resetPayButton();
-                },
-                onError: () => {
-                    showToast('Failed. Try again.');
-                    resetPayButton();
-                },
-                onLoad: () => resetPayButton()
-            });
-        }
-        
-        function resetPayButton() {
-            const payBtn = document.getElementById('pay-btn');
-            payBtn.disabled = false;
-            payBtn.innerHTML = `Pay <span id="pay-amount">KES ${selectedAmount.toLocaleString()}</span>`;
-        }
-        
-        // ============ HELPERS ============
-        function copyLink(url) {
-            navigator.clipboard.writeText(url);
-            showToast('Copied');
-        }
-        
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2000);
-        }
-        
-        function formatDate(dateStr) {
-            return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-        }
-        
-        function formatDateLong(dateStr) {
-            return new Date(dateStr).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-        }
-        
-        function calculateReadingTime(content) {
-            const text = content.replace(/<[^>]*>/g, '');
-            const words = text.split(/\s+/).length;
-            const minutes = Math.ceil(words / 200);
-            return Math.max(1, minutes);
-        }
-    </script>
+    // ── Modals ─────────────────────────────────────────────
+    function openVideoModal(e, youtubeId) {
+      e.preventDefault();
+      document.getElementById('video-iframe').src =
+        `https://www.youtube.com/embed/${youtubeId}?autoplay=1`;
+      document.getElementById('video-modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeVideoModal() {
+      document.getElementById('video-modal').classList.remove('open');
+      document.getElementById('video-iframe').src = '';
+      document.body.style.overflow = '';
+    }
+
+    function closeAppreciateModal() {
+      document.getElementById('appreciate-modal').classList.remove('open');
+    }
+
+    function closeSortMenu() {
+      document.getElementById('sort-menu').classList.add('hidden');
+    }
+
+    // ── Paystack ───────────────────────────────────────────
+    function updatePayBtn() {
+      document.getElementById('pay-amount').textContent =
+        `KES ${selectedAmount.toLocaleString()}`;
+    }
+
+    function processPayment() {
+      const btn = document.getElementById('pay-btn');
+      btn.disabled    = true;
+      btn.textContent = 'Processing...';
+
+      const popup = new PaystackPop();
+      popup.newTransaction({
+        key:      PAYSTACK_KEY,
+        email:    RECIPIENT_EMAIL,
+        amount:   selectedAmount * 100,
+        currency: 'KES',
+        channels: ['mobile_money', 'card'],
+        onSuccess: () => {
+          closeAppreciateModal();
+          showToast('Thank you! ✓');
+          resetPayBtn();
+        },
+        onCancel: () => { showToast('Cancelled'); resetPayBtn(); },
+        onError:  () => { showToast('Failed. Try again.'); resetPayBtn(); },
+        onLoad:   () => resetPayBtn(),
+      });
+    }
+
+    function resetPayBtn() {
+      const btn   = document.getElementById('pay-btn');
+      btn.disabled = false;
+      btn.innerHTML =
+        `Pay <span id="pay-amount">KES ${selectedAmount.toLocaleString()}</span>`;
+    }
+
+    // ── Share ──────────────────────────────────────────────
+    function shareTwitter() {
+      if (!currentArticle) return;
+      const url  = `${SITE_URL}?article=${currentArticle.id}`;
+      window.open(
+        `https://x.com/intent/tweet?text=${encodeURIComponent(currentArticle.title)}&url=${encodeURIComponent(url)}`,
+        '_blank'
+      );
+    }
+
+    function copyArticleLink() {
+      if (!currentArticle) return;
+      navigator.clipboard.writeText(`${SITE_URL}?article=${currentArticle.id}`);
+      showToast('Link copied');
+    }
+
+    // ── Toast ──────────────────────────────────────────────
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    }
+  </script>
 
 </body>
 </html>
