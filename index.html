@@ -3,231 +3,244 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rectifier00x – Collecting things on the internet</title>
+  <title>Rectifier00x</title>
 
-  <!-- SEO -->
-  <meta name="description" content="Rectifier00x — A curated collection of articles, links, and videos about technology, culture, and the internet. Based in Kenya.">
+  <meta name="description" content="David. Kenya. Live life.">
   <meta name="author" content="Rectifier00x">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://roma.co.ke/">
   <meta name="yandex-verification" content="ecd3bc5a4da14172" />
 
-  <!-- Open Graph -->
   <meta property="og:site_name" content="Rectifier00x">
-  <meta property="og:title" content="Rectifier00x — Articles, Links & Videos">
-  <meta property="og:description" content="A curated collection of articles, links, and videos.">
+  <meta property="og:title" content="Rectifier00x">
+  <meta property="og:description" content="David. Kenya. Live life.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://roma.co.ke/">
   <meta property="og:image" content="https://roma.co.ke/assets/og-image.jfif">
 
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@rectifier00x">
-  <meta name="twitter:title" content="Rectifier00x — Articles, Links & Videos">
-  <meta name="twitter:description" content="A curated collection of articles, links, and videos.">
+  <meta name="twitter:title" content="Rectifier00x">
+  <meta name="twitter:description" content="David. Kenya. Live life.">
   <meta name="twitter:image" content="https://roma.co.ke/assets/og-image.jfif">
 
-  <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Rectifier00x",
     "url": "https://roma.co.ke",
-    "description": "A curated collection of articles, links, and videos",
+    "description": "David. Kenya. Live life.",
     "author": {
       "@type": "Person",
-      "name": "Rectifier00x",
+      "name": "David",
+      "alternateName": "Rectifier00x",
       "url": "https://x.com/rectifier00x"
     }
   }
   </script>
 
-  <!-- Favicons -->
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
   <link rel="manifest" href="/site.webmanifest">
 
-  <!-- Fonts -->
   <link rel="stylesheet" href="styles.css">
-
-  <!-- Paystack -->
   <script src="https://js.paystack.co/v2/inline.js"></script>
 </head>
 
 <body>
 
-  <noscript>
-    <div style="max-width:672px;margin:0 auto;padding:48px 20px;">
-      <h1>Rectifier00x</h1>
-      <p>A curated collection of articles, links, and videos. Based in Kenya.</p>
-      <p>Please enable JavaScript to view this site.</p>
-    </div>
-  </noscript>
-
-  <!-- Reading progress -->
+  <!-- Reading progress (articles only) -->
   <div id="reading-progress"></div>
 
   <div class="site-wrapper">
 
-    <!-- Header -->
+    <!-- ── Header ─────────────────────────────────────────── -->
     <header class="site-header">
-      <div class="header-inner">
-        <a href="#" onclick="showHome(); return false;" class="brand">
-          <h1>Rectifier00x</h1>
-          <p class="tagline">Collecting things on the internet</p>
-        </a>
-        <div class="header-actions">
-          <button id="theme-toggle" title="Toggle theme (T)" class="icon-btn">
-            <svg class="sun" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="4"/>
-              <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-            </svg>
-            <svg class="moon hidden" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-              <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
-            </svg>
-          </button>
+      <div class="header-top">
+        <div class="brand" onclick="showHome()" style="cursor:pointer">
+          <span class="brand-name">Rectifier00x</span>
+          <span class="brand-sub">Привет!</span>
         </div>
+        <button id="theme-toggle" class="theme-btn" title="Toggle theme (T)">
+          <svg class="sun" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+          <svg class="moon hidden" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
       </div>
 
-      <div class="search-wrap" id="search-container">
+      <!-- Nav -->
+      <nav class="site-nav" id="site-nav">
+        <a href="#writing"  onclick="scrollTo('writing')">writing</a>
+        <a href="#links"    onclick="scrollTo('links')">links</a>
+        <a href="#videos"   onclick="scrollTo('videos')">videos</a>
+        <a href="#about"    onclick="scrollTo('about')">about</a>
+      </nav>
+
+      <!-- Search -->
+      <div class="search-wrap" id="search-wrap">
         <input
           type="text"
           id="search-input"
-          placeholder="Search..."
+          placeholder="search anything..."
           class="search-box"
         >
-        <kbd>/</kbd>
       </div>
     </header>
 
-    <!-- HOME VIEW -->
+    <!-- ── HOME VIEW ──────────────────────────────────────── -->
     <div id="home-view">
 
-      <div class="line"></div>
-
-      <div class="stats-bar" id="stats-bar">
-        <span id="total-count">0 items</span>
-        <span class="dot"></span>
-        <span id="last-updated">Last updated: --</span>
-      </div>
-
-      <div class="line"></div>
-
-      <!-- Filters + Sort -->
-      <div class="toolbar">
-        <div class="filters">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="article">Articles</button>
-          <button class="filter-btn" data-filter="link">Links</button>
-          <button class="filter-btn" data-filter="video">Videos</button>
+      <!-- Writing -->
+      <section id="writing" class="section">
+        <h2 class="section-title">
+          writing
+          <span class="section-count" id="writing-count"></span>
+        </h2>
+        <div id="writing-list" class="item-list">
+          <div class="loading"><div class="spinner"></div></div>
         </div>
-        <div class="sort-wrap">
-          <button id="sort-btn" class="sort-trigger">
-            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-              <path d="M3 7h18M6 12h12M9 17h6" stroke-linecap="round"/>
-            </svg>
-            <span id="sort-label">Newest</span>
-          </button>
-          <div id="sort-menu" class="sort-menu hidden">
-            <button class="sort-option" data-sort="newest">Newest</button>
-            <button class="sort-option" data-sort="oldest">Oldest</button>
-            <button class="sort-option" data-sort="title">Title A–Z</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="line"></div>
-
-      <!-- Content -->
-      <main id="content-list" class="content-list">
-        <div class="loading">
-          <div class="spinner"></div>
-        </div>
-      </main>
-
-      <div id="empty-state" class="empty-state hidden">
-        <p>No content found</p>
-      </div>
-
-      <div class="line"></div>
-
-      <!-- Support -->
-      <section class="support-section">
-        <h3>Support my work</h3>
-        <p>If you find this valuable, consider buying me a coffee.</p>
-        <button id="appreciate-btn" class="btn-primary">Send a tip</button>
       </section>
 
-      <div class="line"></div>
+      <!-- Links -->
+      <section id="links" class="section">
+        <h2 class="section-title">
+          links
+          <span class="section-count" id="links-count"></span>
+        </h2>
+        <div id="links-list" class="item-list">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+      </section>
+
+      <!-- Videos -->
+      <section id="videos" class="section">
+        <h2 class="section-title">
+          videos
+          <span class="section-count" id="videos-count"></span>
+        </h2>
+        <div id="videos-list" class="item-list">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section id="about" class="section about-section">
+        <h2 class="section-title">about</h2>
+        <div class="about-content">
+          <p class="about-main">
+            hey, i'm <strong>david</strong> — online i go by
+            <strong>Rectifier00x</strong>. based in kenya.
+            live life. that's pretty much it :)
+          </p>
+          <p class="about-body">
+            i collect things on the internet — articles, links,
+            videos, thoughts. this is my little corner to dump
+            them. sometimes i write. sometimes i don't.
+            no schedule, no agenda.
+          </p>
+          <p class="about-body">
+            if you're reading this — Привет :&gt;
+          </p>
+
+          <!-- Still writing placeholder -->
+          <div class="still-writing">
+            <span class="blink">_</span>
+            still writing this... come back later ;)
+          </div>
+
+          <!-- CV Download -->
+          <div class="cv-wrap">
+            <a href="assets/cv.pdf" download class="cv-btn">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              download cv
+            </a>
+            <span class="cv-note">formal version of me</span>
+          </div>
+
+          <!-- Socials -->
+          <div class="socials">
+            <a href="https://x.com/rectifier00x" target="_blank" rel="noopener">
+              twitter / x
+            </a>
+            <a href="https://github.com/dave-019" target="_blank" rel="noopener">
+              github
+            </a>
+            <a href="mailto:hello@roma.co.ke">
+              email
+            </a>
+          </div>
+
+          <!-- Tip -->
+          <div class="tip-wrap">
+            <p>if this made your day even 1% better →</p>
+            <button id="appreciate-btn" class="tip-btn">
+              send a tip ☕
+            </button>
+          </div>
+
+        </div>
+      </section>
 
       <!-- Footer -->
       <footer class="site-footer">
-        <span class="mono">© 2026</span>
-        <div class="footer-links">
-          <a href="https://x.com/rectifier00x">Twitter</a>
-          <a href="https://github.com/dave-019">GitHub</a>
-        </div>
-        <div class="shortcuts">
-          Shortcuts:
-          <kbd>/</kbd> Search
-          <kbd>T</kbd> Theme
-          <kbd>Esc</kbd> Close
-        </div>
+        <span>© 2026 david</span>
+        <span class="footer-dot">·</span>
+        <span>made in kenya</span>
+        <span class="footer-dot">·</span>
+        <a href="https://github.com/dave-019/roma"
+           target="_blank" rel="noopener">source</a>
       </footer>
 
     </div>
 
-    <!-- ARTICLE VIEW -->
+    <!-- ── ARTICLE VIEW ────────────────────────────────────── -->
     <div id="article-view" class="hidden">
-      <div class="article-wrap">
 
+      <div class="article-wrap">
         <button onclick="showHome()" class="back-btn">
-          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M19 12H5m0 0l7 7m-7-7l7-7" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Back
+          ← back
         </button>
 
         <article id="article-content"></article>
 
-        <!-- Share -->
         <div class="share-row">
-          <p>Share this article</p>
-          <div class="share-btns">
-            <button class="share-btn" onclick="shareTwitter()" title="Share on Twitter">
-              <svg fill="currentColor" viewBox="0 0 24 24">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-              </svg>
-            </button>
-            <button class="share-btn" onclick="copyArticleLink()" title="Copy link">
-              <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                <path d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-          </div>
+          <span>share →</span>
+          <button class="share-btn" onclick="shareTwitter()" title="Twitter">
+            <svg fill="currentColor" viewBox="0 0 24 24">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </button>
+          <button class="share-btn" onclick="copyArticleLink()" title="Copy link">
+            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
         </div>
-
       </div>
-
-      <div class="line"></div>
 
       <!-- Related -->
       <div class="related-wrap">
-        <h3>More articles</h3>
+        <h3 class="related-title">more writing</h3>
         <div id="related-posts"></div>
       </div>
 
-      <div class="line"></div>
-
       <footer class="site-footer">
-        <span class="mono">© 2026</span>
-        <div class="footer-links">
-          <a href="https://x.com/rectifier00x">Twitter</a>
-          <a href="https://github.com/dave-019">GitHub</a>
-        </div>
+        <span>© 2026 david</span>
+        <span class="footer-dot">·</span>
+        <a href="https://x.com/rectifier00x"
+           target="_blank" rel="noopener">twitter</a>
+        <span class="footer-dot">·</span>
+        <a href="https://github.com/dave-019"
+           target="_blank" rel="noopener">github</a>
       </footer>
 
     </div>
@@ -237,21 +250,12 @@
   <!-- Video Modal -->
   <div id="video-modal" class="modal">
     <div class="modal-backdrop" onclick="closeVideoModal()"></div>
-    <div class="modal-content">
-      <div class="modal-header">
-        <button onclick="closeVideoModal()" class="icon-btn">
-          <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-            <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="video-wrap">
-          <iframe id="video-iframe" src="" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-          </iframe>
-        </div>
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeVideoModal()">✕</button>
+      <div class="video-wrap">
+        <iframe id="video-iframe" src="" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
       </div>
     </div>
   </div>
@@ -259,14 +263,10 @@
   <!-- Tip Modal -->
   <div id="appreciate-modal" class="modal">
     <div class="modal-backdrop" onclick="closeAppreciateModal()"></div>
-    <div class="modal-content modal-small">
+    <div class="modal-box modal-small">
       <div class="modal-header">
-        <h3>Send a tip</h3>
-        <button onclick="closeAppreciateModal()" class="icon-btn">
-          <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-            <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
+        <span>send a tip ☕</span>
+        <button class="modal-close-sm" onclick="closeAppreciateModal()">✕</button>
       </div>
       <div class="amount-grid">
         <button class="amount-btn" data-amount="100">KES 100</button>
@@ -277,13 +277,15 @@
         <button class="amount-btn" data-amount="5000">KES 5,000</button>
       </div>
       <div class="custom-wrap">
-        <span class="currency-label">KES</span>
-        <input type="number" id="custom-amount" placeholder="Custom amount" min="10" class="custom-input">
+        <span class="currency">KES</span>
+        <input type="number" id="custom-amount"
+          placeholder="custom amount" min="10"
+          class="custom-input">
       </div>
-      <button id="pay-btn" class="btn-primary full">
-        Pay <span id="pay-amount">KES 500</span>
+      <button id="pay-btn" class="pay-btn">
+        pay <span id="pay-amount">KES 500</span>
       </button>
-      <p class="secured">Secured by Paystack</p>
+      <p class="secured">secured by paystack</p>
     </div>
   </div>
 
@@ -291,11 +293,7 @@
   <div id="toast" class="toast"></div>
 
   <!-- Scroll top -->
-  <button id="scroll-top" class="scroll-top" title="Back to top">
-    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-      <path d="M5 15l7-7 7 7" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </button>
+  <button id="scroll-top" class="scroll-top" title="back to top">↑</button>
 
   <!-- Cloudflare Analytics -->
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
@@ -309,8 +307,6 @@
 
     // ── State ──────────────────────────────────────────────
     let content        = [];
-    let currentFilter  = 'all';
-    let currentSort    = 'newest';
     let currentArticle = null;
     let selectedAmount = 500;
 
@@ -321,7 +317,7 @@
       setupEvents();
     });
 
-    // ── Load Content ───────────────────────────────────────
+    // ── Load ───────────────────────────────────────────────
     async function loadContent() {
       try {
         const res = await fetch('data/content.json?v=' + Date.now());
@@ -329,37 +325,226 @@
       } catch(e) {
         content = [];
       }
-      updateStats();
-      renderContent();
+      renderAll();
 
-      const params    = new URLSearchParams(window.location.search);
-      const articleId = params.get('article');
-      if (articleId && content.some(i => i.id === articleId)) {
-        showArticle(articleId);
-      }
+      const params = new URLSearchParams(window.location.search);
+      const id     = params.get('article');
+      if (id && content.some(i => i.id === id)) showArticle(id);
     }
 
-    // ── Stats ──────────────────────────────────────────────
-    function updateStats() {
-      document.getElementById('total-count').textContent =
-        `${content.length} item${content.length !== 1 ? 's' : ''}`;
+    // ── Render All ─────────────────────────────────────────
+    function renderAll() {
+      const writing = content.filter(i => i.type === 'article')
+        .sort((a,b) => b.timestamp - a.timestamp);
+      const links   = content.filter(i => i.type === 'link')
+        .sort((a,b) => b.timestamp - a.timestamp);
+      const videos  = content.filter(i => i.type === 'video')
+        .sort((a,b) => b.timestamp - a.timestamp);
 
-      if (content.length > 0) {
-        const latest = [...content].sort(
-          (a,b) => b.timestamp - a.timestamp
-        )[0];
-        document.getElementById('last-updated').textContent =
-          'Last updated: ' + timeAgo(latest.date);
+      renderSection('writing-list', 'writing-count', writing, renderArticle);
+      renderSection('links-list',   'links-count',   links,   renderLink);
+      renderSection('videos-list',  'videos-count',  videos,  renderVideo);
+    }
+
+    function renderSection(listId, countId, items, fn) {
+      const el    = document.getElementById(listId);
+      const count = document.getElementById(countId);
+      count.textContent = items.length
+        ? `(${items.length})` : '';
+
+      if (!items.length) {
+        el.innerHTML = '<p class="empty">nothing here yet</p>';
+        return;
       }
+      el.innerHTML = items.map(fn).join('');
 
-      document.getElementById('stats-bar').style.display = 'flex';
+      // lazy load images
+      el.querySelectorAll('img[data-src]').forEach(img => {
+        const io = new IntersectionObserver(entries => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              img.src = img.dataset.src;
+              img.removeAttribute('data-src');
+              io.unobserve(img);
+            }
+          });
+        });
+        io.observe(img);
+      });
+    }
+
+    // ── Search ─────────────────────────────────────────────
+    function doSearch(q) {
+      q = q.toLowerCase();
+      if (!q) { renderAll(); return; }
+
+      const filtered = content.filter(i =>
+        i.title.toLowerCase().includes(q) ||
+        (i.description && i.description.toLowerCase().includes(q))
+      );
+
+      const writing = filtered.filter(i => i.type === 'article');
+      const links   = filtered.filter(i => i.type === 'link');
+      const videos  = filtered.filter(i => i.type === 'video');
+
+      renderSection('writing-list', 'writing-count', writing, renderArticle);
+      renderSection('links-list',   'links-count',   links,   renderLink);
+      renderSection('videos-list',  'videos-count',  videos,  renderVideo);
+    }
+
+    // ── Render Items ───────────────────────────────────────
+    function renderArticle(item) {
+      return `
+        <div class="list-item">
+          <a href="#"
+             onclick="showArticle('${item.id}'); return false;"
+             class="item-title">
+            ${escHtml(item.title)}
+          </a>
+          <span class="item-date">${timeAgo(item.date)}</span>
+        </div>`;
+    }
+
+    function renderLink(item) {
+      const domain = item.url
+        ? new URL(item.url).hostname.replace('www.','') : '';
+      return `
+        <div class="list-item">
+          <a href="${item.url}"
+             target="_blank"
+             rel="noopener"
+             class="item-title">
+            ${escHtml(item.title)}
+          </a>
+          <span class="item-meta-right">
+            <span class="item-domain">${domain}</span>
+            <span class="item-date">${timeAgo(item.date)}</span>
+          </span>
+        </div>
+        ${item.description
+          ? `<p class="item-desc">${escHtml(item.description)}</p>`
+          : ''}`;
+    }
+
+    function renderVideo(item) {
+      const thumb = item.youtubeId
+        ? `https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg`
+        : '';
+      return `
+        <div class="list-item video-item">
+          <a href="#"
+             onclick="openVideoModal(event,'${item.youtubeId}')"
+             class="item-title">
+            ▶ ${escHtml(item.title)}
+          </a>
+          <span class="item-date">${timeAgo(item.date)}</span>
+        </div>
+        ${item.description
+          ? `<p class="item-desc">${escHtml(item.description)}</p>`
+          : ''}`;
+    }
+
+    // ── Article View ───────────────────────────────────────
+    function showArticle(id) {
+      const item = content.find(i => i.id === id);
+      if (!item) return;
+      currentArticle = item;
+
+      const time = calcReadTime(item.content || '');
+      const url  = `${SITE_URL}?article=${id}`;
+
+      // SEO
+      document.title = `${item.title} — Rectifier00x`;
+      setMeta('description', item.description || item.title);
+      setMeta('og:title', item.title);
+      setMeta('og:url', url);
+      setMeta('og:type', 'article');
+      setMeta('twitter:title', item.title);
+      document.querySelector('link[rel="canonical"]')
+        .setAttribute('href', url);
+
+      document.getElementById('article-content').innerHTML = `
+        <div class="article-meta">
+          <span>${formatDateLong(item.date)}</span>
+          <span>·</span>
+          <span>${time} min read</span>
+        </div>
+        ${item.image ? `
+        <div class="article-img">
+          <img src="${item.image}"
+            alt="${escHtml(item.title)}"
+            loading="lazy"
+            onload="this.classList.add('loaded')">
+        </div>` : ''}
+        <h1 class="article-title">${escHtml(item.title)}</h1>
+        ${item.description
+          ? `<p class="article-desc">${escHtml(item.description)}</p>`
+          : ''}
+        <div class="article-body">${item.content || ''}</div>
+      `;
+
+      renderRelated(id);
+
+      document.getElementById('home-view').classList.add('hidden');
+      document.getElementById('article-view').classList.remove('hidden');
+      document.getElementById('search-wrap').classList.add('hidden');
+      document.getElementById('site-nav').classList.add('hidden');
+
+      window.scrollTo({ top: 0 });
+      history.pushState({ articleId: id }, '', `?article=${id}`);
+    }
+
+    function renderRelated(currentId) {
+      const related = content
+        .filter(i => i.type === 'article' && i.id !== currentId)
+        .sort((a,b) => b.timestamp - a.timestamp)
+        .slice(0, 4);
+
+      const el = document.getElementById('related-posts');
+      if (!related.length) {
+        el.innerHTML = '<p class="empty">no other writing yet</p>';
+        return;
+      }
+      el.innerHTML = related.map(item => `
+        <div class="list-item">
+          <a href="#"
+             onclick="showArticle('${item.id}'); return false;"
+             class="item-title">
+            ${escHtml(item.title)}
+          </a>
+          <span class="item-date">${timeAgo(item.date)}</span>
+        </div>
+      `).join('');
+    }
+
+    function showHome() {
+      document.title = 'Rectifier00x';
+      setMeta('og:type', 'website');
+      setMeta('og:url', SITE_URL);
+      document.querySelector('link[rel="canonical"]')
+        .setAttribute('href', SITE_URL);
+
+      document.getElementById('home-view').classList.remove('hidden');
+      document.getElementById('article-view').classList.add('hidden');
+      document.getElementById('search-wrap').classList.remove('hidden');
+      document.getElementById('site-nav').classList.remove('hidden');
+      document.getElementById('reading-progress').style.width = '0%';
+      currentArticle = null;
+      history.pushState({}, '', window.location.pathname);
+    }
+
+    // ── Scroll to section ──────────────────────────────────
+    function scrollTo(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      return false;
     }
 
     // ── Theme ──────────────────────────────────────────────
     function initTheme() {
-      const saved      = localStorage.getItem('theme');
-      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (saved === 'dark' || (!saved && systemDark)) applyDark();
+      const saved = localStorage.getItem('theme');
+      const dark  = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && dark)) applyDark();
     }
 
     function applyDark() {
@@ -380,59 +565,30 @@
       document.getElementById('theme-toggle')
         .addEventListener('click', toggleTheme);
 
-      const search = document.getElementById('search-input');
-      search.addEventListener('input', renderContent);
+      document.getElementById('search-input')
+        .addEventListener('input', e => doSearch(e.target.value));
 
-      // Keyboard shortcuts
       document.addEventListener('keydown', e => {
         if (e.target.tagName === 'INPUT') {
           if (e.key === 'Escape') e.target.blur();
           return;
         }
-        if (e.key === '/')  { e.preventDefault(); search.focus(); }
+        if (e.key === '/') {
+          e.preventDefault();
+          document.getElementById('search-input').focus();
+        }
         if (e.key === 't' || e.key === 'T') toggleTheme();
         if (e.key === 'Escape') {
           closeVideoModal();
           closeAppreciateModal();
-          closeSortMenu();
         }
       });
 
-      // Filters
-      document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.filter-btn')
-            .forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          currentFilter = btn.dataset.filter;
-          renderContent();
-        });
-      });
-
-      // Sort
-      document.getElementById('sort-btn').addEventListener('click', e => {
-        e.stopPropagation();
-        document.getElementById('sort-menu').classList.toggle('hidden');
-      });
-
-      document.querySelectorAll('.sort-option').forEach(btn => {
-        btn.addEventListener('click', () => {
-          currentSort = btn.dataset.sort;
-          document.getElementById('sort-label').textContent = btn.textContent;
-          closeSortMenu();
-          renderContent();
-        });
-      });
-
-      document.addEventListener('click', closeSortMenu);
-
-      // Appreciate
       document.getElementById('appreciate-btn')
         .addEventListener('click', () => {
           document.getElementById('appreciate-modal').classList.add('open');
         });
 
-      // Amount buttons
       document.querySelectorAll('.amount-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           document.querySelectorAll('.amount-btn')
@@ -444,326 +600,45 @@
         });
       });
 
-      document.getElementById('custom-amount').addEventListener('input', e => {
-        const val = parseInt(e.target.value);
-        if (val >= 10) {
-          document.querySelectorAll('.amount-btn')
-            .forEach(b => b.classList.remove('selected'));
-          selectedAmount = val;
-          updatePayBtn();
-        }
-      });
+      document.getElementById('custom-amount')
+        .addEventListener('input', e => {
+          const val = parseInt(e.target.value);
+          if (val >= 10) {
+            document.querySelectorAll('.amount-btn')
+              .forEach(b => b.classList.remove('selected'));
+            selectedAmount = val;
+            updatePayBtn();
+          }
+        });
 
       document.getElementById('pay-btn')
         .addEventListener('click', processPayment);
 
-      // Scroll
       window.addEventListener('scroll', () => {
         document.getElementById('scroll-top')
-          .classList.toggle('visible', window.scrollY > 500);
+          .classList.toggle('visible', window.scrollY > 400);
         updateProgress();
       });
 
-      document.getElementById('scroll-top').addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
+      document.getElementById('scroll-top')
+        .addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
 
-      // Popstate
       window.addEventListener('popstate', e => {
         if (e.state && e.state.articleId) showArticle(e.state.articleId);
         else showHome();
       });
     }
 
-    // ── Render ─────────────────────────────────────────────
-    function renderContent() {
-      const q = document.getElementById('search-input').value.toLowerCase();
-
-      let items = content.filter(item => {
-        const matchType   = currentFilter === 'all' || item.type === currentFilter;
-        const matchSearch = item.title.toLowerCase().includes(q) ||
-          (item.description && item.description.toLowerCase().includes(q));
-        return matchType && matchSearch;
-      });
-
-      switch(currentSort) {
-        case 'newest':
-          items.sort((a,b) => b.timestamp - a.timestamp); break;
-        case 'oldest':
-          items.sort((a,b) => a.timestamp - b.timestamp); break;
-        case 'title':
-          items.sort((a,b) => a.title.localeCompare(b.title)); break;
-      }
-
-      const list  = document.getElementById('content-list');
-      const empty = document.getElementById('empty-state');
-
-      if (items.length === 0) {
-        list.innerHTML = '';
-        empty.classList.remove('hidden');
-      } else {
-        empty.classList.add('hidden');
-        list.innerHTML = items.map(renderItem).join('');
-
-        // Lazy load images
-        list.querySelectorAll('img[data-src]').forEach(img => {
-          const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                img.src = img.dataset.src;
-                img.removeAttribute('data-src');
-                observer.unobserve(img);
-              }
-            });
-          });
-          observer.observe(img);
-        });
-      }
-    }
-
-    function renderItem(item) {
-      if (item.type === 'article') return renderArticle(item);
-      if (item.type === 'link')    return renderLink(item);
-      if (item.type === 'video')   return renderVideo(item);
-      return '';
-    }
-
-    function renderArticle(item) {
-      const time = calculateReadingTime(item.content || '');
-      return `
-        <article class="content-item" data-type="article">
-          <a href="#" onclick="showArticle('${item.id}'); return false;"
-             class="item-card">
-            ${item.image ? `
-            <div class="item-image">
-              <img data-src="${item.image}" src=""
-                alt="${escHtml(item.title)}"
-                onload="this.classList.add('loaded')"
-                onerror="this.parentElement.style.display='none'">
-            </div>` : ''}
-            <div class="item-body">
-              <div class="item-meta">
-                <span class="type-badge">Article</span>
-                <span class="meta-right">
-                  <span class="read-time">${time} min read</span>
-                  <span class="item-date">${timeAgo(item.date)}</span>
-                </span>
-              </div>
-              <h2 class="item-title">${escHtml(item.title)}</h2>
-              ${item.description
-                ? `<p class="item-desc">${escHtml(item.description)}</p>`
-                : ''}
-            </div>
-          </a>
-        </article>`;
-    }
-
-    function renderLink(item) {
-      const domain = item.url
-        ? new URL(item.url).hostname.replace('www.','') : '';
-      return `
-        <article class="content-item" data-type="link">
-          <div class="item-card">
-            <div class="item-body">
-              <div class="item-meta">
-                <span class="type-badge">Link</span>
-                <span class="item-date">${timeAgo(item.date)}</span>
-              </div>
-              <a href="${item.url}" target="_blank" rel="noopener"
-                 class="item-link-title">
-                <h2 class="item-title">${escHtml(item.title)}</h2>
-              </a>
-              ${item.description
-                ? `<p class="item-desc">${escHtml(item.description)}</p>`
-                : ''}
-              <span class="domain">${domain}</span>
-            </div>
-          </div>
-        </article>`;
-    }
-
-    function renderVideo(item) {
-      const thumb = item.youtubeId
-        ? `https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg`
-        : '';
-      return `
-        <article class="content-item" data-type="video">
-          <a href="#"
-             onclick="openVideoModal(event,'${item.youtubeId}')"
-             class="item-card">
-            ${thumb ? `
-            <div class="item-image video-thumb">
-              <img data-src="${thumb}" src=""
-                alt="${escHtml(item.title)}"
-                onload="this.classList.add('loaded')"
-                onerror="this.src='https://img.youtube.com/vi/${item.youtubeId}/default.jpg'">
-              <div class="play-btn">
-                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-              </div>
-              ${item.duration
-                ? `<span class="duration">${item.duration}</span>`
-                : ''}
-            </div>` : ''}
-            <div class="item-body">
-              <div class="item-meta">
-                <span class="type-badge">Video</span>
-                <span class="item-date">${timeAgo(item.date)}</span>
-              </div>
-              <h2 class="item-title">${escHtml(item.title)}</h2>
-              ${item.description
-                ? `<p class="item-desc">${escHtml(item.description)}</p>`
-                : ''}
-            </div>
-          </a>
-        </article>`;
-    }
-
-    // ── Article View ───────────────────────────────────────
-    function showArticle(id) {
-      const item = content.find(i => i.id === id);
-      if (!item) return;
-      currentArticle = item;
-
-      // Update SEO
-      const articleUrl = `${SITE_URL}?article=${id}`;
-      document.title = `${item.title} — Rectifier00x`;
-      setMeta('description', item.description || item.title);
-      setMeta('og:title', item.title);
-      setMeta('og:description', item.description || '');
-      setMeta('og:url', articleUrl);
-      setMeta('og:type', 'article');
-      setMeta('twitter:title', item.title);
-      setMeta('twitter:description', item.description || '');
-      document.querySelector('link[rel="canonical"]')
-        .setAttribute('href', articleUrl);
-
-      const time = calculateReadingTime(item.content || '');
-
-      document.getElementById('article-content').innerHTML = `
-        <div class="article-meta">
-          <span>${formatDateLong(item.date)}</span>
-          <span class="dot">·</span>
-          <span>${time} min read</span>
-        </div>
-        ${item.image ? `
-        <div class="article-image">
-          <img src="${item.image}" alt="${escHtml(item.title)}"
-            onload="this.classList.add('loaded')"
-            loading="lazy">
-        </div>` : ''}
-        <h1 class="article-title">${escHtml(item.title)}</h1>
-        ${item.description
-          ? `<p class="article-desc">${escHtml(item.description)}</p>`
-          : ''}
-        <div class="line"></div>
-        <div class="article-content">${item.content || ''}</div>
-      `;
-
-      renderRelated(id);
-
-      document.getElementById('home-view').classList.add('hidden');
-      document.getElementById('article-view').classList.remove('hidden');
-      document.getElementById('search-container').classList.add('hidden');
-
-      window.scrollTo({ top: 0 });
-      history.pushState({ articleId: id }, '', `?article=${id}`);
-    }
-
-    function renderRelated(currentId) {
-      const related = content
-        .filter(i => i.type === 'article' && i.id !== currentId)
-        .sort((a,b) => b.timestamp - a.timestamp)
-        .slice(0, 3);
-
-      const el = document.getElementById('related-posts');
-      if (!related.length) {
-        el.innerHTML = '<p class="muted">No other articles yet</p>';
-        return;
-      }
-      el.innerHTML = related.map(item => `
-        <a href="#" onclick="showArticle('${item.id}'); return false;"
-           class="related-card">
-          <span class="item-date">${timeAgo(item.date)}</span>
-          <h4>${escHtml(item.title)}</h4>
-        </a>
-      `).join('');
-    }
-
-    function showHome() {
-      document.title = 'Rectifier00x — Articles, Links & Videos';
-      setMeta('description',
-        'Rectifier00x — A curated collection of articles, links, and videos.');
-      setMeta('og:title', 'Rectifier00x — Articles, Links & Videos');
-      setMeta('og:type', 'website');
-      setMeta('og:url', SITE_URL);
-      document.querySelector('link[rel="canonical"]')
-        .setAttribute('href', SITE_URL);
-
-      document.getElementById('home-view').classList.remove('hidden');
-      document.getElementById('article-view').classList.add('hidden');
-      document.getElementById('search-container').classList.remove('hidden');
-      document.getElementById('reading-progress').style.width = '0%';
-      currentArticle = null;
-      history.pushState({}, '', window.location.pathname);
-    }
-
-    // ── Helpers ────────────────────────────────────────────
-    function setMeta(name, value) {
-      const el = document.querySelector(
-        `meta[name="${name}"], meta[property="${name}"]`
-      );
-      if (el) el.setAttribute('content', value);
-    }
-
-    function escHtml(str) {
-      if (!str) return '';
-      return str
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-    }
-
-    function timeAgo(isoString) {
-      if (!isoString) return '';
-      const now  = new Date();
-      const then = new Date(isoString);
-      if (isNaN(then)) return '';
-      const diff = Math.floor((now - then) / 1000);
-
-      if (diff < 60)    return 'just now';
-      const mins = Math.floor(diff / 60);
-      if (mins < 60)    return `${mins}m ago`;
-      const hours = Math.floor(mins / 60);
-      if (hours < 24)   return `${hours}h ago`;
-      const days = Math.floor(hours / 24);
-      if (days === 1)   return 'yesterday';
-      if (days < 7)     return `${days}d ago`;
-      const weeks = Math.floor(days / 7);
-      if (weeks < 4)    return `${weeks}w ago`;
-      return then.toLocaleDateString('en-KE', {
-        day: 'numeric', month: 'short', year: 'numeric'
-      });
-    }
-
-    function formatDateLong(str) {
-      return new Date(str).toLocaleDateString('en-KE', {
-        month: 'long', day: 'numeric', year: 'numeric'
-      });
-    }
-
-    function calculateReadingTime(content) {
-      const words = content.replace(/<[^>]*>/g, '').split(/\s+/).length;
-      return Math.max(1, Math.ceil(words / 200));
-    }
-
+    // ── Progress ───────────────────────────────────────────
     function updateProgress() {
       if (document.getElementById('article-view').classList.contains('hidden')) return;
-      const article = document.getElementById('article-content');
-      const rect    = article.getBoundingClientRect();
-      const scrolled = -rect.top;
-      const total   = rect.height - window.innerHeight;
-      const pct     = Math.min(Math.max(scrolled / total * 100, 0), 100);
+      const a   = document.getElementById('article-content');
+      const r   = a.getBoundingClientRect();
+      const pct = Math.min(
+        Math.max((-r.top) / (r.height - window.innerHeight) * 100, 0), 100
+      );
       document.getElementById('reading-progress').style.width = pct + '%';
     }
 
@@ -786,10 +661,6 @@
       document.getElementById('appreciate-modal').classList.remove('open');
     }
 
-    function closeSortMenu() {
-      document.getElementById('sort-menu').classList.add('hidden');
-    }
-
     // ── Paystack ───────────────────────────────────────────
     function updatePayBtn() {
       document.getElementById('pay-amount').textContent =
@@ -797,12 +668,11 @@
     }
 
     function processPayment() {
-      const btn = document.getElementById('pay-btn');
+      const btn       = document.getElementById('pay-btn');
       btn.disabled    = true;
-      btn.textContent = 'Processing...';
+      btn.textContent = 'processing...';
 
-      const popup = new PaystackPop();
-      popup.newTransaction({
+      new PaystackPop().newTransaction({
         key:      PAYSTACK_KEY,
         email:    RECIPIENT_EMAIL,
         amount:   selectedAmount * 100,
@@ -810,26 +680,26 @@
         channels: ['mobile_money', 'card'],
         onSuccess: () => {
           closeAppreciateModal();
-          showToast('Thank you! ✓');
+          showToast('thank you! ✓');
           resetPayBtn();
         },
-        onCancel: () => { showToast('Cancelled'); resetPayBtn(); },
-        onError:  () => { showToast('Failed. Try again.'); resetPayBtn(); },
+        onCancel: () => { showToast('cancelled'); resetPayBtn(); },
+        onError:  () => { showToast('failed. try again.'); resetPayBtn(); },
         onLoad:   () => resetPayBtn(),
       });
     }
 
     function resetPayBtn() {
-      const btn   = document.getElementById('pay-btn');
+      const btn    = document.getElementById('pay-btn');
       btn.disabled = false;
       btn.innerHTML =
-        `Pay <span id="pay-amount">KES ${selectedAmount.toLocaleString()}</span>`;
+        `pay <span id="pay-amount">KES ${selectedAmount.toLocaleString()}</span>`;
     }
 
     // ── Share ──────────────────────────────────────────────
     function shareTwitter() {
       if (!currentArticle) return;
-      const url  = `${SITE_URL}?article=${currentArticle.id}`;
+      const url = `${SITE_URL}?article=${currentArticle.id}`;
       window.open(
         `https://x.com/intent/tweet?text=${encodeURIComponent(currentArticle.title)}&url=${encodeURIComponent(url)}`,
         '_blank'
@@ -839,10 +709,54 @@
     function copyArticleLink() {
       if (!currentArticle) return;
       navigator.clipboard.writeText(`${SITE_URL}?article=${currentArticle.id}`);
-      showToast('Link copied');
+      showToast('link copied');
     }
 
-    // ── Toast ──────────────────────────────────────────────
+    // ── Helpers ────────────────────────────────────────────
+    function setMeta(name, val) {
+      const el = document.querySelector(
+        `meta[name="${name}"], meta[property="${name}"]`
+      );
+      if (el) el.setAttribute('content', val);
+    }
+
+    function escHtml(s) {
+      if (!s) return '';
+      return s.replace(/&/g,'&amp;')
+               .replace(/</g,'&lt;')
+               .replace(/>/g,'&gt;')
+               .replace(/"/g,'&quot;');
+    }
+
+    function timeAgo(iso) {
+      if (!iso) return '';
+      const diff = Math.floor((Date.now() - new Date(iso)) / 1000);
+      if (diff < 60)    return 'just now';
+      const m = Math.floor(diff/60);
+      if (m < 60)       return m + 'm ago';
+      const h = Math.floor(m/60);
+      if (h < 24)       return h + 'h ago';
+      const d = Math.floor(h/24);
+      if (d === 1)      return 'yesterday';
+      if (d < 7)        return d + 'd ago';
+      const w = Math.floor(d/7);
+      if (w < 4)        return w + 'w ago';
+      return new Date(iso).toLocaleDateString('en-KE', {
+        day:'numeric', month:'short', year:'numeric'
+      });
+    }
+
+    function formatDateLong(iso) {
+      return new Date(iso).toLocaleDateString('en-KE', {
+        month:'long', day:'numeric', year:'numeric'
+      });
+    }
+
+    function calcReadTime(html) {
+      const words = html.replace(/<[^>]*>/g,'').split(/\s+/).length;
+      return Math.max(1, Math.ceil(words / 200));
+    }
+
     function showToast(msg) {
       const t = document.getElementById('toast');
       t.textContent = msg;
