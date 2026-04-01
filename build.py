@@ -54,16 +54,14 @@ def parse_field(body, field):
 def extract_image_url(raw):
     """
     Given a raw Image field value, extract a plain HTTPS URL.
-    Handles these formats:
-      - Plain URL:              https://example.com/img.jpg
-      - Markdown image:         ![alt](https://example.com/img.jpg)
-      - HTML img tag:           <img src="https://..." ...>
-      - GitHub drag-drop paste: ![image](https://user-images.githubusercontent.com/...)
+    Handles:
+      - Plain URL:          https://example.com/img.jpg
+      - Markdown image:     ![alt](https://example.com/img.jpg)
+      - HTML img tag:       <img src="https://..." ...>
     Returns a plain URL string or empty string.
     """
     if not raw:
         return ''
-
     raw = raw.strip()
 
     # Markdown image: ![alt](url)
@@ -82,6 +80,42 @@ def extract_image_url(raw):
 
     return ''
 
+def detect_type(body):
+    """
+    Detect content type purely from the issue body fields.
+    No labels needed — uses unique fields per template:
+      video   → has URL + Duration
+      link    → has URL only
+      article → has --- content separator
+    """
+    url      = parse_field(body, 'URL')
+    duration = parse_field(body, 'Duration')
+
+    if url and duration:
+        return 'video'
+    if url:
+        return 'link'
+    if '---' in (body or ''):
+        return 'article'
+
+    return 'link'
+
+def is_hidden(issue):
+    """
+    Check if an issue should be hidden from the site.
+    Checks BOTH the label (in case it works) AND a 'Hidden: true'
+    line in the body (reliable, label-independent).
+    """
+    labels = get_labels(issue)
+    if 'hidden' in labels:
+        return True
+
+    body = issue.get('body', '') or ''
+    if parse_field(body, 'Hidden').lower() in ('true', 'yes', '1'):
+        return True
+
+    return False
+
 def parse_content(body):
     """
     Extract markdown content after the first --- separator.
@@ -96,13 +130,11 @@ def parse_content(body):
 
     md = parts[1].strip()
 
-    # Remove unfilled template field lines e.g. "Image:", "Description:", "URL:"
-    # and known placeholder text from the issue templates
     cleaned = []
     for line in md.split('\n'):
         stripped = line.strip()
 
-        # Skip empty template fields like "Image:" or "URL:"
+        # Skip empty template fields like "Image:", "URL:", "Duration:"
         if re.match(r'^[A-Za-z ]+:\s*$', stripped):
             continue
 
@@ -194,7 +226,7 @@ def markdown_to_html(md):
         elif line.strip() in ('---', '***', '___'):
             html.append('<hr>')
 
-        # Empty line — skip to avoid blank gaps in output
+        # Empty line — skip to avoid blank gaps
         elif line.strip() == '':
             continue
 
@@ -257,36 +289,8 @@ def extract_youtube_id(url):
             return match.group(1)
     return ''
 
-def detect_type_from_body(body, labels):
-    """
-    Determine item type. Labels take priority.
-    Falls back to body content inspection if no label matches.
-    """
-    if 'article' in labels:
-        return 'article'
-    if 'link' in labels:
-        return 'link'
-    if 'video' in labels:
-        return 'video'
-    if 'hidden' in labels:
-        return None
-
-    # Fallback: inspect body fields
-    url      = parse_field(body, 'URL')
-    duration = parse_field(body, 'Duration')
-
-    if url and duration:
-        return 'video'
-    if url:
-        return 'link'
-    if '---' in (body or ''):
-        return 'article'
-
-    return 'link'
-
 def issue_to_item(issue):
     """Convert a GitHub issue to a content item."""
-    labels  = get_labels(issue)
     body    = issue.get('body', '') or ''
     title   = issue.get('title', '').strip()
     date    = issue.get('created_at', '')
@@ -302,11 +306,9 @@ def issue_to_item(issue):
         timestamp = 0
         date_iso  = date
 
-    item_type   = detect_type_from_body(body, labels)
+    item_type   = detect_type(body)
     description = parse_field(body, 'Description')
-
-    # Always extract a plain URL from the Image field — never raw markdown or HTML
-    image = extract_image_url(parse_field(body, 'Image'))
+    image       = extract_image_url(parse_field(body, 'Image'))
 
     item = {
         'id':          item_id,
@@ -340,10 +342,12 @@ def main():
     items = []
     for issue in issues:
         try:
-            item = issue_to_item(issue)
-            if item is None:          
+            # Skip hidden posts — checks label AND body field
+            if is_hidden(issue):
                 print(f'  – skipped  #{issue.get("number")} (hidden)')
                 continue
+
+            item = issue_to_item(issue)
             items.append(item)
             print(f'  ✓ [{item["type"]}] #{issue["number"]} {item["title"][:50]}')
         except Exception as e:
@@ -353,8 +357,6 @@ def main():
     items.sort(key=lambda x: x['timestamp'], reverse=True)
 
     # ── Merge with legacy content ──────────────────────────
-    # Preserve any old entries with non-numeric IDs that existed
-    # before the GitHub issues system was adopted.
     os.makedirs('data', exist_ok=True)
     existing = []
     try:
