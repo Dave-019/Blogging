@@ -349,8 +349,7 @@
     function renderSection(listId, countId, items, fn) {
       const el    = document.getElementById(listId);
       const count = document.getElementById(countId);
-      count.textContent = items.length
-        ? `(${items.length})` : '';
+      count.textContent = items.length ? `(${items.length})` : '';
 
       if (!items.length) {
         el.innerHTML = '<p class="empty">nothing here yet</p>';
@@ -427,9 +426,6 @@
     }
 
     function renderVideo(item) {
-      const thumb = item.youtubeId
-        ? `https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg`
-        : '';
       return `
         <div class="list-item video-item">
           <a href="#"
@@ -463,15 +459,20 @@
       document.querySelector('link[rel="canonical"]')
         .setAttribute('href', url);
 
+      // Safely extract a plain image URL — guard against any
+      // leftover markdown or HTML tags that slipped through
+      const rawImage  = item.image || '';
+      const imageUrl  = extractImageUrl(rawImage);
+
       document.getElementById('article-content').innerHTML = `
         <div class="article-meta">
           <span>${formatDateLong(item.date)}</span>
           <span>·</span>
           <span>${time} min read</span>
         </div>
-        ${item.image ? `
+        ${imageUrl ? `
         <div class="article-img">
-          <img src="${item.image}"
+          <img src="${escHtml(imageUrl)}"
             alt="${escHtml(item.title)}"
             loading="lazy"
             onload="this.classList.add('loaded')">
@@ -492,6 +493,22 @@
 
       window.scrollTo({ top: 0 });
       history.pushState({ articleId: id }, '', `?article=${id}`);
+    }
+
+    // Extract a plain HTTPS URL from whatever the image field contains.
+    // Handles plain URLs, markdown images, and stray HTML tags.
+    function extractImageUrl(raw) {
+      if (!raw) return '';
+      raw = raw.trim();
+      // Markdown: ![alt](url)
+      const md = raw.match(/!\[.*?\]\((https:\/\/[^)\s]+)\)/);
+      if (md) return md[1];
+      // HTML img tag: <img src="url"
+      const html = raw.match(/<img[^>]+src=["']?(https:\/\/[^"'>\s]+)/);
+      if (html) return html[1];
+      // Plain URL
+      if (/^https?:\/\//.test(raw)) return raw;
+      return '';
     }
 
     function renderRelated(currentId) {

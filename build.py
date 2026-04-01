@@ -51,6 +51,37 @@ def parse_field(body, field):
         return match.group(1).strip()
     return ''
 
+def extract_image_url(raw):
+    """
+    Given a raw Image field value, extract a plain HTTPS URL.
+    Handles these formats:
+      - Plain URL:              https://example.com/img.jpg
+      - Markdown image:         ![alt](https://example.com/img.jpg)
+      - HTML img tag:           <img src="https://..." ...>
+      - GitHub drag-drop paste: ![image](https://user-images.githubusercontent.com/...)
+    Returns a plain URL string or empty string.
+    """
+    if not raw:
+        return ''
+
+    raw = raw.strip()
+
+    # Markdown image: ![alt](url)
+    md_match = re.search(r'!\[.*?\]\((https://[^)\s]+)\)', raw)
+    if md_match:
+        return md_match.group(1)
+
+    # HTML img tag: <img src="url" ...>
+    html_match = re.search(r'<img[^>]+src=["\']?(https://[^"\'>\s]+)', raw)
+    if html_match:
+        return html_match.group(1)
+
+    # Plain URL
+    if raw.startswith('https://') or raw.startswith('http://'):
+        return raw
+
+    return ''
+
 def parse_content(body):
     """
     Extract markdown content after the first --- separator.
@@ -271,12 +302,9 @@ def issue_to_item(issue):
 
     item_type   = detect_type_from_body(body, labels)
     description = parse_field(body, 'Description')
-    image       = parse_field(body, 'Image')
 
-    # Clean up GitHub image markdown if pasted as markdown
-    img_match = re.search(r'!\[.*?\]\((https://[^)]+)\)', image)
-    if img_match:
-        image = img_match.group(1)
+    # Always extract a plain URL from the Image field — never raw markdown or HTML
+    image = extract_image_url(parse_field(body, 'Image'))
 
     item = {
         'id':          item_id,
