@@ -15,17 +15,17 @@ HEADERS = {
 }
 
 def get_issues():
-    """Fetch all open issues from GitHub."""
+    """Fetch ALL issues from GitHub (open and closed)."""
     issues = []
     page   = 1
     while True:
         url = (
             f'https://api.github.com/repos/{GITHUB_REPO}/issues'
-            f'?state=open&per_page=100&page={page}'
+            f'?state=all&per_page=100&page={page}'  # fixed: was 'open', now 'all'
         )
         resp = requests.get(url, headers=HEADERS)
         if resp.status_code != 200:
-            print(f'Error fetching issues: {resp.status_code}')
+            print(f'Error fetching issues: {resp.status_code} - {resp.text}')
             break
         data = resp.json()
         if not data:
@@ -61,7 +61,8 @@ def parse_content(body):
         return ''
     parts = body.split('---', 1)
     if len(parts) < 2:
-        return ''
+        # No separator found — treat the whole body as content
+        return markdown_to_html(body.strip())
     md = parts[1].strip()
     return markdown_to_html(md)
 
@@ -204,6 +205,33 @@ def extract_youtube_id(url):
             return match.group(1)
     return ''
 
+def detect_type_from_body(body, labels):
+    """
+    Determine item type. Labels take priority.
+    Falls back to body content inspection if no label matches.
+    """
+    # Labels are already lowercased by get_labels()
+    if 'article' in labels:
+        return 'article'
+    if 'link' in labels:
+        return 'link'
+    if 'video' in labels:
+        return 'video'
+
+    # Fallback: inspect body fields
+    url      = parse_field(body, 'URL')
+    duration = parse_field(body, 'Duration')
+
+    if url and duration:
+        return 'video'
+    if url:
+        return 'link'
+    if '---' in (body or ''):
+        return 'article'
+
+    # Last resort default
+    return 'link'
+
 def issue_to_item(issue):
     """Convert a GitHub issue to a content item."""
     labels  = get_labels(issue)
@@ -222,17 +250,7 @@ def issue_to_item(issue):
         timestamp = 0
         date_iso  = date
 
-    # Determine type from labels
-    if 'article' in labels:
-        item_type = 'article'
-    elif 'link' in labels:
-        item_type = 'link'
-    elif 'video' in labels:
-        item_type = 'video'
-    else:
-        item_type = 'link'
-
-    # Common fields
+    item_type   = detect_type_from_body(body, labels)
     description = parse_field(body, 'Description')
     image       = parse_field(body, 'Image')
 
@@ -258,10 +276,10 @@ def issue_to_item(issue):
         item['url'] = parse_field(body, 'URL')
 
     elif item_type == 'video':
-        url              = parse_field(body, 'URL')
-        item['url']      = url
+        url               = parse_field(body, 'URL')
+        item['url']       = url
         item['youtubeId'] = extract_youtube_id(url)
-        item['duration'] = parse_field(body, 'Duration')
+        item['duration']  = parse_field(body, 'Duration')
 
     return item
 
@@ -275,19 +293,42 @@ def main():
         try:
             item = issue_to_item(issue)
             items.append(item)
-            print(f'  ✓ [{item["type"]}] {item["title"][:50]}')
+            print(f'  ✓ [{item["type"]}] #{issue["number"]} {item["title"][:50]}')
         except Exception as e:
             print(f'  ✗ Error processing issue #{issue.get("number")}: {e}')
 
     # Sort newest first
     items.sort(key=lambda x: x['timestamp'], reverse=True)
 
-    # Save
+    # ── Merge with legacy content ──────────────────────────
+    # Preserve any old entries (non-numeric IDs) that existed
+    # before the GitHub issues system was adopted.
     os.makedirs('data', exist_ok=True)
-    with open('data/content.json', 'w', encoding='utf-8') as f:
-        json.dump(items, f, indent=2, ensure_ascii=False)
+    existing = []
+    try:
+        with open('data/content.json', 'r', encoding='utf-8') as f:
+            existing = json.load(f)
+        print(f'Found {len(existing)} existing entries in content.json')
+    except (FileNotFoundError, json.JSONDecodeError):
+        pass
 
-    print(f'\nSaved {len(items)} items to data/content.json')
+    # Keep legacy entries whose IDs are not pure integers
+    # (GitHub issue IDs are always numeric strings like "1", "2"...)
+    github_ids = {item['id'] for item in items}
+    legacy     = [e for e in existing if not e['id'].isdigit() and e['id'] not in github_ids]
+
+    if legacy:
+        print(f'Keeping {len(legacy)} legacy entries')
+
+    merged = items + legacy
+    merged.sort(key=lambda x: x['timestamp'], reverse=True)
+
+    with open('data/content.json', 'w', encoding='utf-8') as f:
+        json.dump(merged, f, indent=2, ensure_ascii=False)
+
+    print(f'\nSaved {len(merged)} items to data/content.json')
+    print(f'  → {len(items)} from GitHub issues')
+    print(f'  → {len(legacy)} legacy entries preserved')
 
 if __name__ == '__main__':
     main()
