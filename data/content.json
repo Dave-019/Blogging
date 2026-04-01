@@ -1,7 +1,7 @@
 [
   {
     "id": "7",
-    "type": "article",
+    "type": "hidden",
     "title": "New trial of markdown",
     "description": "",
     "image": "",
@@ -11,7 +11,7 @@
   },
   {
     "id": "6",
-    "type": "article",
+    "type": "hidden",
     "title": "Fixed markdown",
     "description": "enjoy",
     "image": "https://github.com/user-attachments/assets/adeb203a-e162-40c2-aeed-40fb7e8b5f51",
@@ -21,7 +21,7 @@
   },
   {
     "id": "5",
-    "type": "link",
+    "type": "hidden",
     "title": "test link",
     "description": "Image:",
     "image": "",
@@ -31,7 +31,7 @@
   },
   {
     "id": "4",
-    "type": "article",
+    "type": "hidden",
     "title": "Test",
     "description": "Image:",
     "image": "",
@@ -41,7 +41,7 @@
   },
   {
     "id": "3",
-    "type": "article",
+    "type": "hidden",
     "title": "Blogging from github issues",
     "description": "YUP",
     "image": "https://github.com/user-attachments/assets/f32bb01f-585e-4533-8c1b-d10cad4869f1",
