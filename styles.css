@@ -17,6 +17,18 @@
   --selection:  #af3a03;
   --radius:     6px;
 }
+.video-embed {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  margin: 1.5rem 0;
+}
+.video-embed iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border-radius: 6px;
+}
 
 ::selection {
   background: var(--selection);
@@ -441,11 +453,9 @@ body {
 
 .article-img img {
   width: 100%;
-  aspect-ratio: 2/1;
-  object-fit: cover;
+  aspect-ratio: 2 / 1;
+  object-fit: contain;
   display: block;
-  opacity: 0;
-  transition: opacity 0.3s;
 }
 
 .article-img img.loaded { opacity: 1; }

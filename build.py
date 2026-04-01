@@ -225,6 +225,18 @@ def markdown_to_html(md):
         # Horizontal rule
         elif line.strip() in ('---', '***', '___'):
             html.append('<hr>')
+        # YouTube embed — bare URL on its own line
+        elif re.match(r'^https?://(www\.)?(youtube\.com/watch\?v=|youtu\.be/)', line.strip()):
+            vid_id = extract_youtube_id(line.strip())
+            if vid_id:
+                html.append(f'''<div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/{vid_id}"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen loading="lazy"></iframe>
+        </div>''')
+            else:
+                html.append(f'<p>{inline_md(line)}</p>')
 
         # Empty line — skip to avoid blank gaps
         elif line.strip() == '':
