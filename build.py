@@ -268,6 +268,8 @@ def detect_type_from_body(body, labels):
         return 'link'
     if 'video' in labels:
         return 'video'
+    if 'hidden' in labels:
+        return None
 
     # Fallback: inspect body fields
     url      = parse_field(body, 'URL')
@@ -339,6 +341,9 @@ def main():
     for issue in issues:
         try:
             item = issue_to_item(issue)
+            if item is None:          
+                print(f'  – skipped  #{issue.get("number")} (hidden)')
+                continue
             items.append(item)
             print(f'  ✓ [{item["type"]}] #{issue["number"]} {item["title"][:50]}')
         except Exception as e:
