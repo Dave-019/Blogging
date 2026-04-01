@@ -1,63 +1,33 @@
 [
   {
-    "id": "7",
-    "type": "hidden",
-    "title": "New trial of markdown",
-    "description": "",
+    "id": "11",
+    "type": "article",
+    "title": "Kenya",
+    "description": "explore kenya",
     "image": "",
-    "date": "2026-04-01T10:42:33+00:00",
-    "timestamp": 1775040153000,
-    "content": ""
+    "date": "2026-04-01T12:03:21+00:00",
+    "timestamp": 1775045001000,
+    "content": "<p>https://www.youtube.com/embed/woRTFEWhYYo?si=F_cmRSjmvWSEk-Xp</p>"
   },
   {
-    "id": "6",
-    "type": "hidden",
-    "title": "Fixed markdown",
-    "description": "enjoy",
-    "image": "https://github.com/user-attachments/assets/adeb203a-e162-40c2-aeed-40fb7e8b5f51",
-    "date": "2026-04-01T10:38:38+00:00",
-    "timestamp": 1775039918000,
-    "content": "<p>this just but at test</p>"
-  },
-  {
-    "id": "5",
-    "type": "hidden",
-    "title": "test link",
-    "description": "Image:",
-    "image": "",
-    "date": "2026-03-31T22:47:37+00:00",
-    "timestamp": 1774997257000,
-    "url": "Description:"
-  },
-  {
-    "id": "4",
-    "type": "hidden",
-    "title": "Test",
-    "description": "Image:",
-    "image": "",
-    "date": "2026-03-31T22:36:29+00:00",
-    "timestamp": 1774996589000,
-    "content": ""
+    "id": "10",
+    "type": "article",
+    "title": "all images",
+    "description": "let see what happens",
+    "image": "https://github.com/user-attachments/assets/e3954ffd-6da5-4360-9d9d-b217f98ccb22",
+    "date": "2026-04-01T11:53:45+00:00",
+    "timestamp": 1775044425000,
+    "content": "<p><img width=\"888\" height=\"465\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/25b1db25-d598-4209-8a69-fbf09296e1cd\" /></p>\n<p><img width=\"888\" height=\"465\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/16b3e4ac-2995-41e1-95b8-10b6a04ef167\" /></p>\n<p><img width=\"888\" height=\"465\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/4d956408-2c02-46d2-b6fb-88538faa4b7e\" /></p>\n<p><iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/woRTFEWhYYo?si=F_cmRSjmvWSEk-Xp\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe></p>"
   },
   {
     "id": "3",
-    "type": "hidden",
-    "title": "Blogging from github issues",
-    "description": "YUP",
-    "image": "https://githubd.com/user-attachments/assets/f32bb01f-585e-4533-8c1b-d10cad4869f1",
+    "type": "article",
+    "title": "Blogging from github issues(edit)",
+    "description": "wassup!",
+    "image": "https://github.com/user-attachments/assets/f32bb01f-585e-4533-8c1b-d10cad4869f1",
     "date": "2026-03-31T22:29:40+00:00",
     "timestamp": 1774996180000,
-    "content": "<p>this is a test article</p>\n<p><img width=\"955\" height=\"674\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/03db1dce-b989-4c4f-978c-509a4caefee9\" /></p>"
-  },
-  {
-    "id": "2",
-    "type": "article",
-    "title": "Blogging from github issues",
-    "description": "Image:",
-    "image": "",
-    "date": "2026-03-31T22:18:54+00:00",
-    "timestamp": 1774995534000,
-    "content": "<p><strong>This  is a test post</strong></p>\n<p><img width=\"443\" height=\"290\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/1b9056b5-6e56-40f7-85e5-7de8f8054458\" /></p>"
+    "content": "<p>this is a test article</p>\n<p><img width=\"955\" height=\"674\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/f32bb01f-585e-4533-8c1b-d10cad4869f1\" /></p>"
   },
   {
     "id": "mlza16vr94j0pf2y35h",
