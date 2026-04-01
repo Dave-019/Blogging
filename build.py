@@ -1,7 +1,6 @@
 import json
 import os
 import re
-import sys
 import requests
 from dateutil import parser as dateparser
 from datetime import timezone
@@ -21,7 +20,7 @@ def get_issues():
     while True:
         url = (
             f'https://api.github.com/repos/{GITHUB_REPO}/issues'
-            f'?state=all&per_page=100&page={page}'  # fixed: was 'open', now 'all'
+            f'?state=all&per_page=100&page={page}'
         )
         resp = requests.get(url, headers=HEADERS)
         if resp.status_code != 200:
@@ -54,17 +53,39 @@ def parse_field(body, field):
 
 def parse_content(body):
     """
-    Extract markdown content after the --- separator.
-    Converts markdown to simple HTML.
+    Extract markdown content after the first --- separator.
+    Strips unfilled template fields and placeholder text.
     """
     if not body:
         return ''
+
     parts = body.split('---', 1)
     if len(parts) < 2:
-        # No separator found — treat the whole body as content
         return markdown_to_html(body.strip())
+
     md = parts[1].strip()
-    return markdown_to_html(md)
+
+    # Remove unfilled template field lines e.g. "Image:", "Description:", "URL:"
+    # and known placeholder text from the issue templates
+    cleaned = []
+    for line in md.split('\n'):
+        stripped = line.strip()
+
+        # Skip empty template fields like "Image:" or "URL:"
+        if re.match(r'^[A-Za-z ]+:\s*$', stripped):
+            continue
+
+        # Skip known GitHub issue template placeholder texts
+        if stripped in (
+            'Write your article content here in markdown.',
+            'You can drag and drop images directly into this editor.',
+            'No file chosen',
+        ):
+            continue
+
+        cleaned.append(line)
+
+    return markdown_to_html('\n'.join(cleaned).strip())
 
 def markdown_to_html(md):
     """Simple markdown to HTML converter."""
@@ -142,9 +163,9 @@ def markdown_to_html(md):
         elif line.strip() in ('---', '***', '___'):
             html.append('<hr>')
 
-        # Empty line
+        # Empty line — skip to avoid blank gaps in output
         elif line.strip() == '':
-            html.append('')
+            continue
 
         # Paragraph
         else:
@@ -210,7 +231,6 @@ def detect_type_from_body(body, labels):
     Determine item type. Labels take priority.
     Falls back to body content inspection if no label matches.
     """
-    # Labels are already lowercased by get_labels()
     if 'article' in labels:
         return 'article'
     if 'link' in labels:
@@ -229,7 +249,6 @@ def detect_type_from_body(body, labels):
     if '---' in (body or ''):
         return 'article'
 
-    # Last resort default
     return 'link'
 
 def issue_to_item(issue):
@@ -301,7 +320,7 @@ def main():
     items.sort(key=lambda x: x['timestamp'], reverse=True)
 
     # ── Merge with legacy content ──────────────────────────
-    # Preserve any old entries (non-numeric IDs) that existed
+    # Preserve any old entries with non-numeric IDs that existed
     # before the GitHub issues system was adopted.
     os.makedirs('data', exist_ok=True)
     existing = []
@@ -313,7 +332,6 @@ def main():
         pass
 
     # Keep legacy entries whose IDs are not pure integers
-    # (GitHub issue IDs are always numeric strings like "1", "2"...)
     github_ids = {item['id'] for item in items}
     legacy     = [e for e in existing if not e['id'].isdigit() and e['id'] not in github_ids]
 
