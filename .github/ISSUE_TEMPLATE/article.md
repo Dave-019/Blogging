@@ -2,7 +2,6 @@
 name: Article
 about: Write a new article
 title: ''
-labels: article
 ---
 Description: 
 Image: 
